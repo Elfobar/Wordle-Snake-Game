@@ -1,6 +1,6 @@
 # Group 9
 
-
+## checking commit and push 
 
 ## Getting started
 
