@@ -15,6 +15,7 @@ public class Game extends Application{
     private Snake snake;
 
     public static final int ROWS = 20;
+    popopop
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
     
