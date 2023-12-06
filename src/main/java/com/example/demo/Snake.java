@@ -12,30 +12,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class Snake {
-    private List<Coordinate> body;
-    private GridPane gridPane;
-    private List<Rectangle> snakeParts;
+    private LinkedList<Cell> body;
     private Direction direction;
     private final int startLength;
-    private boolean isAlive;
-    //private final String headPath = "/images/snakeHead.png";
-    //private final String segmentPath = "/images/snakeSegment.png";
-    //private final String tailPath = "/images/snakeTail.png";
-    //private final Image headImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(headPath)));
-    //private final Image segmentImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(segmentPath)));
-    //private final Image tailImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(tailPath)));
+    private final String headPath = "/images/snakeHead.png";
+    private final String segmentPath = "/images/snakeSegment.png";
+    private final String tailPath = "/images/snakeTail.png";
+    private final Image headImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(headPath)));
+    private final Image segmentImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(segmentPath)));
+    private final Image tailImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(tailPath)));
 
-    public Snake(GridPane gridPane, int startLength){
-        this.snakeParts = new ArrayList<>();
+    public Snake(int startLength){
+        this.body = new LinkedList<>();
         this.startLength = startLength;
-        this.gridPane = gridPane;
-        this.isAlive = true;
         this.direction = Direction.UP;
-        this.body = new ArrayList<>();
         initializeSnake();
     }
 
@@ -44,40 +39,22 @@ public class Snake {
         int middleRow = Game.ROWS / 2;
 
         for (int i = 0; i < startLength; i++) {
-            body.add(new Coordinate(middleColumn + i, middleRow));
-        }
-    }
-
-    public void drawSnake(){
-        gridPane.getChildren().removeAll(snakeParts);
-        snakeParts.clear();
-
-        for(int i = 0; i < body.size(); i++) {
-            Rectangle square = new Rectangle(Game.CELL_SIZE, Game.CELL_SIZE);
-
-            Glow glow = new Glow();
-            glow.setLevel(0.2);
-            square.setEffect(glow);
-
+            Cell bodyPart = new Cell(Game.CELL_SIZE, Color.BLACK, middleColumn + i, middleRow);
             if (i == 0) {
-                //square.setFill(new ImagePattern(headImg));
-                square.setFill(Color.BLACK);
-            } else if (i == body.size() - 1){
-                //square.setFill(new ImagePattern(tailImg));
-                square.setFill(Color.BLACK);
-            }else{
-                //square.setFill(new ImagePattern(segmentImg));
-                square.setFill(Color.BLACK);
+                bodyPart.setFill(new ImagePattern(headImg));
+            } else if (i == startLength - 1) {
+                bodyPart.setFill(new ImagePattern(tailImg));
+            } else {
+                bodyPart.setFill(new ImagePattern(segmentImg));
             }
-            snakeParts.add(square);
-            gridPane.add(square, body.get(i).getX(), body.get(i).getY());
+            body.add(bodyPart);
         }
     }
 
     public void moveSnake(){
         for (int i = body.size() - 1; i > 0; i--) {
-            body.get(i).setX(body.get(i - 1).getX());
-            body.get(i).setY(body.get(i - 1).getY());
+            body.get(i).getCoordinate().setX(body.get(i - 1).getCoordinate().getX());
+            body.get(i).getCoordinate().setY(body.get(i - 1).getCoordinate().getY());
         }
 
         Coordinate head = getHead();
@@ -106,7 +83,7 @@ public class Snake {
     }
 
     public void rotateHead(){
-        Rectangle head = snakeParts.get(0);
+        Rectangle head = body.get(0);
         if(direction == Direction.UP){
             head.setRotate(180);
         } else if(direction == Direction.DOWN){
@@ -119,13 +96,13 @@ public class Snake {
     }
 
     public void rotateTail(){
-        Rectangle tailRect = snakeParts.get(body.size() - 1);
-        Coordinate tail = body.get(body.size() - 1);
-        Coordinate lastBody = body.get(body.size() - 2);
+        Rectangle tailRect = body.get(body.size() - 1);
+        Coordinate tail = body.get(body.size() - 1).getCoordinate();
+        Coordinate lastBody = body.get(body.size() - 2).getCoordinate();
 
         if(tail.getX() == lastBody.getX()) {
             if (tail.getY() > lastBody.getY()) {
-                tailRect.setRotate(360);
+                tailRect.setRotate(0);
             } else {
                 tailRect.setRotate(180);
             }
@@ -138,28 +115,28 @@ public class Snake {
         }
     }
 
-    public void checkIfCollided(){
+    public boolean checkIfCollided(){
         boolean isCollided = false;
         for(int i = 1; i < body.size(); i++){
-            if(getHead().equals(body.get(i))){
+            if(getHead().equals(body.get(i).getCoordinate())){
                 isCollided = true;
             }
         }
-        if(isCollided){
-            this.isAlive = false;
-        }
+        return isCollided;
     }
 
     public void grow(){
-        Coordinate tail = body.get(body.size() - 1);
-        body.add(new Coordinate(tail.getX(), tail.getY()));
+        Coordinate head = body.get(1).getCoordinate();
+        Cell segment = new Cell(Game.CELL_SIZE, Color.BLACK, head.getX(), head.getY());
+        segment.setFill(new ImagePattern(segmentImg));
+        body.add(1, segment);
+    }
+
+    public LinkedList<Cell> getBody(){
+        return this.body;
     }
 
     public Coordinate getHead(){
-        return body.get(0);
-    }
-
-    public boolean isAlive() {
-        return isAlive;
+        return body.get(0).getCoordinate();
     }
 }

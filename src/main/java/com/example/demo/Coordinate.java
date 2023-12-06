@@ -26,7 +26,6 @@ public class Coordinate {
     }
 
     public boolean equals(Object other) {
-
         boolean isEqual = false;
 
         if(other == null){
