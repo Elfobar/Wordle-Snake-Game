@@ -12,7 +12,7 @@ import javafx.util.Duration;
 public class Game extends Application{
 
     private Grid grid;
-    //private Snake snake;
+    private Snake snake;
 
     public static final int ROWS = 20;
 
@@ -22,8 +22,7 @@ public class Game extends Application{
 
     public void showGame(Stage stage){
         this.grid = new Grid(ROWS, COLUMNS, CELL_SIZE);
-        //this.snake = new Snake(grid.getGrid());
-        //this.snake = new Snake(grid.getGrid(), 3);
+        this.snake = new Snake(grid.getGrid(), 3);
         Scene scene = new Scene(grid.getGrid(), ROWS*CELL_SIZE, COLUMNS*CELL_SIZE);
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
@@ -50,18 +49,16 @@ public class Game extends Application{
     }
 
     private void updateGame() {
-        // snake.moveSnake();
-        // snake.updateSnake(grid.getGrid());
         // spawnFruit();
-//        snake.moveSnake();
-//        snake.drawSnake();
-//        snake.rotateHead();
-//        snake.rotateTail();
+        snake.moveSnake();
+        snake.drawSnake();
+        snake.rotateHead();
+        snake.rotateTail();
+        snake.checkIfCollided();
     }
 
     private void handleKeyPress(KeyCode keyCode) {
-        //snake.updateDirection(keyCode);
-        //snake.changeDirection(keyCode);
+        snake.changeDirection(keyCode);
     }
 
     public static void main(String[] args){

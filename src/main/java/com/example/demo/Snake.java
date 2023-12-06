@@ -1,9 +1,16 @@
+package com.example.demo;
+
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,12 +22,12 @@ public class Snake {
     private Direction direction;
     private final int startLength;
     private boolean isAlive;
-    private final String headPath = "/images/snakeHead.png";
-    private final String segmentPath = "/images/snakeSegment.png";
-    private final String tailPath = "/images/snakeTail.png";
-    private final Image headImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(headPath)));
-    private final Image segmentImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(segmentPath)));
-    private final Image tailImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(tailPath)));
+    //private final String headPath = "/images/snakeHead.png";
+    //private final String segmentPath = "/images/snakeSegment.png";
+    //private final String tailPath = "/images/snakeTail.png";
+    //private final Image headImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(headPath)));
+    //private final Image segmentImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(segmentPath)));
+    //private final Image tailImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(tailPath)));
 
     public Snake(GridPane gridPane, int startLength){
         this.snakeParts = new ArrayList<>();
@@ -53,11 +60,14 @@ public class Snake {
             square.setEffect(glow);
 
             if (i == 0) {
-                square.setFill(new ImagePattern(headImg));
+                //square.setFill(new ImagePattern(headImg));
+                square.setFill(Color.BLACK);
             } else if (i == body.size() - 1){
-                square.setFill(new ImagePattern(tailImg));
+                //square.setFill(new ImagePattern(tailImg));
+                square.setFill(Color.BLACK);
             }else{
-                square.setFill(new ImagePattern(segmentImg));
+                //square.setFill(new ImagePattern(segmentImg));
+                square.setFill(Color.BLACK);
             }
             snakeParts.add(square);
             gridPane.add(square, body.get(i).getX(), body.get(i).getY());
