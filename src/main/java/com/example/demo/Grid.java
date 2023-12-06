@@ -1,3 +1,5 @@
+package com.example.demo;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -20,9 +22,9 @@ public class Grid {
         for(int row = 0; row < ROWS; row++){
             for(int col = 0; col < COLUMNS; col++){
                 if((row + col) % 2 == 0){
-                    cell = createCell(Color.GRAY, row, col);
+                    cell = createCell(Color.DARKORANGE, row, col);
                 } else{
-                    cell = createCell(Color.LIGHTGRAY, row, col);
+                    cell = createCell(Color.IVORY, row, col);
                 }
                 grid.add(cell, row, col);
             }
