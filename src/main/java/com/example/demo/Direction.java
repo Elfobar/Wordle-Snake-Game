@@ -1,3 +1,5 @@
+package com.example.demo;
+
 import javafx.scene.input.KeyCode;
 
 public enum Direction {

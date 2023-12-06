@@ -1,3 +1,5 @@
+package com.example.demo;
+
 public class Coordinate {
     private int x;
     private int y;
@@ -24,7 +26,6 @@ public class Coordinate {
     }
 
     public boolean equals(Object other) {
-
         boolean isEqual = false;
 
         if(other == null){
