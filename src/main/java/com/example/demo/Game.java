@@ -3,8 +3,10 @@ package com.example.demo;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -14,6 +16,7 @@ import java.util.LinkedList;
 
 public class Game extends Application{
 
+    private Timeline timeline;
     private int numOfFruits;
     private ArrayList<Cell> fruits;
     private Grid grid;
@@ -22,6 +25,7 @@ public class Game extends Application{
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
+    private Menu menu;
 
 
     public void showGame(Stage stage){
@@ -34,13 +38,19 @@ public class Game extends Application{
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
         stage.setScene(scene);
-        stage.show();
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
-    @Override
-    public void start(Stage stage) {
-        showGame(stage);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
+    public void showMenu(Stage stage){
+        menu.setState(0);
+        Pane menuContent = menu.createMenuContent();
+        Scene menuScene = new Scene(menuContent, 800, 800);
+        stage.setScene(menuScene);
+        stage.setTitle("SnakeGameMenu");
+        stage.show();
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(300), event -> updateScene(menu.getState(), stage)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
@@ -68,18 +78,25 @@ public class Game extends Application{
         snake.rotateTail();
 
         if(snake.checkIfCollided()){
-            System.out.println("Game Over");
-            System.exit(0);
+            showGameOver((Stage) grid.getGrid().getScene().getWindow());
+            timeline.stop();
         }
     }
 
     private void intersectFruit(){
-        for (Cell fruit : fruits) {
-            if (snake.getHead().equals(fruit.getCoordinate())) {
-                grid.getGrid().getChildren().remove(fruit);
-                snake.grow();
-                numOfFruits--;
+        boolean intersect = false;
+        int index = 0;
+        for(int i = 0; i < fruits.size(); i++) {
+            if (snake.getHead().equals(fruits.get(i).getCoordinate())) {
+                intersect = true;
+                index = i;
             }
+        }
+        if(intersect) {
+            grid.getGrid().getChildren().remove(fruits.get(index));
+            snake.grow();
+            fruits.remove(index);
+            numOfFruits--;
         }
     }
 
@@ -95,8 +112,63 @@ public class Game extends Application{
         snake.changeDirection(keyCode);
     }
 
+    private void updateScene(int state, Stage stage){
+        switch (state){
+            case 1:
+                this.timeline.stop();
+                showGame(stage);
+                break;
+            case 2:
+                Pane settingsContent = menu.createSettingsContent();
+                Scene settingsScene = new Scene(settingsContent, 800, 800);
+                stage.setScene(settingsScene);
+                stage.setTitle("Settings");
+                stage.show();
+                break;
+            case 3:
+                Pane leaderboardContent = menu.createLeaderboardContent();
+                Scene leaderboardScene = new Scene(leaderboardContent, 800, 800);
+                stage.setScene(leaderboardScene);
+                stage.setTitle("Leaderboard");
+                stage.show();
+                break;
+            case 4:
+                this.timeline.stop();
+                System.exit(0);
+                break;
+            case 5:
+                menu.setState(0);
+                Pane menuContent = menu.createMenuContent();
+                Scene menuScene = new Scene(menuContent, 800, 800);
+                stage.setScene(menuScene);
+                stage.setTitle("SnakeGameMenu");
+                stage.show();
+
+        }
+    }
+
+    public void showGameOver(Stage stage){
+        this.timeline.stop();
+        Pane gameOverContent = menu.createGameOverContent();
+        Scene gameOverScene = new Scene(gameOverContent, 800, 800);
+        gameOverScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                showGame(stage);
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                showMenu(stage);
+            }
+        });
+        stage.setScene(gameOverScene);
+        stage.show();
+    }
+
     public static void main(String[] args){
         Application.launch();
     }
 
+    @Override
+    public void start(Stage stage) {
+        this.menu = new Menu();
+        showMenu(stage);
+    }
 }
