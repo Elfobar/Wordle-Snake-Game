@@ -77,7 +77,7 @@ public class Letters {
 
                     if (word.isWordCompleted()) {
                         word.chooseRandomWord();
-                        spawnNextLetter();
+
                         System.out.println("New word chosen: " + word.getCurrentWord());
                     }
                     spawnNextLetter();

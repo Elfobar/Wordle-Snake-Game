@@ -37,8 +37,10 @@ public class Game extends Application{
         timeline.play();
     }
     private void updateGame() {
-        if (letters.getNumOfLetters() < 5) {
+        if (letters.getNumOfLetters() < 3) {
             letters.spawnInitialLetters();
+            letters.spawnLetter();
+            letters.spawnLetter();
             letters.spawnLetter();
         }
         snake.moveSnake();
