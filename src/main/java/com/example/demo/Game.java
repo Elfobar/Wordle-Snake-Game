@@ -31,7 +31,7 @@ public class Game extends Application{
     @Override
     public void start(Stage stage) {
         showGame(stage);
-        letters = new Letters(grid.getGrid(), 3);
+        letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();

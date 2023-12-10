@@ -13,12 +13,12 @@ public class Letters {
     private Word word;
 
 
-    public Letters(GridPane gridPane, int maxLetters) {
+    public Letters(GridPane gridPane, int maxLetters, String pathToFile) {
         this.gridPane = gridPane;
         this.maxLetters = maxLetters;
         this.letters = new ArrayList<>();
         this.numOfLetters = 0;
-        this.word = new Word();
+        this.word = new Word(pathToFile);
     }
 
     public void spawnInitialLetters() {
