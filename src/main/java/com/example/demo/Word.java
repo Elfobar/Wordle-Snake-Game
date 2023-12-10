@@ -1,30 +1,36 @@
 package com.example.demo;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class Word {
     private List<String> words;
     private List<Character> pickedLetters;
-
     private String currentWord;
     private int currentIndex;
 
-    public Word() {
-        words = new ArrayList<>();
-        words.add("DOG");
-        words.add("CAT");
-        words.add("BALL");
-        words.add("FISH");
-        words.add("BIRD");
-        words.add("TREE");
-        words.add("BOOK");
-        words.add("CAR");
-        words.add("CUP");
-        words.add("PEN");
-
+    public Word(String pathToFile) {
+        words = initializeWords(pathToFile);
         chooseRandomWord();
         pickedLetters = new ArrayList<>();
+    }
+
+    public ArrayList<String> initializeWords(String pathToFile){
+        ArrayList<String> words = new ArrayList();
+        try{
+            BufferedReader buffReader = new BufferedReader(new FileReader(pathToFile));
+            String strCurrentLine;
+            while((strCurrentLine = buffReader.readLine()) != null){
+                words.add(strCurrentLine);
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return words;
     }
 
     public void chooseRandomWord() {
