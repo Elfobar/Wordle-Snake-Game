@@ -6,7 +6,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import java.util.LinkedList;
-;
 import java.util.Objects;
 
 public class Snake {
