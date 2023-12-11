@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -14,13 +15,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Game extends Application{
-
     private Timeline timeline;
-    private int numOfFruits;
-    private ArrayList<Cell> fruits;
+    private Letters letters;
     private Grid grid;
     private Snake snake;
-
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
@@ -30,9 +28,7 @@ public class Game extends Application{
     public void showGame(Stage stage){
         this.grid = new Grid();
         this.snake = new Snake( 3);
-        this.fruits = new ArrayList<>();
-
-        this.numOfFruits = 0;
+        letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
         Scene scene = new Scene(grid.getGrid(), ROWS*CELL_SIZE, COLUMNS*CELL_SIZE);
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
@@ -55,49 +51,21 @@ public class Game extends Application{
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-
-    public void spawnFruit(){
-        int y = (int)(Math.random() * (ROWS));
-        int x = (int)(Math.random() * (COLUMNS));
-
-        Cell fruit = new Cell(CELL_SIZE, Color.RED, x, y);
-        fruit.setArcHeight(40);
-        fruit.setArcWidth(40);
-        fruits.add(fruit);
-        grid.getGrid().add(fruit, x, y);
-    }
-
     private void updateGame() {
-        if (numOfFruits != 3) {
-            spawnFruit();
-            numOfFruits++;
+        if (letters.getNumOfLetters() < 3) {
+            letters.spawnInitialLetters();
+            letters.spawnLetter();
+            letters.spawnLetter();
+            letters.spawnLetter();
         }
         snake.moveSnake();
-        intersectFruit();
+        letters.intersectLetter(snake, grid);
         drawSnake();
         snake.rotateHead();
         snake.rotateTail();
-
         if(snake.checkIfCollided()){
             showGameOver((Stage) grid.getGrid().getScene().getWindow());
             timeline.stop();
-        }
-    }
-
-    private void intersectFruit(){
-        boolean intersect = false;
-        int index = 0;
-        for(int i = 0; i < fruits.size(); i++) {
-            if (snake.getHead().equals(fruits.get(i).getCoordinate())) {
-                intersect = true;
-                index = i;
-            }
-        }
-        if(intersect) {
-            grid.getGrid().getChildren().remove(fruits.get(index));
-            snake.grow();
-            fruits.remove(index);
-            numOfFruits--;
         }
     }
 

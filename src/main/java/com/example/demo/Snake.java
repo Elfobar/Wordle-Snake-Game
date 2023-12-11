@@ -1,19 +1,11 @@
 package com.example.demo;
 
-import javafx.scene.effect.Glow;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
-
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 public class Snake {
@@ -114,7 +106,6 @@ public class Snake {
             }
         }
     }
-
     public boolean checkIfCollided(){
         boolean isCollided = false;
         for(int i = 1; i < body.size(); i++){
