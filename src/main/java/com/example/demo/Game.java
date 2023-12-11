@@ -3,7 +3,6 @@ package com.example.demo;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -45,9 +44,11 @@ public class Game extends Application{
 
     public void showMenu(Stage stage){
         menu.setState(0);
-        Pane menuContent = menu.createMenuContent();
-        Scene menuScene = new Scene(menuContent, 800, 800);
-        stage.setScene(menuScene);
+        if (menu.getMenuContent().getScene() == null){
+            stage.getScene().setRoot(menu.getMenuContent());
+        } else {
+            stage.setScene(menu.getMenuContent().getScene());
+        }
         stage.setTitle("SnakeGameMenu");
         stage.show();
         this.timeline = new Timeline(new KeyFrame(Duration.millis(300), event -> updateScene(menu.getState(), stage)));
@@ -119,16 +120,12 @@ public class Game extends Application{
                 showGame(stage);
                 break;
             case 2:
-                Pane settingsContent = menu.createSettingsContent();
-                Scene settingsScene = new Scene(settingsContent, 800, 800);
-                stage.setScene(settingsScene);
+                stage.getScene().setRoot(menu.getSettingsContent());
                 stage.setTitle("Settings");
                 stage.show();
                 break;
             case 3:
-                Pane leaderboardContent = menu.createLeaderboardContent();
-                Scene leaderboardScene = new Scene(leaderboardContent, 800, 800);
-                stage.setScene(leaderboardScene);
+                stage.getScene().setRoot(menu.getLeaderboardContent());
                 stage.setTitle("Leaderboard");
                 stage.show();
                 break;
@@ -138,9 +135,7 @@ public class Game extends Application{
                 break;
             case 5:
                 menu.setState(0);
-                Pane menuContent = menu.createMenuContent();
-                Scene menuScene = new Scene(menuContent, 800, 800);
-                stage.setScene(menuScene);
+                stage.getScene().setRoot(menu.getMenuContent());
                 stage.setTitle("SnakeGameMenu");
                 stage.show();
 
@@ -169,6 +164,8 @@ public class Game extends Application{
     @Override
     public void start(Stage stage) {
         this.menu = new Menu();
+        Scene scene = new Scene(new Pane(), 800, 800);
+        stage.setScene(scene);
         showMenu(stage);
     }
 }

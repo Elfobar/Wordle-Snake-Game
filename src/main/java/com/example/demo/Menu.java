@@ -3,21 +3,25 @@ package com.example.demo;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import java.util.Objects;
 
 public class Menu {
 
     private int state;
+    private ImgCache cache;
+    private final StackPane menuContent;
+    private final StackPane settingsContent;
+    private final StackPane leaderboardContent;
 
     public Menu() {
         this.state = 0;
+        this.cache = new ImgCache();
+        this.menuContent = createMenuContent();
+        this.settingsContent = createSettingsContent();
+        this.leaderboardContent = createLeaderboardContent();
     }
 
     public StackPane createMenuContent() {
@@ -33,34 +37,34 @@ public class Menu {
         menuBox.setSpacing(15.0);
         menuBox.setPrefSize(800, 800);
 
-        ImageView logo = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/NameImg.png"))));
+        ImageView logo = new ImageView(cache.getImage("NameImg"));
         logo.setFitWidth(800.0);
         logo.setFitHeight(180.0);
         logo.setPickOnBounds(true);
         logo.setPreserveRatio(true);
 
-        ImageView startLabel = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/StartLabel.png"))));
+        ImageView startLabel = new ImageView(cache.getImage("StartLabel"));
         startLabel.setId("start");
         startLabel.setFitWidth(180.0);
         startLabel.setFitHeight(150.0);
         startLabel.setPickOnBounds(true);
         startLabel.setPreserveRatio(true);
 
-        ImageView settingsLabel = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/SettingsLabel.png"))));
+        ImageView settingsLabel = new ImageView(cache.getImage("SettingsLabel"));
         settingsLabel.setId("settings");
         settingsLabel.setFitWidth(230.0);
         settingsLabel.setFitHeight(150.0);
         settingsLabel.setPickOnBounds(true);
         settingsLabel.setPreserveRatio(true);
 
-        ImageView leaderboardLabel = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/LeaderboardLabel.png"))));
+        ImageView leaderboardLabel = new ImageView(cache.getImage("LeaderboardLabel"));
         leaderboardLabel.setId("leaderboard");
         leaderboardLabel.setFitWidth(330.0);
         leaderboardLabel.setFitHeight(150.0);
         leaderboardLabel.setPickOnBounds(true);
         leaderboardLabel.setPreserveRatio(true);
 
-        ImageView exitLabel = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ExitLabel.png"))));
+        ImageView exitLabel = new ImageView(cache.getImage("ExitLabel"));
         exitLabel.setId("exit");
         exitLabel.setFitWidth(150.0);
         exitLabel.setFitHeight(130.0);
@@ -96,7 +100,7 @@ public class Menu {
         leaderboardBox.setPrefHeight(200);
         leaderboardBox.setPrefWidth(100);
 
-        ImageView label = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/LeaderboardLabel.png"))));
+        ImageView label = new ImageView(cache.getImage("LeaderboardLabel"));
         label.setPickOnBounds(true);
         label.setPreserveRatio(true);
         label.setFitWidth(550);
@@ -125,13 +129,13 @@ public class Menu {
         settingsBox.setPrefHeight(200);
         settingsBox.setPrefWidth(100);
 
-        ImageView label = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/SettingsLabel.png"))));
+        ImageView label = new ImageView(cache.getImage("SettingsLabel"));
         label.setPickOnBounds(true);
         label.setPreserveRatio(true);
         label.setFitWidth(550);
         label.setFitHeight(150);
 
-        ImageView frame = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/SettingsFrame.png"))));
+        ImageView frame = new ImageView(cache.getImage("SettingsFrame"));
         frame.setFitWidth(700.0);
         frame.setFitHeight(400.0);
 
@@ -149,7 +153,7 @@ public class Menu {
     public StackPane createGameOverContent(){
         StackPane stackPane = new StackPane();
         stackPane.setPrefSize(800, 800);
-        ImageView background = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/GameOver.png"))));
+        ImageView background = new ImageView(cache.getImage("GameOver"));
         background.fitWidthProperty().bind(stackPane.widthProperty());
         background.fitHeightProperty().bind(stackPane.heightProperty());
         stackPane.getChildren().add(background);
@@ -160,7 +164,7 @@ public class Menu {
     public StackPane getMenuButton(ImageView label){
         StackPane button = new StackPane();
 
-        ImageView frame = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ButtonFrame.png"))));
+        ImageView frame = new ImageView(cache.getImage("ButtonFrame"));
         frame.setFitWidth(400.0);
         frame.setFitHeight(150.0);
         frame.setPickOnBounds(true);
@@ -179,11 +183,10 @@ public class Menu {
 
     public ImageView getBackButton(){
 
-        ImageView back = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ArrowsImg.png"))));
+        ImageView back = new ImageView(cache.getImage("ArrowsImg"));
         back.setId("back");
         back.setFitWidth(150.0);
         back.setFitHeight(130.0);
-        back.setPickOnBounds(true);
         back.setPreserveRatio(true);
         back.addEventHandler(MouseEvent.MOUSE_CLICKED, getEventHandler());
 
@@ -191,7 +194,7 @@ public class Menu {
     }
 
     public ImageView getBackground(StackPane stackPane){
-        ImageView background = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/Background.png"))));
+        ImageView background = new ImageView(cache.getImage("Background"));
         background.fitWidthProperty().bind(stackPane.widthProperty());
         background.fitHeightProperty().bind(stackPane.heightProperty());
         return background;
@@ -226,5 +229,17 @@ public class Menu {
 
     public void setState(int state){
         this.state = state;
+    }
+
+    public StackPane getLeaderboardContent() {
+        return this.leaderboardContent;
+    }
+
+    public StackPane getMenuContent() {
+        return this.menuContent;
+    }
+
+    public StackPane getSettingsContent() {
+        return this.settingsContent;
     }
 }
