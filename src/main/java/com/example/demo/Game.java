@@ -76,7 +76,11 @@ public class Game extends Application{
     }
     private void updateGame() {
         if (letters.getNumOfLetters() < 3) {
-            letters.spawnInitialLetters();
+
+            letters.spawnInitialLetters(snake);
+
+            letters.spawnInitialLetters(snake);
+
 
         }
         topWord.setText(letters.getWord().getCurrentWord().toLowerCase());
