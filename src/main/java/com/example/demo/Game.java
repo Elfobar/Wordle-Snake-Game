@@ -38,10 +38,8 @@ public class Game extends Application{
     }
     private void updateGame() {
         if (letters.getNumOfLetters() < 3) {
-            letters.spawnInitialLetters();
-            letters.spawnLetter();
-            letters.spawnLetter();
-            letters.spawnLetter();
+            letters.spawnInitialLetters(snake);
+
         }
         snake.moveSnake();
         letters.intersectLetter(snake, grid);
