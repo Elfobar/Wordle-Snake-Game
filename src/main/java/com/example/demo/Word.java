@@ -19,7 +19,7 @@ public class Word {
     }
 
     public ArrayList<String> initializeWords(String pathToFile){
-        ArrayList<String> words = new ArrayList();
+        ArrayList<String> words = new ArrayList<>();
         try{
             BufferedReader buffReader = new BufferedReader(new FileReader(pathToFile));
             String strCurrentLine;
@@ -40,15 +40,11 @@ public class Word {
         System.out.println("Current Word: " + currentWord);
     }
 
-    public String getCurrentWord() {
-        return currentWord;
-    }
     public void incrementIndex() {
         if (currentIndex < currentWord.length()) {
             currentIndex++;
         }
     }
-
 
     public char getNextLetter() {
         if (currentIndex < currentWord.length()) {
@@ -62,6 +58,10 @@ public class Word {
     }
     public boolean isWordCompleted() {
         return currentIndex == currentWord.length();
+    }
+
+    public String getCurrentWord(){
+        return this.currentWord;
     }
 }
 

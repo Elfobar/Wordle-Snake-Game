@@ -92,6 +92,12 @@ public class Letters {
     public int getNumOfLetters() {
         return numOfLetters;
     }
+
+    public Word getWord(){
+        return this.word;
+    }
 }
+
+
 
 

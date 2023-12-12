@@ -3,22 +3,33 @@ package com.example.demo;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Game extends Application{
     private Timeline timeline;
     private Letters letters;
     private Grid grid;
     private Snake snake;
+    private Label topWord;
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
@@ -26,13 +37,25 @@ public class Game extends Application{
 
 
     public void showGame(Stage stage){
+        BorderPane root = new BorderPane();
         this.grid = new Grid();
         this.snake = new Snake( 3);
         letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
-        Scene scene = new Scene(grid.getGrid(), ROWS*CELL_SIZE, COLUMNS*CELL_SIZE);
+        topWord  = new Label(letters.getWord().getCurrentWord());
+        VBox vBox = new VBox(topWord, grid.getGrid());
+        vBox.setStyle("-fx-background-color: #160244;");
+        root.setCenter(vBox);
+        vBox.setAlignment(Pos.CENTER);
+        Font customFont = loadCustomFont();
+        topWord.setFont(customFont);
+        topWord.setText(topWord.getText().toLowerCase());
+        topWord.setMinHeight(AppConfig.getFontSize());
+        topWord.setStyle("-fx-text-fill: #d5faff;-fx-translate-y: -5;");
+        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE+AppConfig.getFontSize());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
         stage.setScene(scene);
+        stage.setResizable(false);
         this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -54,10 +77,9 @@ public class Game extends Application{
     private void updateGame() {
         if (letters.getNumOfLetters() < 3) {
             letters.spawnInitialLetters();
-            letters.spawnLetter();
-            letters.spawnLetter();
-            letters.spawnLetter();
+
         }
+        topWord.setText(letters.getWord().getCurrentWord().toLowerCase());
         snake.moveSnake();
         letters.intersectLetter(snake, grid);
         drawSnake();
@@ -129,6 +151,14 @@ public class Game extends Application{
         Application.launch();
     }
 
+    public Font loadCustomFont(){
+        try {
+            return Font.loadFont(getClass().getResourceAsStream(AppConfig.getFontPathFile()), AppConfig.getFontSize());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return Font.getDefault();
+        }
+    }
     @Override
     public void start(Stage stage) {
         this.menu = new Menu();
