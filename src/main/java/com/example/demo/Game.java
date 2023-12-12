@@ -30,18 +30,19 @@ public class Game extends Application{
     private Grid grid;
     private Snake snake;
     private Label topWord;
-    public static final int ROWS = 20;
-    public static final int COLUMNS = 20;
+    public static final int ROWS = 18;
+    public static final int COLUMNS = 18;
     public static final int CELL_SIZE = 40;
     private Menu menu;
+    private int score = 0;
 
 
-    public void showGame(Stage stage){
+    public void showGame(Stage stage) {
         BorderPane root = new BorderPane();
         this.grid = new Grid();
-        this.snake = new Snake( 3);
+        this.snake = new Snake(3);
         letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
-        topWord  = new Label(letters.getWord().getCurrentWord());
+        topWord = new Label(letters.getWord().getCurrentWord());
         VBox vBox = new VBox(topWord, grid.getGrid());
         vBox.setStyle("-fx-background-color: #160244;");
         root.setCenter(vBox);
@@ -51,7 +52,7 @@ public class Game extends Application{
         topWord.setText(topWord.getText().toLowerCase());
         topWord.setMinHeight(AppConfig.getFontSize());
         topWord.setStyle("-fx-text-fill: #d5faff;-fx-translate-y: -5;");
-        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE+AppConfig.getFontSize());
+        Scene scene = new Scene(root, ROWS * CELL_SIZE, COLUMNS * CELL_SIZE + AppConfig.getFontSize());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
         stage.setScene(scene);
