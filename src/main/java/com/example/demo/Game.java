@@ -88,7 +88,7 @@ public class Game extends Application{
         }
         topWord.setText(letters.getWord().getCurrentWord().toLowerCase());
         snake.moveSnake();
-        letters.intersectLetter(snake, grid);
+        if (letters.intersectLetter(snake, grid) == true) increaseSpeed();
         drawSnake();
         snake.rotateHead();
         snake.rotateTail();
@@ -98,7 +98,7 @@ public class Game extends Application{
         }
     }
 
-    private void increaseSpeed(){
+    public void increaseSpeed(){
         speed = speed + (-10); //This decreases the refresh rate -> increased snake speed
         this.timeline.getKeyFrames().clear();
         this.frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
@@ -117,7 +117,6 @@ public class Game extends Application{
 
     private void handleKeyPress(KeyCode keyCode) {
         snake.changeDirection(keyCode);
-        increaseSpeed();
     }
 
     private void updateScene(int state, Stage stage){

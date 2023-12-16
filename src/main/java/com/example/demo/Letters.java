@@ -10,6 +10,7 @@ public class Letters {
     private List<Cell> letters;
     private int numOfLetters;
     private final int maxLetters;
+    private Game game;
     private Word word;
 
 
@@ -62,7 +63,8 @@ public class Letters {
         numOfLetters++;
     }
 
-    public void intersectLetter(Snake snake, Grid grid) {
+    public boolean intersectLetter(Snake snake, Grid grid) {
+        boolean hit = false;
         for (Cell letter : new ArrayList<>(letters)) {
             if (snake.getHead().equals(letter.getCoordinate())) {
                 char pickedLetter = letter.getText().getText().charAt(0);
@@ -80,6 +82,7 @@ public class Letters {
 
                         System.out.println("New word chosen: " + word.getCurrentWord());
                     }
+                    hit = true;
                     spawnNextLetter(snake);
                 } else {
                     System.out.println("Game Over - Incorrect letter picked: " + pickedLetter);
@@ -87,6 +90,7 @@ public class Letters {
                 }
             }
         }
+        return hit;
     }
 
     public int getNumOfLetters() {
