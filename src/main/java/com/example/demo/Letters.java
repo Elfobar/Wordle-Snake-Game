@@ -10,7 +10,6 @@ public class Letters {
     private List<Cell> letters;
     private int numOfLetters;
     private final int maxLetters;
-    private Game game;
     private Word word;
 
 
