@@ -12,6 +12,7 @@ public class Letters {
     private final int maxLetters;
     private Word word;
 
+
     public Letters(GridPane gridPane, int maxLetters, String pathToFile) {
         this.gridPane = gridPane;
         this.maxLetters = maxLetters;
@@ -20,28 +21,23 @@ public class Letters {
         this.word = new Word(pathToFile);
     }
 
-    public void spawnInitialLetters() {
-        spawnNextLetter();
+    public void spawnInitialLetters(Snake snake) {
+        spawnNextLetter(snake);
+
         for (int i = 0; i < 2; i++) {
-            spawnLetter();
+            spawnLetter(snake);
         }
     }
 
 
-    public void spawnLetter() {
-        //According to ASCII code, letters 'A' to 'Z' are within the range [65, 90]
-        char letter =  (char) ('A' + (int) (Math.random() * 26));
-        int y = (int) (Math.random() * Game.ROWS);
-        int x = (int) (Math.random() * Game.COLUMNS);
+    public void spawnLetter(Snake snake) {
+        char letter = (char) ('A' + (int) (Math.random() * 26));
+        int y, x;
+        do {
+            y = (int) (Math.random() * Game.ROWS);
+            x = (int) (Math.random() * Game.COLUMNS);
+        } while (isCellOccupied(x, y) || isNearSnakeHead(x, y, snake));
 
-        //for-loop checks if the randomly generated coordinates overlap with the coordinates of any existing letter
-        //if yes, generates new random coordinates
-        for (Cell existingLetter : letters) {
-            if (existingLetter.getCoordinate().getX() == x && existingLetter.getCoordinate().getY() == y) {
-                y = (int) (Math.random() * Game.ROWS);
-                x = (int) (Math.random() * Game.COLUMNS);
-            }
-        }
         Cell letterCell = new Cell(Game.CELL_SIZE, Color.BLUE, x, y);
         letterCell.getText().setText(String.valueOf(letter));
 
@@ -50,12 +46,15 @@ public class Letters {
         numOfLetters++;
     }
 
-    public void spawnNextLetter() {
+    public void spawnNextLetter(Snake snake) {
         char letter = word.getNextLetter();
-        int y = (int) (Math.random() * Game.ROWS);
-        int x = (int) (Math.random() * Game.COLUMNS);
+        int y, x;
+        do {
+            y = (int) (Math.random() * Game.ROWS);
+            x = (int) (Math.random() * Game.COLUMNS);
+        } while (isCellOccupied(x, y) || isNearSnakeHead(x, y, snake));
 
-        Cell letterCell = new Cell(Game.CELL_SIZE, Color.BLUE, x, y);
+        Cell letterCell = new Cell(Game.CELL_SIZE, Color.WHITE, x, y);
         letterCell.getText().setText(String.valueOf(letter));
 
         letters.add(letterCell);
@@ -68,8 +67,8 @@ public class Letters {
             if (snake.getHead().equals(letter.getCoordinate())) {
                 char pickedLetter = letter.getText().getText().charAt(0);
                 char nextLetter = word.getNextLetter();
-                System.out.println(nextLetter + " and " + pickedLetter);
-                if (nextLetter == pickedLetter) { //should add points to Score
+                System.out.println(nextLetter + " och " + pickedLetter);
+                if (nextLetter == pickedLetter) {
                     grid.getGrid().getChildren().remove(letter.getText()); // Remove the Text node
                     letters.remove(letter);
                     snake.grow();
@@ -81,8 +80,8 @@ public class Letters {
 
                         System.out.println("New word chosen: " + word.getCurrentWord());
                     }
-                    spawnNextLetter();
-                } else { //when picks the wrong letter - should deduct points
+                    spawnNextLetter(snake);
+                } else {
                     System.out.println("Game Over - Incorrect letter picked: " + pickedLetter);
                     System.exit(0);
                 }
@@ -94,7 +93,31 @@ public class Letters {
         return numOfLetters;
     }
 
-    public Word getWord(){
+    public Word getWord() {
         return this.word;
     }
+        private boolean isNearSnakeHead ( int x, int y, Snake snake){
+            int headX = snake.getHead().getX();
+            int headY = snake.getHead().getY();
+
+            int minDistance = 3;
+
+            return Math.abs(x - headX) < minDistance || Math.abs(y - headY) < minDistance;
+        }
+
+    private boolean isCellOccupied(int x, int y) {
+        for (Cell lettersOnGrid : letters) {
+            if (lettersOnGrid.getCoordinate().getX() == x && lettersOnGrid.getCoordinate().getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
+
+
+
+
+
+
