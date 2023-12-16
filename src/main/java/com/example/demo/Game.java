@@ -27,6 +27,8 @@ import java.util.Objects;
 public class Game extends Application{
     private Timeline timeline;
     private Letters letters;
+    private KeyFrame frame;
+    private int speed;
     private Grid grid;
     private Snake snake;
     private Label topWord;
@@ -40,6 +42,7 @@ public class Game extends Application{
         BorderPane root = new BorderPane();
         this.grid = new Grid();
         this.snake = new Snake( 3);
+        speed = 200;
         letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
         topWord  = new Label(letters.getWord().getCurrentWord());
         VBox vBox = new VBox(topWord, grid.getGrid());
@@ -95,6 +98,15 @@ public class Game extends Application{
         }
     }
 
+    private void increaseSpeed(){
+        speed = speed + (-10); //This decreases the refresh rate -> increased snake speed
+        this.timeline.getKeyFrames().clear();
+        this.frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
+        this.timeline = new Timeline(frame);
+        this.timeline.setCycleCount(Timeline.INDEFINITE);
+        this.timeline.play();
+    }
+
     public void drawSnake(){
         LinkedList<Cell> snakeBody = snake.getBody();
         grid.getGrid().getChildren().removeAll(snakeBody);
@@ -105,6 +117,7 @@ public class Game extends Application{
 
     private void handleKeyPress(KeyCode keyCode) {
         snake.changeDirection(keyCode);
+        increaseSpeed();
     }
 
     private void updateScene(int state, Stage stage){
