@@ -26,11 +26,12 @@ public enum Direction {
                 return RIGHT;
             case RIGHT:
                 return LEFT;
-
+            default:
+                return null;
         }
     }
 
-    public Direction getDirectionFromKeyCode(KeyCode keyCode) {
+    public Direction getDirectionFromKeyCode(KeyCode keyCode, Direction currentDirection) {
         switch (keyCode) {
             case UP:
                 return UP;
@@ -40,6 +41,8 @@ public enum Direction {
                 return LEFT;
             case RIGHT:
                 return RIGHT;
+            default:
+                return currentDirection;
         }
     }
 

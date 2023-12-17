@@ -55,7 +55,7 @@ public class Snake {
 
     public void changeDirection(KeyCode keyCode) {
         Direction currentDirection = direction;
-        Direction newDirection = direction.getDirectionFromKeyCode(keyCode);
+        Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction);
         if (newDirection != currentDirection.getOpposite()) {
             this.direction = newDirection;
         }
@@ -94,6 +94,15 @@ public class Snake {
         Coordinate head = getHead();
         Coordinate segment = new Coordinate(head.getX(), head.getY());
         body.add(1, segment);
+    }
+
+    public boolean containsCoordinate(Coordinate coordinate){
+        for(Coordinate cord : body){
+            if(cord.equals(coordinate)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public LinkedList<Coordinate> getBody(){

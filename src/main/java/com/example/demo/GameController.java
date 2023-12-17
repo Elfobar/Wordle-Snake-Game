@@ -13,9 +13,8 @@ public class GameController {
     public GameController(int startLength){
         this.snake = new Snake(startLength);
         this.letters = new ArrayList<>();
-        this.wordManager = new WordManager("yaroslav");
+        this.wordManager = new WordManager("snake");
         createThreeLetters();
-        System.out.println(wordManager.getTargetWord());
     }
 
     public void handleKeyPress(KeyCode key){
@@ -28,7 +27,7 @@ public class GameController {
         snake.moveSnake();
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithLetters();
-        if(isSnakeLengthIncreased(snakeLength)|| hasWordChanged(currentWord)){
+        if(isSnakeLengthIncreased(snakeLength) || hasWordChanged(currentWord)){
             createThreeLetters();
         }
     }
@@ -48,15 +47,20 @@ public class GameController {
     }
 
     public void createLetterFromWord(){
-        Coordinate letterPos = Util.generateRandomCoordinate();
-        char value = pickNextLetterFromWord();
-        Letter letter = new Letter(value, letterPos);
-        letters.add(letter);
+        createLetterWithRandomPosition(pickNextLetterFromWord());
     }
 
     public void createRandomLetter(){
-        Coordinate letterPos = Util.generateRandomCoordinate();
-        char value = Util.generateRandomLowercaseLetter();
+        createLetterWithRandomPosition(Util.generateRandomLowercaseLetter());
+    }
+
+    public void createLetterWithRandomPosition(char value){
+        Coordinate letterPos;
+
+        do{
+            letterPos = Util.generateRandomCoordinate();
+        } while(isValidLetterPosition(letterPos));
+
         Letter letter = new Letter(value, letterPos);
         letters.add(letter);
     }
@@ -64,7 +68,6 @@ public class GameController {
     public char pickNextLetterFromWord(){
         String currentWord = wordManager.getTargetWord();
         int nextLetterIndex = wordManager.getLettersCollected();
-        System.out.println("Next char: " + currentWord.charAt(nextLetterIndex));
         return currentWord.charAt(nextLetterIndex);
     }
 
@@ -98,11 +101,32 @@ public class GameController {
 
     public void collectLetterFromWord(char letterValue){
         if(wordManager.checkNextLetter(letterValue)){
-            System.out.println("Successfully collected letter: " + letterValue);
             snake.grow();
         } else{
             wordManager.introduceNewWord();
         }
+    }
+
+    public boolean isValidLetterPosition(Coordinate cord){
+        return !snake.containsCoordinate(cord) && !isTooCloseToSnakeHead(cord) && !containsLetter(cord);
+    }
+    
+    public boolean isTooCloseToSnakeHead(Coordinate coordinate){
+        Coordinate head = snake.getHead();
+        int minDistance = 3;
+
+        int realDistanceX = Math.abs(head.getX() - coordinate.getX());
+        int realDistanceY = Math.abs(head.getY() - coordinate.getY());
+        return !(realDistanceX < minDistance && realDistanceY < minDistance);
+    }
+
+    public boolean containsLetter(Coordinate coordinate){
+        for(Letter letter : letters){
+            if(letter.getPosition().equals(coordinate)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isSnakeLengthIncreased(int currentLength) {

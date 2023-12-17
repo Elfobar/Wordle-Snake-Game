@@ -26,6 +26,7 @@ public class CellFactory {
         return cell;
     }
 
+    //ADD try-catch blocks
     public static Cell createSnakeSegment(){
         Cell cell = new Cell(SnakeGame.CELL_SIZE);
         Image image = new Image(AppConfig.getSnakeSegmentPath());

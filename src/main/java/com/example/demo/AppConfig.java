@@ -4,6 +4,7 @@ public class AppConfig {
 
     //FONT NEEDS TO BE PUBLIC
     public static final String FONT_RELATIVE_PATH = "/custom_font/blade.ttf";
+    public static final int WORD_FONT_SIZE = 60;
     private static final String WORDS_RELATIVE_PATH = "/file_input/words.txt";
     private static final String TILE_TYPE1 = "/images/Tile1.png";
     private static final String TILE_TYPE2 = "/images/Tile2.png";
@@ -12,7 +13,6 @@ public class AppConfig {
     private static final String SNAKE_TAIL = "/images/snakeTail.png";
     private static final String PROJECT_PATH = "/src/main/resources";
     private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
-    public static final int WORD_FONT_SIZE = 60;
 
 
     public static String getWordsPathFile() {

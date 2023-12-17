@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import javafx.scene.text.Font;
+
 import java.util.Random;
 
 public class Util {
@@ -19,5 +21,14 @@ public class Util {
 
     public static int generateRandomIndex(int size){
         return rand.nextInt(size);
+    }
+
+    public static Font loadCustomFont(Class<?> clas) {
+        try {
+            return Font.loadFont(clas.getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.WORD_FONT_SIZE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return Font.getDefault();
+        }
     }
 }

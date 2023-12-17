@@ -6,11 +6,6 @@ import javafx.scene.text.Text;
 
 public class Cell extends Rectangle {
     private Coordinate coordinate;
-
-    public Cell(double size, Color color, int ROW, int COLUMN) {
-        super(size, size, color);
-        this.coordinate = new Coordinate(ROW, COLUMN);
-    }
     public Cell(double size, Coordinate coordinate){
         super(size, size);
         this.coordinate = coordinate;

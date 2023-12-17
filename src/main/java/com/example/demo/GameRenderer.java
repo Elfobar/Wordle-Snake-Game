@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.geometry.HPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -74,6 +75,7 @@ public class GameRenderer {
 
             grid.getChildren().remove(text);
             grid.add(text, coordinate.getX(), coordinate.getY());
+            GridPane.setHalignment(text, HPos.CENTER);
         }
     }
 
@@ -120,10 +122,11 @@ public class GameRenderer {
     public Text createVisualLetter(Letter letter){
         char letterValue = letter.getValue();
         String visualLetter = letterValue + "";
+        Font customFont = Util.loadCustomFont(getClass());
         Text text = new Text(visualLetter);
-        text.setFont(Font.font(30));
-        text.setFill(Color.RED);
-        text.setStyle("-fx-translate-x: 10;");
+        text.setFont(customFont);
+        text.setFill(Color.LIGHTBLUE);
+        text.setStyle("-fx-font-size: 25pt");
         return text;
     }
 

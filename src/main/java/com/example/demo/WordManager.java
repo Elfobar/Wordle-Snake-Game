@@ -53,7 +53,6 @@ public class WordManager {
     public void introduceNewWord(){
         this.lettersCollected = 0;
         this.targetWord = getRandomWord();
-        System.out.println(targetWord);
     }
 
     private String getRandomWord() {
