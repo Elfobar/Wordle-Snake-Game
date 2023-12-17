@@ -70,7 +70,7 @@ public class SnakeGame extends Application {
 
     public Font loadCustomFont() {
         try {
-            return Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.FONT_SIZE);
+            return Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.WORD_FONT_SIZE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return Font.getDefault();

@@ -63,9 +63,9 @@ public class Game {
 //        Font customFont = loadCustomFont();
 //        topWord.setFont(customFont);
         topWord.setText(topWord.getText().toLowerCase());
-        topWord.setMinHeight(AppConfig.getFontSize());
+        topWord.setMinHeight(AppConfig.getWordFontSize());
         topWord.setStyle("-fx-text-fill: #d5faff;-fx-translate-y: -5;");
-        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE+AppConfig.getFontSize());
+        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE+AppConfig.getWordFontSize());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         stage.setTitle("SnakeGame");
         stage.setScene(scene);
@@ -146,7 +146,6 @@ public class Game {
                 stage.getScene().setRoot(menu.getMenuContent());
                 stage.setTitle("SnakeGameMenu");
                 stage.show();
-
         }
     }
 
@@ -171,7 +170,7 @@ public class Game {
 
     public Font loadCustomFont(){
         try {
-            return Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.getFontSize());
+            return Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.WORD_FONT_SIZE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
            return Font.getDefault(); }
