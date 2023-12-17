@@ -53,6 +53,17 @@ public class Snake {
         }
     }
 
+    public boolean isCollidedWithItself(){
+        boolean isCollidedWithItself = false;
+        Coordinate snakeHead = getHead();
+        for(int i = 1; i < body.size(); i++){
+            if(snakeHead.equals(body.get(i))){
+                isCollidedWithItself = true;
+            }
+        }
+        return isCollidedWithItself;
+    }
+
     public void changeDirection(KeyCode keyCode) {
         Direction currentDirection = direction;
         Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction);

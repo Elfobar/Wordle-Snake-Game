@@ -23,7 +23,7 @@ public class SnakeGame extends Application {
 
     private Timeline timeline;
 
-    private static final int HEADER_SPACEHOLDER = 68;
+    private static final int HEADER_SPACE = 68;
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
@@ -42,7 +42,7 @@ public class SnakeGame extends Application {
         VBox.setVgrow(gameRenderer.getGrid(), Priority.ALWAYS);
         root.setTop(headerAndGrid);
         root.setCenter(gameRenderer.getGrid());
-        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACEHOLDER);
+        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
         scene.setOnKeyPressed(event -> gameController.handleKeyPress(event.getCode()));
         primaryStage.setScene(scene);
         primaryStage.setTitle("Snake");
@@ -77,6 +77,9 @@ public class SnakeGame extends Application {
         gameController.updateGame();
         gameRenderer.renderGame();
         updateWord();
+        if(gameController.getGameOverStatus()){
+            showGameOver((Stage) gameRenderer.getGrid().getScene().getWindow());
+        }
     }
 
     public void updateWord(){

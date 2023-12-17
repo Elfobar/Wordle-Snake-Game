@@ -10,10 +10,13 @@ public class GameController {
     private Snake snake;
     private ArrayList<Letter> letters;
 
+    private boolean gameOver;
+
     public GameController(int startLength){
         this.snake = new Snake(startLength);
         this.letters = new ArrayList<>();
         this.wordManager = new WordManager("snake");
+        this.gameOver = false;
         createThreeLetters();
     }
 
@@ -72,21 +75,9 @@ public class GameController {
     }
 
     public void handleSnakeCollisionWithItself(){
-        if(checkSnakeCollisionWithItself()){
-            System.exit(0);
+        if(snake.isCollidedWithItself()){
+            this.gameOver = true;
         }
-    }
-
-    public boolean checkSnakeCollisionWithItself(){
-        boolean isCollidedWithItself = false;
-        Coordinate snakeHead = snake.getHead();
-        LinkedList<Coordinate> snakeBody = snake.getBody();
-        for(int i = 1; i < snakeBody.size(); i++){
-            if(snakeHead.equals(snakeBody.get(i))){
-                isCollidedWithItself = true;
-            }
-        }
-        return isCollidedWithItself;
     }
 
     public void handleSnakeCollisionWithLetters(){
@@ -105,6 +96,10 @@ public class GameController {
         } else{
             wordManager.introduceNewWord();
         }
+    }
+
+    public boolean getGameOverStatus(){
+        return gameOver;
     }
 
     public boolean isValidLetterPosition(Coordinate cord){
