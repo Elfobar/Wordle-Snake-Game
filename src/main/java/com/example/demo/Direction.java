@@ -26,8 +26,7 @@ public enum Direction {
                 return RIGHT;
             case RIGHT:
                 return LEFT;
-            default:
-                return null;
+
         }
     }
 
@@ -41,8 +40,6 @@ public enum Direction {
                 return LEFT;
             case RIGHT:
                 return RIGHT;
-            default:
-                return null;
         }
     }
 

@@ -23,8 +23,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
+//Rename this class to GameRenderer and make it responsible for drawing snake, grid and letters
+public class Game {
 
-public class Game extends Application{
+    private WordManager wordManager;
     private Timeline timeline;
     private Letters letters;
     private Grid grid;
@@ -33,21 +35,33 @@ public class Game extends Application{
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
+    public static final int SNAKE_LENGTH = 3;
+    public static final int NUM_OF_LETTERS = 3;
+
     private Menu menu;
 
+    public Game(){
+        this.grid = new Grid();
+        this.snake = new Snake(SNAKE_LENGTH);
+        this.wordManager = new WordManager("Java");
+    }
 
     public void showGame(Stage stage){
         BorderPane root = new BorderPane();
-        this.grid = new Grid();
-        this.snake = new Snake( 3);
-        letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
-        topWord  = new Label(letters.getWord().getCurrentWord());
+//      letters = new Letters(grid.getGrid(), 3, AppConfig.getWordsPathFile());
+
+        //new class constructor
+        GameController gameController = new GameController(SNAKE_LENGTH);
+//        gameController.initializeWords(AppConfig.getWordsPathFile());
+//        gameController.initializeWordManagerWithRandomWord();
+        topWord  = new Label(wordManager.getTargetWord());
+
         VBox vBox = new VBox(topWord, grid.getGrid());
         vBox.setStyle("-fx-background-color: #160244;");
         root.setCenter(vBox);
         vBox.setAlignment(Pos.CENTER);
-        Font customFont = loadCustomFont();
-        topWord.setFont(customFont);
+//        Font customFont = loadCustomFont();
+//        topWord.setFont(customFont);
         topWord.setText(topWord.getText().toLowerCase());
         topWord.setMinHeight(AppConfig.getFontSize());
         topWord.setStyle("-fx-text-fill: #d5faff;-fx-translate-y: -5;");
@@ -56,7 +70,7 @@ public class Game extends Application{
         stage.setTitle("SnakeGame");
         stage.setScene(scene);
         stage.setResizable(false);
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> gameController.updateGame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
@@ -74,34 +88,34 @@ public class Game extends Application{
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-    private void updateGame() {
-        if (letters.getNumOfLetters() < 3) {
+//    private void updateGame() {
+//        if (letters.getNumOfLetters() < 3) {
+//
+//            letters.spawnInitialLetters(snake);
+//
+//            letters.spawnInitialLetters(snake);
+//
+//
+//        }
+//        topWord.setText(letters.getWord().getCurrentWord().toLowerCase());
+//        snake.moveSnake();
+//        letters.intersectLetter(snake, grid);
+//        drawSnake();
+//        snake.rotateHead();
+//        snake.rotateTail();
+//        if(snake.checkIfCollided()){
+//            showGameOver((Stage) grid.getGrid().getScene().getWindow());
+//            timeline.stop();
+//        }
+//    }
 
-            letters.spawnInitialLetters(snake);
-
-            letters.spawnInitialLetters(snake);
-
-
-        }
-        topWord.setText(letters.getWord().getCurrentWord().toLowerCase());
-        snake.moveSnake();
-        letters.intersectLetter(snake, grid);
-        drawSnake();
-        snake.rotateHead();
-        snake.rotateTail();
-        if(snake.checkIfCollided()){
-            showGameOver((Stage) grid.getGrid().getScene().getWindow());
-            timeline.stop();
-        }
-    }
-
-    public void drawSnake(){
-        LinkedList<Cell> snakeBody = snake.getBody();
-        grid.getGrid().getChildren().removeAll(snakeBody);
-        for (Cell cell : snakeBody) {
-            grid.getGrid().add(cell, cell.getCoordinate().getX(), cell.getCoordinate().getY());
-        }
-    }
+//    public void drawSnake(){
+//        LinkedList<Cell> snakeBody = snake.getBody();
+//        grid.getGrid().getChildren().removeAll(snakeBody);
+//        for (Cell cell : snakeBody) {
+//            grid.getGrid().add(cell, cell.getCoordinate().getX(), cell.getCoordinate().getY());
+//        }
+//    }
 
     private void handleKeyPress(KeyCode keyCode) {
         snake.changeDirection(keyCode);
@@ -151,23 +165,22 @@ public class Game extends Application{
         stage.show();
     }
 
-    public static void main(String[] args){
-        Application.launch();
-    }
+//    public static void main(String[] args){
+//        Application.launch();
+//    }
 
     public Font loadCustomFont(){
         try {
-            return Font.loadFont(getClass().getResourceAsStream(AppConfig.getFontPathFile()), AppConfig.getFontSize());
+            return Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.getFontSize());
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return Font.getDefault();
-        }
+           return Font.getDefault(); }
     }
-    @Override
-    public void start(Stage stage) {
-        this.menu = new Menu();
-        Scene scene = new Scene(new Pane(), 800, 800);
-        stage.setScene(scene);
-        showMenu(stage);
-    }
+//        @Override
+//   public void start(Stage stage) {
+//        this.menu = new Menu();
+//        Scene scene = new Scene(new Pane(), 800, 800);
+//        stage.setScene(scene);
+//        showMenu(stage);
+//   }
 }

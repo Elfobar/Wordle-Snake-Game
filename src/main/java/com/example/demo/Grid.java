@@ -21,8 +21,8 @@ public class Grid {
     public void initializeGrid(){
         Cell cell = null;
         grid = new GridPane();
-        for(int row = 0; row < Game.ROWS; row++){
-            for(int col = 0; col < Game.COLUMNS; col++){
+        for(int row = 0; row < SnakeGame.ROWS; row++){
+            for(int col = 0; col < SnakeGame.COLUMNS; col++){
                 if((row + col) % 2 == 0){
                     cell = createCell(Color.DARKORANGE, row, col);
                     cell.setFill(new ImagePattern(tile1Img));
@@ -36,7 +36,7 @@ public class Grid {
     }
 
     public Cell createCell(Color color, int row, int col){
-        Cell cell = new Cell(Game.CELL_SIZE, color, row, col);
+        Cell cell = new Cell(SnakeGame.CELL_SIZE, color, row, col);
         return cell;
     }
 

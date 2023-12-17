@@ -21,13 +21,13 @@ public class Letters {
         this.word = new Word(pathToFile);
     }
 
-    public void spawnInitialLetters(Snake snake) {
-        spawnNextLetter(snake);
-
-        for (int i = 0; i < 2; i++) {
-            spawnLetter(snake);
-        }
-    }
+//    public void spawnInitialLetters(Snake snake) {
+//        spawnNextLetter(snake);
+//
+//        for (int i = 0; i < 2; i++) {
+//            spawnLetter(snake);
+//        }
+//    }
 
 
     public void spawnLetter(Snake snake) {
@@ -38,56 +38,56 @@ public class Letters {
             x = (int) (Math.random() * Game.COLUMNS);
         } while (isCellOccupied(x, y) || isNearSnakeHead(x, y, snake));
 
-        Cell letterCell = new Cell(Game.CELL_SIZE, Color.BLUE, x, y);
-        letterCell.getText().setText(String.valueOf(letter));
-
-        letters.add(letterCell);
-        gridPane.add(letterCell.getText(), x, y);
-        numOfLetters++;
+//        Cell letterCell = new Cell(Game.CELL_SIZE, Color.BLUE, x, y);
+//        letterCell.getText().setText(String.valueOf(letter));
+//
+//        letters.add(letterCell);
+//        gridPane.add(letterCell.getText(), x, y);
+//        numOfLetters++;
     }
 
-    public void spawnNextLetter(Snake snake) {
-        char letter = word.getNextLetter();
-        int y, x;
-        do {
-            y = (int) (Math.random() * Game.ROWS);
-            x = (int) (Math.random() * Game.COLUMNS);
-        } while (isCellOccupied(x, y) || isNearSnakeHead(x, y, snake));
+//    public void spawnNextLetter(Snake snake) {
+//        char letter = word.getNextLetter();
+//        int y, x;
+//        do {
+//            y = (int) (Math.random() * Game.ROWS);
+//            x = (int) (Math.random() * Game.COLUMNS);
+//        } while (isCellOccupied(x, y) || isNearSnakeHead(x, y, snake));
+//
+//        Cell letterCell = new Cell(Game.CELL_SIZE, Color.WHITE, x, y);
+////        letterCell.getText().setText(String.valueOf(letter));
+////
+////        letters.add(letterCell);
+////        gridPane.add(letterCell.getText(), x, y);
+////        numOfLetters++;
+//    }
 
-        Cell letterCell = new Cell(Game.CELL_SIZE, Color.WHITE, x, y);
-        letterCell.getText().setText(String.valueOf(letter));
-
-        letters.add(letterCell);
-        gridPane.add(letterCell.getText(), x, y);
-        numOfLetters++;
-    }
-
-    public void intersectLetter(Snake snake, Grid grid) {
-        for (Cell letter : new ArrayList<>(letters)) {
-            if (snake.getHead().equals(letter.getCoordinate())) {
-                char pickedLetter = letter.getText().getText().charAt(0);
-                char nextLetter = word.getNextLetter();
-                System.out.println(nextLetter + " och " + pickedLetter);
-                if (nextLetter == pickedLetter) {
-                    grid.getGrid().getChildren().remove(letter.getText()); // Remove the Text node
-                    letters.remove(letter);
-                    snake.grow();
-                    numOfLetters--;
-                    word.incrementIndex();
-
-                    if (word.isWordCompleted()) {
-                        word.chooseRandomWord();
-
-                        System.out.println("New word chosen: " + word.getCurrentWord());
-                    }
-                    spawnNextLetter(snake);
-                } else {
-                    System.out.println("Game Over - Incorrect letter picked: " + pickedLetter);
-                    System.exit(0);
-                }
-            }
-        }
-    }
+//    public void intersectLetter(Snake snake, Grid grid) {
+//        for (Cell letter : new ArrayList<>(letters)) {
+//            if (snake.getHead().equals(letter.getCoordinate())) {
+//                char pickedLetter = letter.getText().getText().charAt(0);
+//                char nextLetter = word.getNextLetter();
+//                System.out.println(nextLetter + " och " + pickedLetter);
+//                if (nextLetter == pickedLetter) {
+//                    grid.getGrid().getChildren().remove(letter.getText()); // Remove the Text node
+//                    letters.remove(letter);
+//                    snake.grow();
+//                    numOfLetters--;
+//                    word.incrementIndex();
+//
+//                    if (word.isWordCompleted()) {
+//                        word.chooseRandomWord();
+//
+//                        System.out.println("New word chosen: " + word.getCurrentWord());
+//                    }
+//                    spawnNextLetter(snake);
+//                } else {
+//                    System.out.println("Game Over - Incorrect letter picked: " + pickedLetter);
+//                    System.exit(0);
+//                }
+//            }
+//        }
+//    }
 
     public int getNumOfLetters() {
         return numOfLetters;
