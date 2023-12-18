@@ -16,6 +16,7 @@ public class Menu {
     private final StackPane menuContent;
     private final StackPane settingsContent;
     private final StackPane leaderboardContent;
+    private final StackPane escMenuContent;
 
     public Menu() {
         this.state = 0;
@@ -23,6 +24,7 @@ public class Menu {
         this.menuContent = createMenuContent();
         this.settingsContent = createSettingsContent();
         this.leaderboardContent = createLeaderboardContent();
+        this.escMenuContent = createEscMenuContent();
     }
 
     public StackPane createMenuContent() {
@@ -36,7 +38,7 @@ public class Menu {
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.TOP_CENTER);
         menuBox.setSpacing(15.0);
-        menuBox.setPrefSize(800, 800);
+        menuBox.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
 
         ImageView logo = new ImageView(cache.getImage("NameImg"));
         logo.setFitWidth(800.0);
@@ -90,7 +92,7 @@ public class Menu {
 
     public StackPane createLeaderboardContent(){
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(800, 800);
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         stackPane.setAlignment(Pos.BOTTOM_LEFT);
 
         ImageView background = getBackground(stackPane);
@@ -120,7 +122,7 @@ public class Menu {
 
     public StackPane createSettingsContent(){
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(800, 800);
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
 
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
@@ -153,7 +155,7 @@ public class Menu {
 
     public StackPane createGameOverContent(){
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(800, 800);
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         ImageView background = new ImageView(cache.getImage("GameOver"));
         background.fitWidthProperty().bind(stackPane.widthProperty());
         background.fitHeightProperty().bind(stackPane.heightProperty());
@@ -162,20 +164,40 @@ public class Menu {
         return stackPane;
     }
 
-    public StackPane createMiniGameContent(){
+    public StackPane createEscMenuContent(){
         StackPane stackPane = new StackPane();
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
-        stackPane.setPrefSize(800, 800);
-        background.fitWidthProperty().bind(stackPane.widthProperty());
-        background.fitHeightProperty().bind(stackPane.heightProperty());
-        stackPane.getChildren().add(background);
+
+        VBox menuBox = new VBox();
+        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setSpacing(30.0);
+
+        ImageView continueLabel = new ImageView(cache.getImage("ContinueLabel"));
+        continueLabel.setFitWidth(280.0);
+        continueLabel.setFitHeight(70.0);
+        continueLabel.setId("continue");
+
+        StackPane continueBtn = getMenuButton(continueLabel);
+
+        ImageView exitLabel = new ImageView(cache.getImage("ExitLabel"));
+        exitLabel.setFitWidth(130.0);
+        exitLabel.setFitHeight(65.0);
+        exitLabel.setId("back");
+        StackPane exitBtn = getMenuButton(exitLabel);
+
+        menuBox.getChildren().add(continueBtn);
+        menuBox.getChildren().add(exitBtn);
+
+        stackPane.getChildren().add(menuBox);
 
         return stackPane;
     }
 
     public StackPane getMenuButton(ImageView label){
         StackPane button = new StackPane();
+        button.setAlignment(Pos.CENTER);
 
         ImageView frame = new ImageView(cache.getImage("ButtonFrame"));
         frame.setFitWidth(400.0);
@@ -229,6 +251,8 @@ public class Menu {
                         state = 4;
                     } else if (source.getId().equals("back")) {
                         state = 5;
+                    } else if (source.getId().equals("continue")) {
+                        state = 7;
                     }
                 }
             }
@@ -239,8 +263,8 @@ public class Menu {
     public Pane getLoadingScreen(){
         Pane pane = new Pane();
         ImageView background = new ImageView(cache.getImage("Loading"));
-        background.setFitWidth(800);
-        background.setFitHeight(800);
+        background.setFitWidth(SnakeGame.ROWS*SnakeGame.CELL_SIZE);
+        background.setFitHeight(SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         pane.getChildren().add(background);
         return pane;
     }
@@ -264,4 +288,9 @@ public class Menu {
     public StackPane getSettingsContent() {
         return this.settingsContent;
     }
+
+    public StackPane getEscMenuContent() {
+        return this.escMenuContent;
+    }
+
 }

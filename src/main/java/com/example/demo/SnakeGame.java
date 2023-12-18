@@ -7,11 +7,13 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,9 +25,10 @@ public class SnakeGame extends Application {
     private GameRenderer gameRenderer;
     private AbstractController controller;
     private MiniGameRenderer miniGameRenderer;
-    private String state;
     private Menu menu;
     private Scene loadingScene;
+    private Scene gameScene;
+    private Parent pause;
     private Text targetWord;
     private Text currentInput;
     private Timeline timeline;
@@ -46,7 +49,6 @@ public class SnakeGame extends Application {
         controller = new GameController(SNAKE_LENGTH);
         gameRenderer = new GameRenderer((GameController) controller);
         gameRenderer.drawGrid();
-        this.state = "Game";
         initializeGameLoop();
 
         BorderPane root = new BorderPane();
@@ -54,15 +56,25 @@ public class SnakeGame extends Application {
         VBox.setVgrow(gameRenderer.getGrid(), Priority.ALWAYS);
         root.setTop(headerAndGrid);
         root.setCenter(gameRenderer.getGrid());
-        Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
-        scene.setFill(Color.BLACK);
-        scene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));
+        this.gameScene= new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
+        gameScene.setFill(Color.BLACK);
+        gameScene.setOnKeyPressed(event -> listenToEvents(event.getCode(), stage));
         Platform.runLater(() -> {
             stage.setTitle("Snake");
-            stage.setScene(scene);
+            stage.setScene(gameScene);
             stage.setResizable(false);
             stage.show();
         });
+    }
+
+    public void listenToEvents(KeyCode keyCode, Stage stage){
+        if (keyCode == KeyCode.ESCAPE && menu.getState() != 6){
+            updateScene(6, stage);
+        } else if ( keyCode == KeyCode.ESCAPE && menu.getState() == 6) {
+            updateScene(7, stage);
+        } else {
+            controller.handleKeyPress(keyCode);
+        }
     }
     public void initializeGameLoop(){
         this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
@@ -163,9 +175,27 @@ public class SnakeGame extends Application {
                 break;
             case 5:
                 menu.setState(0);
-                stage.getScene().setRoot(menu.getMenuContent());
-                stage.setTitle("SnakeGameMenu");
+                showMenu(stage);
+                break;
+            case 6:
+                this.timeline.pause();
+                menu.setState(6);
+                this.pause = stage.getScene().getRoot();
+                stage.getScene().setRoot(menu.getEscMenuContent());
+                stage.getScene().setOnMouseClicked(event -> {
+                    updateScene(menu.getState(), stage);
+                });
+                stage.setTitle("Pause");
                 stage.show();
+                break;
+            case 7:
+                this.timeline.play();
+                menu.setState(1);
+                stage.getScene().setRoot(pause);
+                stage.setTitle("SnakeGame");
+                stage.show();
+                menu.setState(1);
+                break;
         }
     }
 
@@ -186,7 +216,6 @@ public class SnakeGame extends Application {
     }
 
     public void showMiniGame(Stage stage){
-        this.state = "MiniGame";
         initializeMiniGame();
         BorderPane miniGameContent = miniGameRenderer.getMiniGameContent();
         VBox header = createHeader();
