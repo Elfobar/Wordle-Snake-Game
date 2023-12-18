@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -18,7 +19,7 @@ public class Menu {
 
     public Menu() {
         this.state = 0;
-        this.cache = new ImgCache();
+        this.cache = new ImgCache("Menu");
         this.menuContent = createMenuContent();
         this.settingsContent = createSettingsContent();
         this.leaderboardContent = createLeaderboardContent();
@@ -26,7 +27,7 @@ public class Menu {
 
     public StackPane createMenuContent() {
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(800, 800);
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         stackPane.setAlignment(Pos.TOP_CENTER);
 
         ImageView background = getBackground(stackPane);
@@ -161,6 +162,18 @@ public class Menu {
         return stackPane;
     }
 
+    public StackPane createMiniGameContent(){
+        StackPane stackPane = new StackPane();
+        ImageView background = getBackground(stackPane);
+        stackPane.getChildren().add(background);
+        stackPane.setPrefSize(800, 800);
+        background.fitWidthProperty().bind(stackPane.widthProperty());
+        background.fitHeightProperty().bind(stackPane.heightProperty());
+        stackPane.getChildren().add(background);
+
+        return stackPane;
+    }
+
     public StackPane getMenuButton(ImageView label){
         StackPane button = new StackPane();
 
@@ -221,6 +234,15 @@ public class Menu {
             }
         };
         return eventHandler;
+    }
+
+    public Pane getLoadingScreen(){
+        Pane pane = new Pane();
+        ImageView background = new ImageView(cache.getImage("Loading"));
+        background.setFitWidth(800);
+        background.setFitHeight(800);
+        pane.getChildren().add(background);
+        return pane;
     }
 
     public int getState(){
