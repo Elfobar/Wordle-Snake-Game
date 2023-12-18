@@ -1,0 +1,10 @@
+dog
+cat
+ball
+fish
+bird
+tree
+book
+car
+cup
+pen
