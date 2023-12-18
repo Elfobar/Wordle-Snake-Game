@@ -1,9 +1,10 @@
 package com.example.demo;
 
+import javafx.scene.text.Text;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,12 @@ public class WordManager {
         this.targetWord = targetWord;
         this.lettersCollected = 0;
         this.words = initializeWords(AppConfig.getWordsPathFile());
+    }
+
+    public WordManager(){
+        this.lettersCollected = 0;
+        this.words = initializeWords(AppConfig.getWordsPathFile());
+        this.targetWord = getRandomWord();
     }
 
     public ArrayList<String> initializeWords(String pathToFile){
@@ -66,6 +73,10 @@ public class WordManager {
 
     public int getLettersCollected(){
         return this.lettersCollected;
+    }
+
+    public String getCurrentInput(){
+        return targetWord.substring(0, lettersCollected);
     }
 
 }

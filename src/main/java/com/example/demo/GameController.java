@@ -2,21 +2,13 @@ package com.example.demo;
 
 import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-public class GameController {
-
-    private WordManager wordManager;
+public class GameController extends AbstractController{
     private Snake snake;
-    private ArrayList<Letter> letters;
-
-    private boolean gameOver;
 
     public GameController(int startLength){
+        super();
         this.snake = new Snake(startLength);
-        this.letters = new ArrayList<>();
-        this.wordManager = new WordManager("snake");
-        this.gameOver = false;
         createThreeLetters();
     }
 
@@ -26,11 +18,11 @@ public class GameController {
 
     public void updateGame(){
         int snakeLength = snake.getBody().size();
-        String currentWord = wordManager.getTargetWord();
+        String currentWord = super.getTargetWord();
         snake.moveSnake();
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithLetters();
-        if(isSnakeLengthIncreased(snakeLength) || hasWordChanged(currentWord)){
+        if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(currentWord)){
             createThreeLetters();
         }
     }
@@ -42,10 +34,10 @@ public class GameController {
     }
 
     public void createThreeLetters(){
-        if(letters.isEmpty()){
+        if(super.getLetters().isEmpty()){
             createLetters();
         }
-        letters.clear();
+        super.getLetters().clear();
         createLetters();
     }
 
@@ -65,24 +57,18 @@ public class GameController {
         } while(isValidLetterPosition(letterPos));
 
         Letter letter = new Letter(value, letterPos);
-        letters.add(letter);
-    }
-
-    public char pickNextLetterFromWord(){
-        String currentWord = wordManager.getTargetWord();
-        int nextLetterIndex = wordManager.getLettersCollected();
-        return currentWord.charAt(nextLetterIndex);
+        super.add(letter);
     }
 
     public void handleSnakeCollisionWithItself(){
         if(snake.isCollidedWithItself()){
-            this.gameOver = true;
+            super.setGameOver(true);
         }
     }
 
     public void handleSnakeCollisionWithLetters(){
         Coordinate snakeHead = snake.getHead();
-        for(Letter letter :letters){
+        for(Letter letter : super.getLetters()){
             if(snakeHead.equals(letter.getPosition())){
                 char letterValue = letter.getValue();
                 collectLetterFromWord(letterValue);
@@ -91,15 +77,11 @@ public class GameController {
     }
 
     public void collectLetterFromWord(char letterValue){
-        if(wordManager.checkNextLetter(letterValue)){
+        if(super.checkNextLetter(letterValue)){
             snake.grow();
         } else{
-            wordManager.introduceNewWord();
+            super.introduceNewWord();
         }
-    }
-
-    public boolean getGameOverStatus(){
-        return gameOver;
     }
 
     public boolean isValidLetterPosition(Coordinate cord){
@@ -116,7 +98,7 @@ public class GameController {
     }
 
     public boolean containsLetter(Coordinate coordinate){
-        for(Letter letter : letters){
+        for(Letter letter : super.getLetters()){
             if(letter.getPosition().equals(coordinate)){
                 return true;
             }
@@ -128,20 +110,8 @@ public class GameController {
         return currentLength < snake.getBody().size();
     }
 
-    private boolean hasWordChanged(String currentWord) {
-        return !currentWord.equals(wordManager.getTargetWord());
-    }
-
-    public ArrayList<Letter> getLetters(){
-        return this.letters;
-    }
-
     public Snake getSnake(){
         return this.snake;
-    }
-
-    public String getTargetWord(){
-        return wordManager.getTargetWord();
     }
 }
 
