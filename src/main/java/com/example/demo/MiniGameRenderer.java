@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,7 +23,6 @@ public class MiniGameRenderer {
     private AnchorPane anchorPane;
     private ImgCache animationChache;
     private ImageView snake;
-    private ImageView snakeTail;
     private ImageView frame;
     private ImageView obstacle;
     private ArrayList<Text> letters;
@@ -35,11 +35,8 @@ public class MiniGameRenderer {
         this.stackPane = new StackPane();
         this.anchorPane = new AnchorPane();
         this.snake = new ImageView(animationChache.getImage("SnakeUpfront"));
-        snake.setFitWidth(520);
+        snake.setFitWidth(790);
         snake.setFitHeight(600);
-        this.snakeTail = new ImageView();
-        snakeTail.setFitWidth(500);
-        snakeTail.setFitHeight(550);
         this.animationCounter = 0;
         this.letters = new ArrayList<>();
         this.obstacleSide = true;
@@ -51,8 +48,8 @@ public class MiniGameRenderer {
         background.setFitHeight(800);
         background.setFitWidth(800);
         this.stackPane.getChildren().add(background);
-        this.stackPane.getChildren().add(this.snakeTail);
         this.stackPane.getChildren().add(this.snake);
+        StackPane.setMargin(snake, new Insets(100, 10, 0, 0));
         this.stackPane.getChildren().add(this.anchorPane);
         this.frame = new ImageView(animationChache.getImage("Frame"));
         frame.setFitHeight(800);
@@ -103,11 +100,9 @@ public class MiniGameRenderer {
             animationCounter++;
         } else if (this.animationCounter == -1) {
             this.snake.setImage(animationChache.getImage("SnakeRight"));
-            this.snakeTail.setImage(animationChache.getImage("TailRight"));
             animationCounter++;
         } else if (this.animationCounter == 1) {
             this.snake.setImage(animationChache.getImage("SnakeLeft"));
-            this.snakeTail.setImage(animationChache.getImage("TailLeft"));
             animationCounter++;
         } else if (this.animationCounter == 2) {
             this.snake.setImage(animationChache.getImage("SnakeUpfront"));

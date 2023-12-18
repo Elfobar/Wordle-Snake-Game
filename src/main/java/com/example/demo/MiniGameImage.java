@@ -8,14 +8,12 @@ public enum MiniGameImage implements ImageInfo{
     SNAKE_UPFRONT("SnakeUpfront", "/images/Front.png"),
     SNAKE_LEFT("SnakeLeft", "/images/Left.png"),
     SNAKE_RIGHT("SnakeRight", "/images/Right.png"),
-    TAIL_LEFT("TailLeft", "/images/LTail.png"),
-    TAIL_RIGHT("TailRight", "/images/RTail.png"),
     FRAME ("Frame", "/images/MiniGameFrameDefault.png"),
     FRAME_LEFT("FrameLeft", "/images/MiniGameFrameLeft.png"),
     FRAME_RIGHT("FrameRight", "/images/MiniGameFrameRight.png"),
     OBSTACLE_BOTTOM("ObstacleBottom", "/images/ObstacleBottom.png"),
     OBSTACLE_TOP("ObstacleTop", "/images/ObstacleTop.png"),
-    ACKGROUND("Background", "/images/Background.png");
+    BACKGROUND("Background", "/images/Background.png");
 
         private final String name;
         private final String path;

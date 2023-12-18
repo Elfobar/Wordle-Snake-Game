@@ -4,9 +4,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -23,6 +27,7 @@ public class SnakeGame extends Application {
     private Menu menu;
     private Scene loadingScene;
     private Text targetWord;
+    private Text currentInput;
     private Timeline timeline;
 
     public static final int HEADER_SPACE = 68;
@@ -72,15 +77,19 @@ public class SnakeGame extends Application {
     }
 
     public VBox createHeader(){
-        if (state.equals("MiniGame")){
-            this.targetWord = new Text(controller.getTargetWord());
-        } else if (state.equals("Game")){
-            this.targetWord = new Text(controller.getTargetWord());
-        }
+        this.targetWord = new Text(controller.getTargetWord());
+        this.currentInput = new Text();
         Font cyberFont = Util.loadCustomFont(getClass());
+        Glow glow = new Glow();
+        glow.setLevel(0.8);
         targetWord.setFont(cyberFont);
         targetWord.setFill(Color.LIGHTBLUE);
-        HBox hBox = new HBox(targetWord);
+        targetWord.setEffect(glow);
+        currentInput.setFont(cyberFont);
+        currentInput.setFill(Color.LIGHTBLUE);
+        currentInput.setEffect(glow);
+        HBox hBox = new HBox(targetWord,  currentInput);
+        hBox.setSpacing(30.0);
         hBox.setAlignment(Pos.CENTER);
         hBox.setStyle("-fx-background-color: #160244;");
         return new VBox(hBox);
@@ -97,10 +106,10 @@ public class SnakeGame extends Application {
 
     public void updateWord(){
         String currentWord = "";
-        if (state.equals("MiniGame")){
-            currentWord = controller.getTargetWord();
-        } else if (state.equals("Game")){
-            currentWord = controller.getTargetWord();
+        currentWord = controller.getTargetWord();
+        if(currentInput != null){
+            String currentInputString = controller.getCurrentInput();
+            currentInput.setText(currentInputString);
         }
         if(!currentWord.equals(targetWord.toString())){
             targetWord.setText(currentWord);
@@ -181,6 +190,7 @@ public class SnakeGame extends Application {
         initializeMiniGame();
         BorderPane miniGameContent = miniGameRenderer.getMiniGameContent();
         VBox header = createHeader();
+        header.getChildren().get(0).setStyle("-fx-background-color: #000000;");
         miniGameContent.setTop(header);
         Scene miniGameScene = new Scene(miniGameContent, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
         miniGameScene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));

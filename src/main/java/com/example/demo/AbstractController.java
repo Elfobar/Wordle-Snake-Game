@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 
 public abstract class AbstractController {
     private WordManager wordManager;
@@ -57,4 +58,7 @@ public abstract class AbstractController {
         return currentWord.charAt(nextLetterIndex);
     }
 
+    public String getCurrentInput() {
+        return wordManager.getCurrentInput();
+    }
 }
