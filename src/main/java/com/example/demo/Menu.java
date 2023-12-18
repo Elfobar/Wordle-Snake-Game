@@ -18,7 +18,7 @@ public class Menu {
 
     public Menu() {
         this.state = 0;
-        this.cache = new ImgCache();
+        this.cache = new ImgCache("Menu");
         this.menuContent = createMenuContent();
         this.settingsContent = createSettingsContent();
         this.leaderboardContent = createLeaderboardContent();
@@ -154,6 +154,18 @@ public class Menu {
         StackPane stackPane = new StackPane();
         stackPane.setPrefSize(800, 800);
         ImageView background = new ImageView(cache.getImage("GameOver"));
+        background.fitWidthProperty().bind(stackPane.widthProperty());
+        background.fitHeightProperty().bind(stackPane.heightProperty());
+        stackPane.getChildren().add(background);
+
+        return stackPane;
+    }
+
+    public StackPane createMiniGameContent(){
+        StackPane stackPane = new StackPane();
+        ImageView background = getBackground(stackPane);
+        stackPane.getChildren().add(background);
+        stackPane.setPrefSize(800, 800);
         background.fitWidthProperty().bind(stackPane.widthProperty());
         background.fitHeightProperty().bind(stackPane.heightProperty());
         stackPane.getChildren().add(background);

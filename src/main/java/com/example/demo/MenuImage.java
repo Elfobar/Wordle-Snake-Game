@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 import java.util.Objects;
 
-public enum MenuImage {
+public enum MenuImage implements ImageInfo {
     FRAME("ButtonFrame", "/images/ButtonFrame.png"),
     ARROWS("ArrowsImg", "/images/ArrowsImg.png"),
     SETTINGS_FRAME("SettingsFrame", "/images/SettingsFrame.png"),

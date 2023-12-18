@@ -19,6 +19,12 @@ public class WordManager {
         this.words = initializeWords(AppConfig.getWordsPathFile());
     }
 
+    public WordManager(){
+        this.lettersCollected = 0;
+        this.words = initializeWords(AppConfig.getWordsPathFile());
+        this.targetWord = getRandomWord();
+    }
+
     public ArrayList<String> initializeWords(String pathToFile){
         ArrayList<String> words = new ArrayList<>();
         try{

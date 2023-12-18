@@ -31,4 +31,7 @@ public class Util {
             return Font.getDefault();
         }
     }
+    public int generateRandomIndex(){
+        return rand.nextInt(2);
+    }
 }

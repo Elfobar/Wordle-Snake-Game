@@ -18,6 +18,12 @@ public class SnakeGame extends Application {
     private GameRenderer gameRenderer;
     private GameController gameController;
 
+    private MiniGameRenderer miniGameRenderer;
+
+    private MiniGameController miniGameController;
+
+    private String state;
+
     private Menu menu;
     private Text targetWord;
 
@@ -36,6 +42,7 @@ public class SnakeGame extends Application {
     }
 
     public void showGame(Stage primaryStage){
+        this.state = "Game";
         initializeGame();
         BorderPane root = new BorderPane();
         VBox headerAndGrid = createHeaderWithWord();
@@ -58,15 +65,26 @@ public class SnakeGame extends Application {
     }
 
     public VBox createHeaderWithWord(){
-        this.targetWord = new Text(gameController.getTargetWord());
+        VBox vBox = createHeader();
+        vBox.getChildren().add(gameRenderer.getGrid());
+        return vBox;
+    }
+
+    public VBox createHeader(){
+        if (state.equals("MiniGame")){
+            this.targetWord = new Text(miniGameController.getTargetWord());
+        } else if (state.equals("Game")){
+            this.targetWord = new Text(gameController.getTargetWord());
+        }
         Font cyberFont = Util.loadCustomFont(getClass());
         targetWord.setFont(cyberFont);
         targetWord.setFill(Color.LIGHTBLUE);
         HBox hBox = new HBox(targetWord);
         hBox.setAlignment(Pos.CENTER);
         hBox.setStyle("-fx-background-color: #160244;");
-        return new VBox(hBox, gameRenderer.getGrid());
+        return new VBox(hBox);
     }
+
     private void initializeGame() {
         gameController = new GameController(SNAKE_LENGTH);
         gameRenderer = new GameRenderer(gameController);
@@ -83,7 +101,12 @@ public class SnakeGame extends Application {
     }
 
     public void updateWord(){
-        String currentWord = gameController.getTargetWord();
+        String currentWord = "";
+        if (state.equals("MiniGame")){
+            currentWord = miniGameController.getTargetWord();
+        } else if (state.equals("Game")){
+            currentWord = gameController.getTargetWord();
+        }
         if(!currentWord.equals(targetWord.toString())){
             targetWord.setText(currentWord);
         }
@@ -115,6 +138,7 @@ public class SnakeGame extends Application {
             case 1:
                 this.timeline.stop();
                 showGame(stage);
+                //showMiniGame(stage);
                 break;
             case 2:
                 stage.getScene().setRoot(menu.getSettingsContent());
@@ -153,10 +177,42 @@ public class SnakeGame extends Application {
         stage.show();
     }
 
+    public void showMiniGame(Stage stage){
+        this.state = "MiniGame";
+        initializeMiniGame();
+        BorderPane miniGameContent = miniGameRenderer.getMiniGameContent();
+        VBox header = createHeader();
+        miniGameContent.setTop(header);
+        Scene miniGameScene = new Scene(miniGameContent, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
+        miniGameScene.setOnKeyPressed(event -> miniGameController.handleKeyPress(event.getCode()));
+        stage.setScene(miniGameScene);
+        stage.setTitle("MiniGame");
+        stage.setResizable(false);
+        stage.show();
+        initializeMiniGameLoop();
+    }
+
+    public void initializeMiniGame() {
+        miniGameController = new MiniGameController();
+        miniGameRenderer = new MiniGameRenderer((miniGameController));
+    }
+
+    public void initializeMiniGameLoop(){
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateMiniGame()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    private void updateMiniGame() {
+        miniGameController.updateGame();
+        miniGameRenderer.renderGame();
+        updateWord();
+        if(miniGameController.getGameOverStatus()){
+            showGameOver((Stage) miniGameRenderer.getGrid().getScene().getWindow());
+        }
+    }
+
     public static void main(String[] args){
         Application.launch();
     }
-
-
-
 }
