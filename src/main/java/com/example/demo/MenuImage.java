@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public enum MenuImage implements ImageInfo {
     FRAME("ButtonFrame", "/images/ButtonFrame.png"),
+    LOADING("Loading", "/images/LoadingScreen.png"),
     ARROWS("ArrowsImg", "/images/ArrowsImg.png"),
     SETTINGS_FRAME("SettingsFrame", "/images/SettingsFrame.png"),
     GAMEOVER("GameOver", "/images/GameOver.png"),

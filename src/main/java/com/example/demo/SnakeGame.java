@@ -3,6 +3,7 @@ package com.example.demo;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -16,20 +17,15 @@ import javafx.util.Duration;
 
 public class SnakeGame extends Application {
     private GameRenderer gameRenderer;
-    private GameController gameController;
-
+    private AbstractController controller;
     private MiniGameRenderer miniGameRenderer;
-
-    private MiniGameController miniGameController;
-
     private String state;
-
     private Menu menu;
+    private Scene loadingScene;
     private Text targetWord;
-
     private Timeline timeline;
 
-    private static final int HEADER_SPACE = 68;
+    public static final int HEADER_SPACE = 68;
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
@@ -41,23 +37,28 @@ public class SnakeGame extends Application {
         createMenu(primaryStage);
     }
 
-    public void showGame(Stage primaryStage){
+    private void initializeGame(Stage stage) {
+        controller = new GameController(SNAKE_LENGTH);
+        gameRenderer = new GameRenderer((GameController) controller);
+        gameRenderer.drawGrid();
         this.state = "Game";
-        initializeGame();
+        initializeGameLoop();
+
         BorderPane root = new BorderPane();
         VBox headerAndGrid = createHeaderWithWord();
         VBox.setVgrow(gameRenderer.getGrid(), Priority.ALWAYS);
         root.setTop(headerAndGrid);
         root.setCenter(gameRenderer.getGrid());
         Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
-        scene.setOnKeyPressed(event -> gameController.handleKeyPress(event.getCode()));
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Snake");
-        primaryStage.setResizable(false);
-        primaryStage.show();
-        initializeGameLoop();
+        scene.setFill(Color.BLACK);
+        scene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));
+        Platform.runLater(() -> {
+            stage.setTitle("Snake");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        });
     }
-
     public void initializeGameLoop(){
         this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -72,9 +73,9 @@ public class SnakeGame extends Application {
 
     public VBox createHeader(){
         if (state.equals("MiniGame")){
-            this.targetWord = new Text(miniGameController.getTargetWord());
+            this.targetWord = new Text(controller.getTargetWord());
         } else if (state.equals("Game")){
-            this.targetWord = new Text(gameController.getTargetWord());
+            this.targetWord = new Text(controller.getTargetWord());
         }
         Font cyberFont = Util.loadCustomFont(getClass());
         targetWord.setFont(cyberFont);
@@ -85,17 +86,11 @@ public class SnakeGame extends Application {
         return new VBox(hBox);
     }
 
-    private void initializeGame() {
-        gameController = new GameController(SNAKE_LENGTH);
-        gameRenderer = new GameRenderer(gameController);
-        gameRenderer.drawGrid();
-    }
-
     public void updateGame(){
-        gameController.updateGame();
+        controller.updateGame();
         gameRenderer.renderGame();
         updateWord();
-        if(gameController.getGameOverStatus()){
+        if(controller.getGameOverStatus()){
             showGameOver((Stage) gameRenderer.getGrid().getScene().getWindow());
         }
     }
@@ -103,9 +98,9 @@ public class SnakeGame extends Application {
     public void updateWord(){
         String currentWord = "";
         if (state.equals("MiniGame")){
-            currentWord = miniGameController.getTargetWord();
+            currentWord = controller.getTargetWord();
         } else if (state.equals("Game")){
-            currentWord = gameController.getTargetWord();
+            currentWord = controller.getTargetWord();
         }
         if(!currentWord.equals(targetWord.toString())){
             targetWord.setText(currentWord);
@@ -114,7 +109,9 @@ public class SnakeGame extends Application {
 
     public void createMenu(Stage stage){
         this.menu = new Menu();
-        Scene scene = new Scene(new Pane(), 800, 800);
+        this.loadingScene = new Scene(menu.getLoadingScreen(), ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
+        Scene scene = new Scene(new Pane(), ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
+        loadingScene.setFill(Color.BLACK);
         stage.setScene(scene);
         showMenu(stage);
     }
@@ -137,7 +134,8 @@ public class SnakeGame extends Application {
         switch (state){
             case 1:
                 this.timeline.stop();
-                showGame(stage);
+                stage.setScene(loadingScene);
+                new Thread(() -> initializeGame(stage)).start();
                 //showMiniGame(stage);
                 break;
             case 2:
@@ -165,10 +163,11 @@ public class SnakeGame extends Application {
     public void showGameOver(Stage stage){
         this.timeline.stop();
         Pane gameOverContent = menu.createGameOverContent();
-        Scene gameOverScene = new Scene(gameOverContent, 800, 800);
+        Scene gameOverScene = new Scene(gameOverContent, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
         gameOverScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                showGame(stage);
+                stage.setScene(loadingScene);
+                new Thread(() -> initializeGame(stage)).start();
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 showMenu(stage);
             }
@@ -184,7 +183,7 @@ public class SnakeGame extends Application {
         VBox header = createHeader();
         miniGameContent.setTop(header);
         Scene miniGameScene = new Scene(miniGameContent, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
-        miniGameScene.setOnKeyPressed(event -> miniGameController.handleKeyPress(event.getCode()));
+        miniGameScene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));
         stage.setScene(miniGameScene);
         stage.setTitle("MiniGame");
         stage.setResizable(false);
@@ -193,8 +192,8 @@ public class SnakeGame extends Application {
     }
 
     public void initializeMiniGame() {
-        miniGameController = new MiniGameController();
-        miniGameRenderer = new MiniGameRenderer((miniGameController));
+        controller = new MiniGameController();
+        miniGameRenderer = new MiniGameRenderer((MiniGameController) controller);
     }
 
     public void initializeMiniGameLoop(){
@@ -204,10 +203,10 @@ public class SnakeGame extends Application {
     }
 
     private void updateMiniGame() {
-        miniGameController.updateGame();
+        controller.updateGame();
         miniGameRenderer.renderGame();
         updateWord();
-        if(miniGameController.getGameOverStatus()){
+        if(controller.getGameOverStatus()){
             showGameOver((Stage) miniGameRenderer.getGrid().getScene().getWindow());
         }
     }

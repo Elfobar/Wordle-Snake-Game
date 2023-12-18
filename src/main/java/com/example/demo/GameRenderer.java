@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GameRenderer {
-
-
     private GameController gameController;
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;

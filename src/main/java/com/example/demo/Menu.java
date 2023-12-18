@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -26,7 +27,7 @@ public class Menu {
 
     public StackPane createMenuContent() {
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(800, 800);
+        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
         stackPane.setAlignment(Pos.TOP_CENTER);
 
         ImageView background = getBackground(stackPane);
@@ -233,6 +234,15 @@ public class Menu {
             }
         };
         return eventHandler;
+    }
+
+    public Pane getLoadingScreen(){
+        Pane pane = new Pane();
+        ImageView background = new ImageView(cache.getImage("Loading"));
+        background.setFitWidth(800);
+        background.setFitHeight(800);
+        pane.getChildren().add(background);
+        return pane;
     }
 
     public int getState(){
