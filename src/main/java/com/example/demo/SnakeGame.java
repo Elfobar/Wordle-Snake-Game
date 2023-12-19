@@ -29,6 +29,8 @@ public class SnakeGame extends Application {
     private Text targetWord;
     private Text currentInput;
     private Timeline timeline;
+    private KeyFrame frame;
+    private int speed;
 
     public static final int HEADER_SPACE = 68;
     public static final int ROWS = 20;
@@ -102,6 +104,15 @@ public class SnakeGame extends Application {
         if(controller.getGameOverStatus()){
             showGameOver((Stage) gameRenderer.getGrid().getScene().getWindow());
         }
+    }
+
+    public void increaseSpeed(){
+        speed = speed + (-10); //This decreases the refresh rate -> increased snake speed
+        this.timeline.getKeyFrames().clear();
+        this.frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
+        this.timeline = new Timeline(frame);
+        this.timeline.setCycleCount(Timeline.INDEFINITE);
+        this.timeline.play();
     }
 
     public void updateWord(){
