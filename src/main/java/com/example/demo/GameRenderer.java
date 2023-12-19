@@ -13,6 +13,7 @@ public class GameRenderer {
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private GridPane grid;
+    private Text targetWord;
 
 
     public GameRenderer(GameController gameController){
@@ -20,7 +21,10 @@ public class GameRenderer {
         this.grid = new GridPane();
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
+        this.targetWord = initializeTargetWord();
     }
+
+    public void createGameWindow
 
     public void drawGrid(){
         Cell gridCell;
@@ -34,6 +38,13 @@ public class GameRenderer {
                 grid.add(gridCell, row, col);
             }
         }
+    }
+
+    public Text initializeTargetWord(){
+        Text text = new Text();
+        String currentWord = gameController.getTargetWord();
+        text.setText(currentWord);
+        return text;
     }
 
     public void renderGame(){

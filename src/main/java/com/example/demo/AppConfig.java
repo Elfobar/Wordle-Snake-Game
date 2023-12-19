@@ -14,7 +14,6 @@ public class AppConfig {
     private static final String PROJECT_PATH = "/src/main/resources";
     private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
 
-
     public static String getWordsPathFile() {
         return CURRENT_WORKING_DIR + WORDS_RELATIVE_PATH;
     }
