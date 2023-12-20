@@ -1,10 +1,6 @@
-DOG
-CAT
-BALL
-FISH
-BIRD
-TREE
-BOOK
-CAR
-CUP
-PEN
+distopia
+cyberpunk
+android
+neon
+noir
+replicant
