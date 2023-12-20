@@ -2,7 +2,8 @@ package com.example.demo;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -51,21 +52,20 @@ public class Header {
         return currentInput;
     }
 
-    public AnchorPane getScorePane(Text score){
-        AnchorPane scorePane = new AnchorPane();
-        double prefWidth = 20.0;
-        double prefHeight = 20.0;
+    public GridPane getScorePane(Text score){
+        GridPane scorePane = new GridPane();
+        VBox scoreVbox = new VBox();
+        scoreVbox.setAlignment(Pos.CENTER);
 
-        scorePane.setPrefWidth(prefWidth);
-        scorePane.setPrefHeight(prefHeight);
+        Text text = new Text("Score:");
+        text.setStyle("-fx-font-size: 25");
+        text.setFill(Color.LIGHTBLUE);
 
-        scorePane.setPrefSize(80.0, 68.0);
-        scorePane.setMaxSize(prefWidth, prefHeight);
-        scorePane.setMinSize(prefWidth, prefHeight);
-        AnchorPane.setLeftAnchor(score, 10.0);
-        AnchorPane.setTopAnchor(score, 10.0);
+        scoreVbox.getChildren().add(text);
+        scoreVbox.getChildren().add(score);
 
-        scorePane.getChildren().add(score);
+        scorePane.add(scoreVbox, 0, 0);
+        scorePane.setAlignment(Pos.CENTER);
         return scorePane;
     }
 }

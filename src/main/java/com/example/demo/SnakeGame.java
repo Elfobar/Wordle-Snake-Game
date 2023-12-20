@@ -4,17 +4,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -25,6 +19,7 @@ public class SnakeGame extends Application {
     private MiniGameRenderer miniGameRenderer;
     private String state;
     private Menu menu;
+    private Header header;
     private Scene loadingScene;
     private Text targetWord;
     private Text currentInput;
@@ -52,7 +47,32 @@ public class SnakeGame extends Application {
         initializeGameLoop();
 
         BorderPane root = new BorderPane();
-        VBox headerAndGrid = createHeaderWithWord();
+        VBox headerAndGrid = new VBox();
+        this.header = new Header();
+        HBox header = this.header.createHeader();
+
+        this.scoreText = this.header.getScoreText();
+        GridPane textPane = this.header.getScorePane(this.scoreText);
+
+        this.targetWord = this.header.getTargetWord(controller.getTargetWord());
+        this.currentInput = this.header.getCurrentInput();
+
+        StackPane textOverlap = new StackPane();
+        textOverlap.getChildren().addAll(targetWord, currentInput);
+        textOverlap.setAlignment(Pos.CENTER_LEFT);
+
+        GridPane overlapPane = new GridPane();
+        overlapPane.setAlignment(Pos.CENTER);
+        overlapPane.getChildren().add(textOverlap);
+
+        header.getChildren().addAll(textPane, overlapPane);
+        textPane.setMinWidth(40);
+        HBox.setHgrow(textPane, Priority.NEVER);
+        HBox.setHgrow(overlapPane, Priority.ALWAYS);
+
+        headerAndGrid.getChildren().add(header);
+        headerAndGrid.getChildren().add(gameRenderer.getGrid());
+
         VBox.setVgrow(gameRenderer.getGrid(), Priority.ALWAYS);
         root.setTop(headerAndGrid);
         root.setCenter(gameRenderer.getGrid());
@@ -66,6 +86,7 @@ public class SnakeGame extends Application {
             stage.show();
         });
     }
+
     public void initializeGameLoop(){
         this.timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -174,9 +195,9 @@ public class SnakeGame extends Application {
         this.state = "MiniGame";
         initializeMiniGame();
         BorderPane miniGameContent = miniGameRenderer.getMiniGameContent();
-        VBox header = createHeader();
-        header.getChildren().get(0).setStyle("-fx-background-color: #000000;");
-        miniGameContent.setTop(header);
+        //VBox header = createHeader();
+        //header.getChildren().get(0).setStyle("-fx-background-color: #000000;");
+        //miniGameContent.setTop(header);
         Scene miniGameScene = new Scene(miniGameContent, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
         miniGameScene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));
         stage.setScene(miniGameScene);
