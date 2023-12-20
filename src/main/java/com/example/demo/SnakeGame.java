@@ -28,11 +28,12 @@ public class SnakeGame extends Application {
     private Scene loadingScene;
     private Text targetWord;
     private Text currentInput;
+    private Text scoreText;
     private Timeline timeline;
 
     public static final int HEADER_SPACE = 68;
-    public static final int ROWS = 20;
-    public static final int COLUMNS = 20;
+    public static final int ROWS = 17;
+    public static final int COLUMNS = 17;
     public static final int CELL_SIZE = 40;
     public static final int SNAKE_LENGTH = 3;
 
@@ -47,6 +48,7 @@ public class SnakeGame extends Application {
         gameRenderer = new GameRenderer((GameController) controller);
         gameRenderer.drawGrid();
         this.state = "Game";
+        //this.scoreText = 0;
         initializeGameLoop();
 
         BorderPane root = new BorderPane();
@@ -70,35 +72,18 @@ public class SnakeGame extends Application {
         timeline.play();
     }
 
-    public VBox createHeaderWithWord(){
-        VBox vBox = createHeader();
-        vBox.getChildren().add(gameRenderer.getGrid());
-        return vBox;
-    }
 
-    public VBox createHeader(){
-        this.targetWord = new Text(controller.getTargetWord());
-        this.currentInput = new Text();
-        Font cyberFont = Util.loadCustomFont(getClass());
-        Glow glow = new Glow();
-        glow.setLevel(0.8);
-        targetWord.setFont(cyberFont);
-        targetWord.setFill(Color.LIGHTBLUE);
-        targetWord.setEffect(glow);
-        currentInput.setFont(cyberFont);
-        currentInput.setFill(Color.LIGHTBLUE);
-        currentInput.setEffect(glow);
-        HBox hBox = new HBox(targetWord,  currentInput);
-        hBox.setSpacing(30.0);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setStyle("-fx-background-color: #160244;");
-        return new VBox(hBox);
+    public void updateScore(){
+        GameController gc = (GameController)controller;
+        int score = gc.getScore();
+        this.scoreText.setText(Integer.toString(score));
     }
 
     public void updateGame(){
         controller.updateGame();
         gameRenderer.renderGame();
         updateWord();
+        updateScore();
         if(controller.getGameOverStatus()){
             showGameOver((Stage) gameRenderer.getGrid().getScene().getWindow());
         }

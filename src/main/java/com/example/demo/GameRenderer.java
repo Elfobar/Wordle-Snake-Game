@@ -13,6 +13,7 @@ public class GameRenderer {
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private GridPane grid;
+    private Text scoreText;
 
 
     public GameRenderer(GameController gameController){
@@ -20,6 +21,7 @@ public class GameRenderer {
         this.grid = new GridPane();
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
+        this.scoreText = new Text("Score: 0");
     }
 
     public void drawGrid(){
@@ -41,6 +43,11 @@ public class GameRenderer {
         rotateSnakeHead();
         rotateSnakeTail();
         drawLetters();
+       // updateScoreText();
+    }
+
+    private void updateScoreText() {
+        scoreText.setText("Score: " + gameController.getScore()); // Update the displayed score
     }
 
     public void drawSnake(){
