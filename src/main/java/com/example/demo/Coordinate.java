@@ -25,6 +25,7 @@ public class Coordinate {
         return y;
     }
 
+    @Override
     public boolean equals(Object other) {
         boolean isEqual = false;
 
