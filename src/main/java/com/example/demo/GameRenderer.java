@@ -13,15 +13,18 @@ public class GameRenderer {
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private Grid grid;
-//    private Text targetWord;
-
+    private Text scoreText;
 
     public GameRenderer(GameController gameController, Grid grid){
         this.gameController = gameController;
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-//        this.targetWord = initializeTargetWord();
+        this.scoreText = new Text("Score: 0");
+    }
+
+    private void updateScoreText() {
+        scoreText.setText("Score: " + gameController.getScore()); // Update the displayed score
     }
 
     public LinkedList<Cell> initializeVisualSnake() {
@@ -50,13 +53,6 @@ public class GameRenderer {
         }
         return visualLetters;
     }
-
-//    public Text initializeTargetWord(){
-//        Text text = new Text();
-//        String currentWord = gameController.getTargetWord();
-//        text.setText(currentWord);
-//        return text;
-//    }
 
     public void renderGame(){
         drawSnake();

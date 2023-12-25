@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 public class GameController extends AbstractController{
     private Snake snake;
+    private int score;
 
     public GameController(int startLength){
         super();
         this.snake = new Snake(startLength);
+        this.score = 0;
         createThreeLetters();
     }
 
@@ -25,6 +27,15 @@ public class GameController extends AbstractController{
         if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(currentWord)){
             createThreeLetters();
         }
+    }
+
+    private void incrementScore(int points) {
+        score += points;
+        System.out.println(score);
+    }
+
+    public int getScore(){
+        return score;
     }
 
     public void createLetters(){
@@ -79,6 +90,7 @@ public class GameController extends AbstractController{
     public void collectLetterFromWord(char letterValue){
         if(super.checkNextLetter(letterValue)){
             snake.grow();
+            incrementScore(5);
         } else{
             super.introduceNewWord();
         }

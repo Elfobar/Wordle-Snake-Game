@@ -1,7 +1,6 @@
 package com.example.demo.Menu;
 
 import com.example.demo.SnakeConfig;
-import com.example.demo.SnakeGame;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 

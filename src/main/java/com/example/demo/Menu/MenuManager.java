@@ -15,9 +15,9 @@ import javafx.stage.Stage;
 
 public class MenuManager implements GameActions {
 
-    private GameActions gameActions;
+    private final GameActions gameActions;
+    private final Stage stage;
     private AbstractMenu currentMenu;
-    private Stage stage;
 
     public MenuManager(Stage stage, GameActions gameActions){
         this.stage = stage;
@@ -96,11 +96,9 @@ public class MenuManager implements GameActions {
 
     public void handleGamePause(){;
         if(currentMenu instanceof EscMenu){
-            System.out.println("instanceof");
             gameActions.resumeGame(stage);
             currentMenu = new MainMenu();
         } else{
-            System.out.println("else");
             currentMenu = new EscMenu();
             showMenu();
             gameActions.stopGame();
