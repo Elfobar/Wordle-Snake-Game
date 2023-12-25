@@ -1,5 +1,6 @@
 package com.example.demo.Menu;
 
+import com.example.demo.SnakeConfig;
 import com.example.demo.SnakeGame;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -9,12 +10,12 @@ import javafx.scene.layout.VBox;
 public class SettingsMenu extends AbstractMenu {
 
     public SettingsMenu(){
-        super("Menu");
+        super();
     }
 
     public StackPane createContent(){
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
+        stackPane.setPrefSize(SnakeConfig.ROWS*SnakeConfig.CELL_SIZE, SnakeConfig.COLUMNS*SnakeConfig.CELL_SIZE + SnakeConfig.HEADER_SPACE);
 
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
@@ -45,7 +46,7 @@ public class SettingsMenu extends AbstractMenu {
         return stackPane;
     }
 
-    public ImageView getBackButton(){
+    private ImageView getBackButton(){
 
         ImageView back = new ImageView(cache.getImage("ArrowsImg"));
         back.setId("back");

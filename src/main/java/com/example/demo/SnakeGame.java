@@ -21,8 +21,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SnakeGame extends Application {
-    private GameRenderer gameRenderer;
+public class SnakeGame {
+/*    private GameRenderer gameRenderer;
     private AbstractController controller;
     private MiniGameRenderer miniGameRenderer;
     private Menu menu;
@@ -250,7 +250,6 @@ public class SnakeGame extends Application {
         }
     }
 
-    public static void main(String[] args){
-        Application.launch();
-    }
+ */
 }
+

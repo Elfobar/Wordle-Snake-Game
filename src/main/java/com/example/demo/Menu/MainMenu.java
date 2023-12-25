@@ -1,5 +1,6 @@
 package com.example.demo.Menu;
 
+import com.example.demo.SnakeConfig;
 import com.example.demo.SnakeGame;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -10,12 +11,12 @@ public class MainMenu extends AbstractMenu {
 
 
     public MainMenu(){
-        super("Menu");
+        super();
     }
     @Override
     public StackPane createContent() {
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
+        stackPane.setPrefSize(SnakeConfig.ROWS*SnakeConfig.CELL_SIZE, SnakeConfig.COLUMNS*SnakeConfig.CELL_SIZE + SnakeConfig.HEADER_SPACE);
         stackPane.setAlignment(Pos.TOP_CENTER);
 
         ImageView background = getBackground(stackPane);
@@ -24,7 +25,7 @@ public class MainMenu extends AbstractMenu {
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.TOP_CENTER);
         menuBox.setSpacing(15.0);
-        menuBox.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
+        menuBox.setPrefSize(SnakeConfig.ROWS*SnakeConfig.CELL_SIZE, SnakeConfig.COLUMNS*SnakeConfig.CELL_SIZE + SnakeConfig.HEADER_SPACE);
 
         ImageView logo = new ImageView(cache.getImage("NameImg"));
         logo.setFitWidth(800.0);
@@ -76,7 +77,7 @@ public class MainMenu extends AbstractMenu {
         return stackPane;
     }
 
-    public StackPane createButton(ImageView label){
+    private StackPane createButton(ImageView label){
         StackPane button = new StackPane();
         button.setAlignment(Pos.CENTER);
 

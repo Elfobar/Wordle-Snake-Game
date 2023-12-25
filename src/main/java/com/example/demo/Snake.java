@@ -13,13 +13,13 @@ public class Snake {
     public Snake(int startLength){
         this.body = new LinkedList<>();
         this.startLength = startLength;
-        this.direction = Direction.UP;
+        this.direction = Direction.LEFT;
         initializeSnake();
     }
 
     private void initializeSnake() {
-        int middleColumn = SnakeGame.COLUMNS / 2;
-        int middleRow = SnakeGame.ROWS / 2;
+        int middleColumn = SnakeConfig.COLUMNS / 2;
+        int middleRow = SnakeConfig.ROWS / 2;
 
         for (int i = 0; i < startLength; i++) {
             Coordinate bodyPart = new Coordinate(middleColumn + i, middleRow);
@@ -41,15 +41,15 @@ public class Snake {
     }
 
     public void wrapAround(Coordinate head){
-        if (head.getX() >= SnakeGame.COLUMNS) {
+        if (head.getX() >= SnakeConfig.COLUMNS) {
             head.setX(0);
         } else if (head.getX() < 0) {
-            head.setX(SnakeGame.COLUMNS - 1);
+            head.setX(SnakeConfig.COLUMNS - 1);
         }
-        if (head.getY() >= SnakeGame.ROWS) {
+        if (head.getY() >= SnakeConfig.ROWS) {
             head.setY(0);
         } else if (head.getY() < 0) {
-            head.setY(SnakeGame.ROWS - 1);
+            head.setY(SnakeConfig.ROWS - 1);
         }
     }
 
@@ -102,9 +102,9 @@ public class Snake {
     }
 
     public void grow(){
-        Coordinate head = getHead();
-        Coordinate segment = new Coordinate(head.getX(), head.getY());
-        body.add(1, segment);
+        Coordinate tail = getTail();
+        Coordinate segment = new Coordinate(tail.getX(), tail.getY());
+        body.add(segment);
     }
 
     public boolean containsCoordinate(Coordinate coordinate){
@@ -121,6 +121,8 @@ public class Snake {
     }
 
     public Coordinate getHead(){
-        return this.body.get(0);
+        return this.body.getFirst();
     }
+
+    public Coordinate getTail(){return this.body.getLast();}
 }

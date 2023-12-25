@@ -1,5 +1,6 @@
 package com.example.demo.Menu;
 
+import com.example.demo.SnakeConfig;
 import com.example.demo.SnakeGame;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,12 +11,12 @@ import javafx.scene.layout.VBox;
 public class LeaderboardMenu extends AbstractMenu {
 
     public LeaderboardMenu(){
-        super("Menu");
+        super();
     }
 
     public StackPane createContent(){
         StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(SnakeGame.ROWS*SnakeGame.CELL_SIZE, SnakeGame.COLUMNS*SnakeGame.CELL_SIZE + SnakeGame.HEADER_SPACE);
+        stackPane.setPrefSize(SnakeConfig.ROWS*SnakeConfig.CELL_SIZE, SnakeConfig.COLUMNS*SnakeConfig.CELL_SIZE + SnakeConfig.HEADER_SPACE);
         stackPane.setAlignment(Pos.BOTTOM_LEFT);
 
         ImageView background = getBackground(stackPane);
