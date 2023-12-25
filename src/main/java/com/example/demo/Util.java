@@ -9,8 +9,8 @@ public class Util {
     private static final Random rand = new Random();
 
     public static Coordinate generateRandomCoordinate(){
-        int x = rand.nextInt(SnakeGame.ROWS);
-        int y = rand.nextInt(SnakeGame.COLUMNS);
+        int x = rand.nextInt(SnakeConfig.ROWS);
+        int y = rand.nextInt(SnakeConfig.COLUMNS);
         return new Coordinate(x,y);
     }
 
