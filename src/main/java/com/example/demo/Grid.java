@@ -19,8 +19,8 @@ public class Grid {
     public GridPane initializeGrid(){
         GridPane grid = new GridPane();
         Cell gridCell;
-        for(int row = 0; row < SnakeConfig.ROWS; row++){
-            for(int col = 0; col < SnakeConfig.COLUMNS; col++){
+        for(int row = 0; row < GameConfig.ROWS; row++){
+            for(int col = 0; col < GameConfig.COLUMNS; col++){
                 gridCell = createGridCell(row, col);
                 grid.add(gridCell, row, col);
             }

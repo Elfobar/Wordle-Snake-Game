@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
-import java.io.IOException;
-
 public class CellFactory {
 
     public static Cell createGridCellType1(){
@@ -33,7 +31,7 @@ public class CellFactory {
             Image image = new Image(pathToFile);
             ImagePattern imgPattern = new ImagePattern(image);
 
-            Cell cell = new Cell(SnakeConfig.CELL_SIZE);
+            Cell cell = new Cell(GameConfig.CELL_SIZE);
             cell.setFill(imgPattern);
 
             return cell;
@@ -44,7 +42,7 @@ public class CellFactory {
     }
 
     private static Cell createDefaultCell() {
-        Cell defaultCell = new Cell(SnakeConfig.CELL_SIZE);
+        Cell defaultCell = new Cell(GameConfig.CELL_SIZE);
         defaultCell.setFill(Color.GRAY);
         return defaultCell;
     }

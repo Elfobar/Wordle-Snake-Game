@@ -4,11 +4,9 @@ import com.example.demo.Menu.MenuManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,7 +25,6 @@ public class SnakeGame extends Application implements GameActions {
     @Override
     public void start(Stage primaryStage) {
         initializeGame(primaryStage);
-        menuManager.showMenu();
     }
 
     @Override
@@ -51,7 +48,7 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     public void initializeGame(Stage stage) {
-        this.gameController = new GameController(SnakeConfig.INIT_SNAKE_LENGTH);
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         this.grid = new Grid();
         this.gameRenderer = new GameRenderer(gameController, grid);
         GameActions gameActions = this;
@@ -59,7 +56,7 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     public void resetGame(){
-        this.gameController = new GameController(SnakeConfig.INIT_SNAKE_LENGTH);
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         grid.clearGrid(gameRenderer.getVisualSnakeBody(), gameRenderer.getVisualLetters());
         this.gameRenderer = new GameRenderer(gameController, grid);
     }
@@ -88,7 +85,7 @@ public class SnakeGame extends Application implements GameActions {
         });
 
         gameStage.setScene(scene);
-        gameStage.setTitle("Snake");
+        gameStage.setTitle(GameConfig.GAME_NAME);
         gameStage.setResizable(false);
         gameStage.show();
     }
@@ -114,7 +111,7 @@ public class SnakeGame extends Application implements GameActions {
 //        VBox header = createHeader();
 //        header.getChildren().get(0).setStyle("-fx-background-color: #000000;");
 //        miniGameContent.setTop(header);
-        Scene miniGameScene = new Scene(miniGameContent, SnakeConfig.WIDTH, SnakeConfig.HEIGHT);
+        Scene miniGameScene = new Scene(miniGameContent, GameConfig.WIDTH, GameConfig.HEIGHT);
         miniGameScene.setOnKeyPressed(event -> miniGameController.handleKeyPress(event.getCode()));
         stage.setScene(miniGameScene);
         stage.setTitle("MiniGame");
