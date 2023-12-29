@@ -57,6 +57,7 @@ public class SnakeGame extends Application implements GameActions {
         this.gameController = new GameController(SnakeConfig.INIT_SNAKE_LENGTH);
         this.grid = new Grid();
         this.gameRenderer = new GameRenderer(gameController, grid);
+        gameRenderer.drawObstacle();
         GameActions gameActions = this;
         this.menuManager = new MenuManager(stage, gameActions);
     }

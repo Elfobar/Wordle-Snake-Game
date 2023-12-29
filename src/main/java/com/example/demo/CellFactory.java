@@ -48,4 +48,11 @@ public class CellFactory {
         defaultCell.setFill(Color.GRAY);
         return defaultCell;
     }
+
+    public static Cell createObstacle(){
+        Cell cell = new Cell(SnakeConfig.CELL_SIZE);
+        Image image = new Image(AppConfig.getObstaclePath());
+        cell.setFill(new ImagePattern(image));
+        return cell;
+    }
 }

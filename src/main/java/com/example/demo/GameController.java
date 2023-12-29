@@ -2,6 +2,7 @@ package com.example.demo;
 
 import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController extends AbstractController{
     private Snake snake;
@@ -24,6 +25,7 @@ public class GameController extends AbstractController{
         snake.moveSnake();
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithLetters();
+        handleSnakeCollisionWithObstacles();
         if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(currentWord)){
             createThreeLetters();
         }
@@ -97,7 +99,10 @@ public class GameController extends AbstractController{
     }
 
     public boolean isValidLetterPosition(Coordinate cord){
-        return !snake.containsCoordinate(cord) && !isTooCloseToSnakeHead(cord) && !containsLetter(cord);
+        return  !containsObstacle(cord) &&
+                !snake.containsCoordinate(cord) &&
+                !isTooCloseToSnakeHead(cord) &&
+                !containsLetter(cord);
     }
     
     public boolean isTooCloseToSnakeHead(Coordinate coordinate){
@@ -112,6 +117,25 @@ public class GameController extends AbstractController{
     public boolean containsLetter(Coordinate coordinate){
         for(Letter letter : super.getLetters()){
             if(letter.getPosition().equals(coordinate)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void handleSnakeCollisionWithObstacles(){
+        Coordinate snakeHead = snake.getHead();
+        for(Coordinate coordinate : GameRenderer.getObstacleCoordinates()) {
+            if (coordinate.equals(snakeHead)) {
+                super.setGameOver(true);
+            }
+        }
+    }
+
+    public boolean containsObstacle(Coordinate coordinate) {
+        List<Coordinate> obstacleCoordinates = GameRenderer.getObstacleCoordinates();
+        for (Coordinate coordinate1 : obstacleCoordinates) {
+            if (coordinate1.equals(obstacleCoordinates)) {
                 return true;
             }
         }
