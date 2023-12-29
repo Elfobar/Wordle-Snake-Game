@@ -5,21 +5,27 @@ import java.util.ArrayList;
 
 public class GameController extends AbstractController{
     private Snake snake;
+    private boolean directionChosen;
 
     public GameController(int startLength){
         super();
         this.snake = new Snake(startLength);
+        this.directionChosen = false;
         createThreeLetters();
     }
 
     public void handleKeyPress(KeyCode key){
-        snake.changeDirection(key);
+        if(directionChosen == false){
+            snake.changeDirection(key);
+            directionChosen = true;
+        }
     }
 
     public void updateGame(){
         int snakeLength = snake.getBody().size();
         String currentWord = super.getTargetWord();
         snake.moveSnake();
+        directionChosen = false;
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithLetters();
         if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(currentWord)){
