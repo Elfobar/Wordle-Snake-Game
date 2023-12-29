@@ -110,13 +110,3 @@ public class Obstacle extends Rectangle {
         };
     }
 }
-
-// Random obstacles for infinity mode and line around the map
-/*
-    public boolean checkIfGameOver(Rectangle snakeHead){
-        if(snakeHead.getX()>300|| snakeHead.getX()<-300 || snakeHead.getY()>300 || snakeHead.getY()<-300){
-            return snakeHead.isCollided = true;
-        }
-        return;
-    }
-*/

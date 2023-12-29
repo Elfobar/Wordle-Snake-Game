@@ -1,49 +1,57 @@
 package com.example.demo;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+
+import java.io.IOException;
 
 public class CellFactory {
 
-    public static Cell createObstacle(){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE);
-        Image image = new Image(AppConfig.getObstaclePath());
-        cell.setFill(new ImagePattern(image));
-        return cell;
+    public static Cell createGridCellType1(){
+        return createCell(AppConfig.getImagesPathType1());
     }
 
-    public static Cell createGridCellType1(Coordinate coordinate){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE, coordinate);
-        Image image = new Image(AppConfig.getImagesPathType1());
-        cell.setFill(new ImagePattern(image));
-        return cell;
-    }
-
-    public static Cell createGridCellType2(Coordinate coordinate){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE, coordinate);
-        Image image = new Image(AppConfig.getImagesPathType2());
-        cell.setFill(new ImagePattern(image));
-        return cell;
+    public static Cell createGridCellType2(){
+        return createCell(AppConfig.getImagesPathType2());
     }
 
     public static Cell createSnakeHead(){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE);
-        Image image = new Image(AppConfig.getSnakeHeadPath());
-        cell.setFill(new ImagePattern(image));
-        return cell;
+        return createCell(AppConfig.getSnakeHeadPath());
     }
 
-    //ADD try-catch blocks
     public static Cell createSnakeSegment(){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE);
-        Image image = new Image(AppConfig.getSnakeSegmentPath());
-        cell.setFill(new ImagePattern(image));
-        return cell;
+        return createCell(AppConfig.getSnakeSegmentPath());
     }
 
     public static Cell createSnakeTail(){
-        Cell cell = new Cell(SnakeGame.CELL_SIZE);
-        Image image = new Image(AppConfig.getSnakeTailPath());
+        return createCell(AppConfig.getSnakeTailPath());
+    }
+
+    private static Cell createCell(String pathToFile){
+        try{
+            Image image = new Image(pathToFile);
+            ImagePattern imgPattern = new ImagePattern(image);
+
+            Cell cell = new Cell(SnakeConfig.CELL_SIZE);
+            cell.setFill(imgPattern);
+
+            return cell;
+        } catch(Exception e){
+            System.out.println("Error loading the image: " + e.getMessage());
+            return createDefaultCell();
+        }
+    }
+
+    private static Cell createDefaultCell() {
+        Cell defaultCell = new Cell(SnakeConfig.CELL_SIZE);
+        defaultCell.setFill(Color.GRAY);
+        return defaultCell;
+    }
+
+    public static Cell createObstacle(){
+        Cell cell = new Cell(SnakeConfig.CELL_SIZE);
+        Image image = new Image(AppConfig.getObstaclePath());
         cell.setFill(new ImagePattern(image));
         return cell;
     }

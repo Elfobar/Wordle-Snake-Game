@@ -43,7 +43,7 @@ public class GameController extends AbstractController{
     public void createLetters(){
         createLetterFromWord();
         createRandomLetter();
-        //createRandomLetter();
+        createRandomLetter();
     }
 
     public void createThreeLetters(){
@@ -71,9 +71,6 @@ public class GameController extends AbstractController{
 
         Letter letter = new Letter(value, letterPos);
         super.add(letter);
-        Letter letter2 = new Letter(value, letterPos);
-        super.add(letter2);
-
     }
 
     public void handleSnakeCollisionWithItself(){
@@ -92,11 +89,38 @@ public class GameController extends AbstractController{
         }
     }
 
+    public void collectLetterFromWord(char letterValue){
+        if(super.checkNextLetter(letterValue)){
+            snake.grow();
+            incrementScore(5);
+        } else{
+            super.introduceNewWord();
+        }
+    }
+
     public boolean isValidLetterPosition(Coordinate cord){
         return  !containsObstacle(cord) &&
                 !snake.containsCoordinate(cord) &&
                 !isTooCloseToSnakeHead(cord) &&
                 !containsLetter(cord);
+    }
+    
+    public boolean isTooCloseToSnakeHead(Coordinate coordinate){
+        Coordinate head = snake.getHead();
+        int minDistance = 3;
+
+        int realDistanceX = Math.abs(head.getX() - coordinate.getX());
+        int realDistanceY = Math.abs(head.getY() - coordinate.getY());
+        return !(realDistanceX < minDistance && realDistanceY < minDistance);
+    }
+
+    public boolean containsLetter(Coordinate coordinate){
+        for(Letter letter : super.getLetters()){
+            if(letter.getPosition().equals(coordinate)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void handleSnakeCollisionWithObstacles(){
@@ -116,33 +140,6 @@ public class GameController extends AbstractController{
             }
         }
         return false;
-    }
-
-    public boolean isTooCloseToSnakeHead(Coordinate coordinate){
-        Coordinate head = snake.getHead();
-        int minDistance = 3;
-
-        int realDistanceX = Math.abs(head.getX() - coordinate.getX());
-        int realDistanceY = Math.abs(head.getY() - coordinate.getY());
-        return !(realDistanceX < minDistance && realDistanceY < minDistance);
-    }
-
-    public boolean containsLetter(Coordinate coordinate){
-        for(Letter letter : super.getLetters()){
-            if(letter.getPosition().equals(coordinate)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void collectLetterFromWord(char letterValue){
-        if(super.checkNextLetter(letterValue)){
-            snake.grow();
-            incrementScore(5);
-        } else{
-            super.introduceNewWord();
-        }
     }
 
     private boolean isSnakeLengthIncreased(int currentLength) {

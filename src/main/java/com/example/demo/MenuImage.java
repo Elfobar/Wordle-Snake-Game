@@ -15,7 +15,8 @@ public enum MenuImage implements ImageInfo {
     EXIT_LBL("ExitLabel", "/images/ExitLabel.png"),
     NAME_LBL("NameImg", "/images/NameImg.png"),
     SETTINGS_LBL("SettingsLabel", "/images/SettingsLabel.png"),
-    START_LBL("StartLabel", "/images/StartLabel.png");
+    START_LBL("StartLabel", "/images/StartLabel.png"),
+    CONTINUE_LBL("ContinueLabel", "/images/ContinueLabel.png"),;
 
     private final String name;
     private final String path;
