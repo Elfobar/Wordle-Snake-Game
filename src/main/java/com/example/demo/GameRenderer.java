@@ -13,18 +13,12 @@ public class GameRenderer {
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private Grid grid;
-    private Text scoreText;
 
     public GameRenderer(GameController gameController, Grid grid){
         this.gameController = gameController;
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-        this.scoreText = new Text("Score: 0");
-    }
-
-    private void updateScoreText() {
-        scoreText.setText("Score: " + gameController.getScore()); // Update the displayed score
     }
 
     public LinkedList<Cell> initializeVisualSnake() {

@@ -20,11 +20,8 @@ public class SnakeGame extends Application implements GameActions {
     private GameRenderer gameRenderer;
     private MenuManager menuManager;
     private Timeline gameLoop;
-    private Grid grid;
     private Header header;
-    private Text targetWord;
-    private Text currentInput;
-    private Text scoreText;
+    private Grid grid;
 
 
     @Override
@@ -70,27 +67,8 @@ public class SnakeGame extends Application implements GameActions {
     public void createGameWindow(Stage gameStage) {
         BorderPane root = new BorderPane();
         VBox headerAndGrid = new VBox();
-        this.header = new Header();
+        this.header = new Header(gameController);
         HBox header = this.header.createHeader();
-
-        this.scoreText = this.header.getScoreText();
-        GridPane textPane = this.header.getScorePane(this.scoreText);
-
-        this.targetWord = this.header.getTargetWord(gameController.getTargetWord());
-        this.currentInput = this.header.getCurrentInput();
-
-        StackPane textOverlap = new StackPane();
-        textOverlap.getChildren().addAll(targetWord, currentInput);
-        textOverlap.setAlignment(Pos.CENTER_LEFT);
-
-        GridPane overlapPane = new GridPane();
-        overlapPane.setAlignment(Pos.CENTER);
-        overlapPane.getChildren().add(textOverlap);
-
-        header.getChildren().addAll(textPane, overlapPane);
-        textPane.setMinWidth(40);
-        HBox.setHgrow(textPane, Priority.NEVER);
-        HBox.setHgrow(overlapPane, Priority.ALWAYS);
 
         headerAndGrid.getChildren().add(header);
         headerAndGrid.getChildren().add(grid.getGrid());
@@ -124,32 +102,11 @@ public class SnakeGame extends Application implements GameActions {
     public void updateGame() {
         gameController.updateGame();
         gameRenderer.renderGame();
-        updateWord();
-        updateScore();
+        header.updateHeader();
         if (gameController.getGameOverStatus()) {
             menuManager.handleGameOver();
         }
     }
-
-    public void updateWord(){
-        String currentWord = "";
-        currentWord = gameController.getTargetWord();
-        if(currentInput != null){
-            String currentInputString = gameController.getCurrentInput();
-            currentInput.setText(currentInputString);
-        }
-        if(!currentWord.equals(targetWord.toString())){
-            targetWord.setText(currentWord);
-        }
-    }
-
-    public void updateScore(){
-        GameController gc = gameController;
-        int score = gc.getScore();
-        this.scoreText.setText(Integer.toString(score));
-    }
-
-
 
     public void createMiniGameWindow(Stage stage){
         initializeMiniGame();

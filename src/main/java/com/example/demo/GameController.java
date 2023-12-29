@@ -4,7 +4,7 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 
 public class GameController extends AbstractController{
-    private Snake snake;
+    private final Snake snake;
     private int score;
 
     public GameController(int startLength){
@@ -97,7 +97,7 @@ public class GameController extends AbstractController{
     }
 
     public boolean isValidLetterPosition(Coordinate cord){
-        return !snake.containsCoordinate(cord) && !isTooCloseToSnakeHead(cord) && !containsLetter(cord);
+        return  !isTooCloseToSnakeHead(cord) && !snake.containsCoordinate(cord) && !containsLetter(cord);
     }
     
     public boolean isTooCloseToSnakeHead(Coordinate coordinate){
