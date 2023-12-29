@@ -50,6 +50,14 @@ public class Grid {
         grid.getChildren().removeAll(letters);
     }
 
+//    public void add(Obstacle obstacle, int x, int y) {
+//        grid.add(obstacle, x, y);
+//    }
+
+    public void addObstacle(Obstacle obstacle, int x, int y) {
+        grid.add(obstacle, x, y);
+    }
+
     public void remove(Cell cell) {
         grid.getChildren().remove(cell);
     }
@@ -61,4 +69,6 @@ public class Grid {
     public GridPane getGrid(){
         return this.grid;
     }
+
+
 }
