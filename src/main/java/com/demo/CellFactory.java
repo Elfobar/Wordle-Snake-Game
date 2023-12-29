@@ -5,6 +5,13 @@ import javafx.scene.paint.ImagePattern;
 
 public class CellFactory {
 
+    public static Cell createObstacle(){
+        Cell cell = new Cell(SnakeGame.CELL_SIZE);
+        Image image = new Image(AppConfig.getObstaclePath());
+        cell.setFill(new ImagePattern(image));
+        return cell;
+    }
+
     public static Cell createGridCellType1(Coordinate coordinate){
         Cell cell = new Cell(SnakeGame.CELL_SIZE, coordinate);
         Image image = new Image(AppConfig.getImagesPathType1());

@@ -15,6 +15,7 @@ public class Snake {
         this.startLength = startLength;
         this.direction = Direction.UP;
         initializeSnake();
+
     }
 
     private void initializeSnake() {

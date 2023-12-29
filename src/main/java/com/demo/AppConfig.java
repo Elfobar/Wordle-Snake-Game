@@ -9,10 +9,11 @@ public class AppConfig {
     private static final String TILE_TYPE1 = "/images/Tile1.png";
     private static final String TILE_TYPE2 = "/images/Tile2.png";
     private static final String SNAKE_HEAD = "/images/snakeHead.png";
-    private static final String SNAKE_SEGMENT = "/images/snakeSegment.png";
-    private static final String SNAKE_TAIL = "/images/snakeTail.png";
+    private static final String SNAKE_SEGMENT = "/images/snakeSegment2.png";
+    private static final String SNAKE_TAIL = "/images/snakeTail2.png";
     private static final String PROJECT_PATH = "/src/main/resources";
     private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
+    private static final String OBSTACLE = "/images/obstacle2.png";
 
 
     public static String getWordsPathFile() {
@@ -25,6 +26,10 @@ public class AppConfig {
 
     public static String getImagesPathType2(){
         return CURRENT_WORKING_DIR + TILE_TYPE2;
+    }
+
+    public static String getObstaclePath(){
+        return CURRENT_WORKING_DIR + OBSTACLE;
     }
 
     public static String getSnakeHeadPath(){

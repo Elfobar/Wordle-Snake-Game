@@ -110,8 +110,8 @@ public class GameController extends AbstractController{
 
     public boolean containsObstacle(Coordinate coordinate) {
         List<Coordinate> obstacleCoordinates = GameRenderer.getObstacleCoordinates();
-        for (Coordinate obstacleCoordinate : obstacleCoordinates) {
-            if (coordinate.equals(obstacleCoordinate)) {    // can 'coordinate' be null?
+        for (Coordinate coordinate1 : obstacleCoordinates) {
+            if (coordinate1.equals(obstacleCoordinates)) {
                 return true;
             }
         }

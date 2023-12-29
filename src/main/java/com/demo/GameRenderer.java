@@ -62,6 +62,9 @@ public class GameRenderer {
         for(Coordinate coordinate : obstacleCoordinates){
             Obstacle obstacle = new Obstacle();
             grid.add(obstacle, coordinate.getX(),coordinate.getY());
+//            Cell obstacleCell = CellFactory.createObstacle();
+//            grid.add(obstacleCell, coordinate.getX(),coordinate.getY());
+//            when image is used for obstacles game slows down
         }
     }
 
