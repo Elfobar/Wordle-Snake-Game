@@ -78,6 +78,9 @@ public class SnakeGame extends Application {
         root.setCenter(gameRenderer.getGrid());
         Scene scene = new Scene(root, ROWS*CELL_SIZE, COLUMNS*CELL_SIZE + HEADER_SPACE);
         scene.setFill(Color.BLACK);
+
+        gameRenderer.drawObstacle();
+
         scene.setOnKeyPressed(event -> controller.handleKeyPress(event.getCode()));
         Platform.runLater(() -> {
             stage.setTitle("Snake");

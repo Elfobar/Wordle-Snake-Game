@@ -2,6 +2,7 @@ package com.example.demo;
 
 import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController extends AbstractController{
     private Snake snake;
@@ -24,6 +25,7 @@ public class GameController extends AbstractController{
         snake.moveSnake();
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithLetters();
+        handleSnakeCollisionWithObstacles();
         if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(currentWord)){
             createThreeLetters();
         }
@@ -41,7 +43,7 @@ public class GameController extends AbstractController{
     public void createLetters(){
         createLetterFromWord();
         createRandomLetter();
-        createRandomLetter();
+        //createRandomLetter();
     }
 
     public void createThreeLetters(){
@@ -69,6 +71,9 @@ public class GameController extends AbstractController{
 
         Letter letter = new Letter(value, letterPos);
         super.add(letter);
+        Letter letter2 = new Letter(value, letterPos);
+        super.add(letter2);
+
     }
 
     public void handleSnakeCollisionWithItself(){
@@ -87,19 +92,32 @@ public class GameController extends AbstractController{
         }
     }
 
-    public void collectLetterFromWord(char letterValue){
-        if(super.checkNextLetter(letterValue)){
-            snake.grow();
-            incrementScore(5);
-        } else{
-            super.introduceNewWord();
+    public boolean isValidLetterPosition(Coordinate cord){
+        return  !containsObstacle(cord) &&
+                !snake.containsCoordinate(cord) &&
+                !isTooCloseToSnakeHead(cord) &&
+                !containsLetter(cord);
+    }
+
+    public void handleSnakeCollisionWithObstacles(){
+        Coordinate snakeHead = snake.getHead();
+        for(Coordinate coordinate : GameRenderer.getObstacleCoordinates()) {
+            if (coordinate.equals(snakeHead)) {
+                super.setGameOver(true);
+            }
         }
     }
 
-    public boolean isValidLetterPosition(Coordinate cord){
-        return !snake.containsCoordinate(cord) && !isTooCloseToSnakeHead(cord) && !containsLetter(cord);
+    public boolean containsObstacle(Coordinate coordinate) {
+        List<Coordinate> obstacleCoordinates = GameRenderer.getObstacleCoordinates();
+        for (Coordinate obstacleCoordinate : obstacleCoordinates) {
+            if (coordinate.equals(obstacleCoordinate)) {    // can 'coordinate' be null?
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     public boolean isTooCloseToSnakeHead(Coordinate coordinate){
         Coordinate head = snake.getHead();
         int minDistance = 3;
@@ -116,6 +134,15 @@ public class GameController extends AbstractController{
             }
         }
         return false;
+    }
+
+    public void collectLetterFromWord(char letterValue){
+        if(super.checkNextLetter(letterValue)){
+            snake.grow();
+            incrementScore(5);
+        } else{
+            super.introduceNewWord();
+        }
     }
 
     private boolean isSnakeLengthIncreased(int currentLength) {

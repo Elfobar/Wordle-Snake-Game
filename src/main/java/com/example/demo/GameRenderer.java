@@ -3,10 +3,12 @@ package com.example.demo;
 import javafx.geometry.HPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameRenderer {
     private GameController gameController;
@@ -15,6 +17,7 @@ public class GameRenderer {
     private GridPane grid;
     private Text scoreText;
 
+    public int obstacle[][];
 
     public GameRenderer(GameController gameController){
         this.gameController = gameController;
@@ -22,6 +25,7 @@ public class GameRenderer {
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
         this.scoreText = new Text("Score: 0");
+        this.obstacle = Obstacle.getMap1(); //  get current level and map
     }
 
     public void drawGrid(){
@@ -38,11 +42,35 @@ public class GameRenderer {
         }
     }
 
+    public static List<Coordinate> getObstacleCoordinates() {
+        List<Coordinate> obstacleCoordinates = new ArrayList<>();
+        int[][] map = Obstacle.getMap1();
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == 1) {
+                    obstacleCoordinates.add(new Coordinate(i, j));
+                }
+            }
+        }
+        return obstacleCoordinates;
+    }
+
+    public void drawObstacle(){
+        //if level equals 1 getMap1(); if equals 2 getMap2()
+        List<Coordinate> obstacleCoordinates = getObstacleCoordinates();
+        for(Coordinate coordinate : obstacleCoordinates){
+            Obstacle obstacle = new Obstacle();
+            grid.add(obstacle, coordinate.getX(),coordinate.getY());
+        }
+    }
+
     public void renderGame(){
         drawSnake();
         rotateSnakeHead();
         rotateSnakeTail();
         drawLetters();
+        drawObstacle();
        // updateScoreText();
     }
 
@@ -118,7 +146,7 @@ public class GameRenderer {
         ArrayList<Text> visualLetters = new ArrayList<>();
         ArrayList<Letter> letters = gameController.getLetters();
         for(Letter letter : letters){
-            Text visualLetter = createVisualLetter(letter);
+            Text visualLetter =     createVisualLetter(letter);
             visualLetters.add(visualLetter);
         }
         return visualLetters;
