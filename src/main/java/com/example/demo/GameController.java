@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController extends AbstractController{
-    private Snake snake;
+    private final Snake snake;
     private int score;
 
     public GameController(int startLength){

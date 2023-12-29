@@ -15,7 +15,6 @@ public class GameRenderer {
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private Grid grid;
-    private Text scoreText;
     final int obstacle[][];
 
 
@@ -24,12 +23,7 @@ public class GameRenderer {
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-        this.scoreText = new Text("Score: 0");
         this.obstacle = Obstacle.getMap1(); //  get current level and map
-    }
-
-    private void updateScoreText() {
-        scoreText.setText("Score: " + gameController.getScore()); // Update the displayed score
     }
 
     public LinkedList<Cell> initializeVisualSnake() {
