@@ -23,7 +23,8 @@ public class Snake {
         int middleRow = SnakeConfig.ROWS / 2;
 
         for (int i = 0; i < startLength; i++) {
-            Coordinate bodyPart = new Coordinate(middleColumn + i, middleRow);
+            Coordinate bodyPart = new Coordinate(middleColumn -5+ i, middleRow-5);
+            // -5 to avoid collision with obstacle at the game start
             body.add(bodyPart);
         }
     }

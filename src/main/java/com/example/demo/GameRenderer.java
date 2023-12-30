@@ -145,11 +145,10 @@ public class GameRenderer {
         //if level equals 1 getMap1(); if equals 2 getMap2()
         List<Coordinate> obstacleCoordinates = getObstacleCoordinates();
         for(Coordinate coordinate : obstacleCoordinates){
-            Obstacle obstacle = new Obstacle();
-            grid.addObstacle(obstacle, coordinate.getX(),coordinate.getY());
-//            Cell obstacleCell = CellFactory.createObstacle();
-//            grid.add(obstacleCell, coordinate.getX(),coordinate.getY());
-//            when image is used for obstacles game slows down
+//            Obstacle obstacle = new Obstacle();
+//            grid.addObstacle(obstacle, coordinate.getX(),coordinate.getY());
+            Cell obstacleCell = CellFactory.createObstacle();
+            grid.add(obstacleCell, coordinate.getX(),coordinate.getY());
         }
     }
 

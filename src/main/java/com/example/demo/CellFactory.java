@@ -28,6 +28,10 @@ public class CellFactory {
         return createCell(AppConfig.getSnakeTailPath());
     }
 
+        public static Cell createObstacle(){
+        return createCell(AppConfig.getObstaclePath());
+    }
+
     private static Cell createCell(String pathToFile){
         try{
             Image image = new Image(pathToFile);
@@ -47,12 +51,5 @@ public class CellFactory {
         Cell defaultCell = new Cell(SnakeConfig.CELL_SIZE);
         defaultCell.setFill(Color.GRAY);
         return defaultCell;
-    }
-
-    public static Cell createObstacle(){
-        Cell cell = new Cell(SnakeConfig.CELL_SIZE);
-        Image image = new Image(AppConfig.getObstaclePath());
-        cell.setFill(new ImagePattern(image));
-        return cell;
     }
 }
