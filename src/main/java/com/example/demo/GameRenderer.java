@@ -3,28 +3,27 @@ package com.example.demo;
 import javafx.geometry.HPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameRenderer {
     private GameController gameController;
     private LinkedList<Cell> visualSnakeBody;
     private ArrayList<Text> visualLetters;
     private Grid grid;
-    private Text scoreText;
+    final int obstacle[][];
+
 
     public GameRenderer(GameController gameController, Grid grid){
         this.gameController = gameController;
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-        this.scoreText = new Text("Score: 0");
-    }
-
-    private void updateScoreText() {
-        scoreText.setText("Score: " + gameController.getScore()); // Update the displayed score
+        this.obstacle = Obstacle.getMap1(); //  get current level and map
     }
 
     public LinkedList<Cell> initializeVisualSnake() {
@@ -59,6 +58,7 @@ public class GameRenderer {
         rotateSnakeHead();
         rotateSnakeTail();
         drawLetters();
+        drawObstacle();
     }
 
     public void drawSnake(){
@@ -119,6 +119,32 @@ public class GameRenderer {
         text.setFill(Color.LIGHTBLUE);
         text.setStyle("-fx-font-size: 25pt");
         return text;
+    }
+
+    public static List<Coordinate> getObstacleCoordinates() {
+        List<Coordinate> obstacleCoordinates = new ArrayList<>();
+        int[][] map = Obstacle.getMap1();
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == 1) {
+                    obstacleCoordinates.add(new Coordinate(i, j));
+                }
+            }
+        }
+        return obstacleCoordinates;
+    }
+
+    public void drawObstacle(){
+        //if level equals 1 getMap1(); if equals 2 getMap2()
+        List<Coordinate> obstacleCoordinates = getObstacleCoordinates();
+        for(Coordinate coordinate : obstacleCoordinates){
+            Obstacle obstacle = new Obstacle();
+            grid.addObstacle(obstacle, coordinate.getX(),coordinate.getY());
+//            Cell obstacleCell = CellFactory.createObstacle();
+//            grid.add(obstacleCell, coordinate.getX(),coordinate.getY());
+//            when image is used for obstacles game slows down
+        }
     }
 
     public ArrayList<Text> getVisualLetters(){

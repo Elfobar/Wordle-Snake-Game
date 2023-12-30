@@ -4,11 +4,9 @@ import com.example.demo.Menu.MenuManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -20,17 +18,13 @@ public class SnakeGame extends Application implements GameActions {
     private GameRenderer gameRenderer;
     private MenuManager menuManager;
     private Timeline gameLoop;
-    private Grid grid;
     private Header header;
-    private Text targetWord;
-    private Text currentInput;
-    private Text scoreText;
+    private Grid grid;
 
 
     @Override
     public void start(Stage primaryStage) {
         initializeGame(primaryStage);
-        menuManager.showMenu();
     }
 
     @Override
@@ -55,15 +49,16 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     public void initializeGame(Stage stage) {
-        this.gameController = new GameController(SnakeConfig.INIT_SNAKE_LENGTH);
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         this.grid = new Grid();
         this.gameRenderer = new GameRenderer(gameController, grid);
+        gameRenderer.drawObstacle();
         GameActions gameActions = this;
         this.menuManager = new MenuManager(stage, gameActions);
     }
 
     public void resetGame(){
-        this.gameController = new GameController(SnakeConfig.INIT_SNAKE_LENGTH);
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         grid.clearGrid(gameRenderer.getVisualSnakeBody(), gameRenderer.getVisualLetters());
         this.gameRenderer = new GameRenderer(gameController, grid);
     }
@@ -71,27 +66,8 @@ public class SnakeGame extends Application implements GameActions {
     public void createGameWindow(Stage gameStage) {
         BorderPane root = new BorderPane();
         VBox headerAndGrid = new VBox();
-        this.header = new Header();
+        this.header = new Header(gameController);
         HBox header = this.header.createHeader();
-
-        this.scoreText = this.header.getScoreText();
-        GridPane textPane = this.header.getScorePane(this.scoreText);
-
-        this.targetWord = this.header.getTargetWord(gameController.getTargetWord());
-        this.currentInput = this.header.getCurrentInput();
-
-        StackPane textOverlap = new StackPane();
-        textOverlap.getChildren().addAll(targetWord, currentInput);
-        textOverlap.setAlignment(Pos.CENTER_LEFT);
-
-        GridPane overlapPane = new GridPane();
-        overlapPane.setAlignment(Pos.CENTER);
-        overlapPane.getChildren().add(textOverlap);
-
-        header.getChildren().addAll(textPane, overlapPane);
-        textPane.setMinWidth(40);
-        HBox.setHgrow(textPane, Priority.NEVER);
-        HBox.setHgrow(overlapPane, Priority.ALWAYS);
 
         headerAndGrid.getChildren().add(header);
         headerAndGrid.getChildren().add(grid.getGrid());
@@ -111,7 +87,7 @@ public class SnakeGame extends Application implements GameActions {
         });
 
         gameStage.setScene(scene);
-        gameStage.setTitle("Snake");
+        gameStage.setTitle(GameConfig.GAME_NAME);
         gameStage.setResizable(false);
         gameStage.show();
     }
@@ -125,32 +101,11 @@ public class SnakeGame extends Application implements GameActions {
     public void updateGame() {
         gameController.updateGame();
         gameRenderer.renderGame();
-        updateWord();
-        updateScore();
+        header.updateHeader();
         if (gameController.getGameOverStatus()) {
             menuManager.handleGameOver();
         }
     }
-
-    public void updateWord(){
-        String currentWord = "";
-        currentWord = gameController.getTargetWord();
-        if(currentInput != null){
-            String currentInputString = gameController.getCurrentInput();
-            currentInput.setText(currentInputString);
-        }
-        if(!currentWord.equals(targetWord.toString())){
-            targetWord.setText(currentWord);
-        }
-    }
-
-    public void updateScore(){
-        GameController gc = gameController;
-        int score = gc.getScore();
-        this.scoreText.setText(Integer.toString(score));
-    }
-
-
 
     public void createMiniGameWindow(Stage stage){
         initializeMiniGame();
@@ -158,7 +113,7 @@ public class SnakeGame extends Application implements GameActions {
 //        VBox header = createHeader();
 //        header.getChildren().get(0).setStyle("-fx-background-color: #000000;");
 //        miniGameContent.setTop(header);
-        Scene miniGameScene = new Scene(miniGameContent, SnakeConfig.WIDTH, SnakeConfig.HEIGHT);
+        Scene miniGameScene = new Scene(miniGameContent, GameConfig.WIDTH, GameConfig.HEIGHT);
         miniGameScene.setOnKeyPressed(event -> miniGameController.handleKeyPress(event.getCode()));
         stage.setScene(miniGameScene);
         stage.setTitle("MiniGame");

@@ -18,8 +18,8 @@ public class Snake {
     }
 
     private void initializeSnake() {
-        int middleColumn = SnakeConfig.COLUMNS / 2;
-        int middleRow = SnakeConfig.ROWS / 2;
+        int middleColumn = GameConfig.COLUMNS / 2;
+        int middleRow = GameConfig.ROWS / 2;
 
         for (int i = 0; i < startLength; i++) {
             Coordinate bodyPart = new Coordinate(middleColumn + i, middleRow);
@@ -41,15 +41,15 @@ public class Snake {
     }
 
     public void wrapAround(Coordinate head){
-        if (head.getX() >= SnakeConfig.COLUMNS) {
+        if (head.getX() >= GameConfig.COLUMNS) {
             head.setX(0);
         } else if (head.getX() < 0) {
-            head.setX(SnakeConfig.COLUMNS - 1);
+            head.setX(GameConfig.COLUMNS - 1);
         }
-        if (head.getY() >= SnakeConfig.ROWS) {
+        if (head.getY() >= GameConfig.ROWS) {
             head.setY(0);
         } else if (head.getY() < 0) {
-            head.setY(SnakeConfig.ROWS - 1);
+            head.setY(GameConfig.ROWS - 1);
         }
     }
 

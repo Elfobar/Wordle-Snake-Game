@@ -2,8 +2,7 @@ package com.example.demo.Menu;
 
 
 import com.example.demo.GameActions;
-import com.example.demo.SnakeConfig;
-import javafx.animation.PauseTransition;
+import com.example.demo.GameConfig;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,25 +18,27 @@ public class MenuManager implements GameActions {
     private final Stage stage;
     private AbstractMenu currentMenu;
 
+
     public MenuManager(Stage stage, GameActions gameActions){
         this.stage = stage;
         this.currentMenu = new MainMenu();
         this.gameActions = gameActions;
+        showMenu();
     }
 
-    public void showMenu(){
-        Scene scene = new Scene(currentMenu.createContent(), SnakeConfig.WIDTH, SnakeConfig.HEIGHT);
+    private void showMenu(){
+        Scene scene = new Scene(currentMenu.createContent(), GameConfig.WIDTH, GameConfig.HEIGHT);
         stage.setScene(scene);
-        stage.setTitle("SnakeMenu");
+        stage.setTitle(GameConfig.GAME_NAME);
         stage.show();
-        if(this.currentMenu instanceof GameOverScreen){
+        if(currentMenu instanceof GameOverScreen){
             setGameOverKeyInputs();
         } else{
             setMenuEventHandler();
         }
     }
 
-    public void setMenuEventHandler(){
+    private void setMenuEventHandler(){
         Scene scene = stage.getScene();
 
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
@@ -53,7 +54,7 @@ public class MenuManager implements GameActions {
         scene.setOnMouseClicked(eventHandler);
     }
 
-    public void setGameOverKeyInputs(){
+    private void setGameOverKeyInputs(){
         Scene currentScene = stage.getScene();
         currentScene.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();

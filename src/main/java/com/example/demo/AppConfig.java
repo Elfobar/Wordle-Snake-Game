@@ -13,6 +13,7 @@ public class AppConfig {
     private static final String SNAKE_TAIL = "/images/snakeTail.png";
     private static final String PROJECT_PATH = "/src/main/resources";
     private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
+    private static final String OBSTACLE = "/images/obstacle2.png";
 
     public static String getWordsPathFile() {
         return CURRENT_WORKING_DIR + WORDS_RELATIVE_PATH;
@@ -40,6 +41,10 @@ public class AppConfig {
 
     public static String getCurrentWorkingDir(){
         return CURRENT_WORKING_DIR;
+    }
+
+    public static String getObstaclePath(){
+        return CURRENT_WORKING_DIR + OBSTACLE;
     }
 
 }
