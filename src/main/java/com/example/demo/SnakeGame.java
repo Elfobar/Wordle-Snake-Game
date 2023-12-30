@@ -38,6 +38,7 @@ public class SnakeGame extends Application implements GameActions {
         resetGame();
         createGameWindow(stage);
         createGameLoop();
+        SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
     }
 
     @Override

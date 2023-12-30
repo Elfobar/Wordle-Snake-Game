@@ -62,19 +62,19 @@ public class GameRenderer {
     }
 
     public void drawSnake(){
-        LinkedList<Coordinate> snakeBodyPos = gameController.getSnake().getBody();
+            LinkedList<Coordinate> snakeBodyPos = gameController.getSnake().getBody();
 
-        if (snakeBodyPos.size() > visualSnakeBody.size()) {
-            visualSnakeBody.add(visualSnakeBody.size()-1, CellFactory.createSnakeSegment());
-        }
+            if (snakeBodyPos.size() > visualSnakeBody.size()) {
+                visualSnakeBody.add(visualSnakeBody.size() - 1, CellFactory.createSnakeSegment());
+            }
 
-        for(int i = 0; i < visualSnakeBody.size(); i++){
-            Coordinate coordinate = snakeBodyPos.get(i);
-            Cell cell = visualSnakeBody.get(i);
+            for (int i = 0; i < visualSnakeBody.size(); i++) {
+                Coordinate coordinate = snakeBodyPos.get(i);
+                Cell cell = visualSnakeBody.get(i);
 
-            grid.remove(cell);
-            grid.add(cell, coordinate.getX(), coordinate.getY());
-        }
+                grid.remove(cell);
+                grid.add(cell, coordinate.getX(), coordinate.getY());
+            }
     }
 
     public void drawLetters(){

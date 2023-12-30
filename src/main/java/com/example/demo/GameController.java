@@ -1,6 +1,10 @@
 package com.example.demo;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class GameController extends AbstractController{
@@ -89,9 +93,11 @@ public class GameController extends AbstractController{
 
     public void collectLetterFromWord(char letterValue){
         if(super.checkNextLetter(letterValue)){
+            SoundPlayer.getInstance().playSFX(Sounds.SNAKE_EATS_SOUND_1);
             snake.grow();
             incrementScore(5);
         } else{
+            //snake.shrink();
             super.introduceNewWord();
         }
     }
@@ -125,5 +131,6 @@ public class GameController extends AbstractController{
     public Snake getSnake(){
         return this.snake;
     }
+
 }
 

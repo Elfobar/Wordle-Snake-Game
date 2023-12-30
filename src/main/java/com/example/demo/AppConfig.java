@@ -38,4 +38,8 @@ public class AppConfig {
         return CURRENT_WORKING_DIR + SNAKE_TAIL;
     }
 
+    public static String getCurrentWorkingDir(){
+        return CURRENT_WORKING_DIR;
+    }
+
 }
