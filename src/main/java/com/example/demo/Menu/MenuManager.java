@@ -3,6 +3,8 @@ package com.example.demo.Menu;
 
 import com.example.demo.GameActions;
 import com.example.demo.GameConfig;
+import com.example.demo.SoundPlayer;
+import com.example.demo.Sounds;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -46,7 +48,7 @@ public class MenuManager implements GameActions {
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getTarget() instanceof ImageView){
                     ImageView eventSource = (ImageView) mouseEvent.getTarget();
-                    System.out.println("Clicked on ImageView with ID: " + eventSource.getId());
+                    //System.out.println("Clicked on ImageView with ID: " + eventSource.getId());
                     handleMenuEvent(eventSource.getId());
                 }
             }
@@ -70,6 +72,10 @@ public class MenuManager implements GameActions {
         switch(eventID){
             case "start":
                 runGame();
+                SoundPlayer.getInstance().playSFX(
+                        Sounds.START_1,
+                        Sounds.START_2,
+                        Sounds.START_3);
                 break;
             case "settings":
                 navigateToSettingsMenu();
@@ -90,6 +96,7 @@ public class MenuManager implements GameActions {
     }
 
     public void handleGameOver(){
+        //lose sound?
         currentMenu = new GameOverScreen();
         showMenu();
         gameActions.stopGame();
@@ -107,20 +114,36 @@ public class MenuManager implements GameActions {
     }
 
     private void runGame(){
+        SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startGame(stage);
     }
 
     private void navigateToMainMenu(){
+        SoundPlayer.getInstance().playSFX(
+                Sounds.BUTTON_1,
+                Sounds.BUTTON_2,
+                Sounds.BUTTON_3,
+                Sounds.BUTTON_4);
         currentMenu = new MainMenu();
         showMenu();
     }
 
     private void navigateToSettingsMenu() {
+        SoundPlayer.getInstance().playSFX(
+                Sounds.BUTTON_1,
+                Sounds.BUTTON_2,
+                Sounds.BUTTON_3,
+                Sounds.BUTTON_4);
         currentMenu = new SettingsMenu();
         showMenu();
     }
 
     private void navigateToLeaderboardMenu() {
+        SoundPlayer.getInstance().playSFX(
+                Sounds.BUTTON_1,
+                Sounds.BUTTON_2,
+                Sounds.BUTTON_3,
+                Sounds.BUTTON_4);
         currentMenu = new LeaderboardMenu();
         showMenu();
     }

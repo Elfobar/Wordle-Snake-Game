@@ -53,6 +53,10 @@ public class WordManager {
 
     public void checkWordIsComplete(){
         if(lettersCollected == targetWord.length()){
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.COMPLETED_WORD_1,
+                    Sounds.COMPLETED_WORD_2,
+                    Sounds.COMPLETED_WORD_3);
             introduceNewWord();
         }
     }

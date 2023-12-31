@@ -69,7 +69,11 @@ public class Snake {
         Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction);
         if (newDirection != currentDirection.getOpposite()) {
             this.direction = newDirection;
-            SoundPlayer.getInstance().playSFX(Sounds.SNAKE_ROTATE_SOUND_1);
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.ROTATE_1,
+                    Sounds.ROTATE_2,
+                    Sounds.ROTATE_3,
+                    Sounds.ROTATE_4);
         }
     }
 
@@ -108,9 +112,9 @@ public class Snake {
         body.add(segment);
     }
 
-    public void shrink(){
+    /*public void shrink(){
         body.remove(0);
-    }
+    }*/
 
     public boolean containsCoordinate(Coordinate coordinate){
         for(Coordinate cord : body){

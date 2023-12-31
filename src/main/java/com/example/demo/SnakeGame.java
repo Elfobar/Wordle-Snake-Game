@@ -32,7 +32,6 @@ public class SnakeGame extends Application implements GameActions {
         resetGame();
         createGameWindow(stage);
         createGameLoop();
-        SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
     }
 
     @Override
@@ -40,12 +39,14 @@ public class SnakeGame extends Application implements GameActions {
         if(gameLoop != null){
             gameLoop.stop();
         }
+        SoundPlayer.getInstance().pauseBackgroundMusic();
     }
 
     @Override
     public void resumeGame(Stage stage){
         createGameWindow(stage);
         gameLoop.play();
+        SoundPlayer.getInstance().resumeBackgroundMusic();
     }
 
     public void initializeGame(Stage stage) {

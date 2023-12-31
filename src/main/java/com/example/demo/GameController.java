@@ -79,6 +79,11 @@ public class GameController extends AbstractController{
 
     public void handleSnakeCollisionWithItself(){
         if(snake.isCollidedWithItself()){
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.COLLIDE_1,
+                    Sounds.COLLIDE_2,
+                    Sounds.COLLIDE_3,
+                    Sounds.COLLIDE_4);
             super.setGameOver(true);
         }
     }
@@ -95,11 +100,22 @@ public class GameController extends AbstractController{
 
     public void collectLetterFromWord(char letterValue){
         if(super.checkNextLetter(letterValue)){
-            SoundPlayer.getInstance().playSFX(Sounds.SNAKE_EATS_SOUND_1);
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.EAT_1,
+                    Sounds.EAT_2,
+                    Sounds.EAT_3,
+                    Sounds.EAT_4);
             snake.grow();
             incrementScore(5);
         } else{
-            //snake.shrink();
+            //snake.shrink();? method??
+
+
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.WRONG_LETTER_1,
+                    Sounds.WRONG_LETTER_2,
+                    Sounds.WRONG_LETTER_3,
+                    Sounds.WRONG_LETTER_4);
             super.introduceNewWord();
         }
     }
@@ -133,6 +149,11 @@ public class GameController extends AbstractController{
         Coordinate snakeHead = snake.getHead();
         for(Coordinate coordinate : GameRenderer.getObstacleCoordinates()) {
             if (coordinate.equals(snakeHead)) {
+                SoundPlayer.getInstance().playSFX(
+                        Sounds.COLLIDE_1,
+                        Sounds.COLLIDE_2,
+                        Sounds.COLLIDE_3,
+                        Sounds.COLLIDE_4);
                 super.setGameOver(true);
             }
         }
