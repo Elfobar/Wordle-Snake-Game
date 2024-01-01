@@ -6,6 +6,7 @@ public class AppConfig {
     public static final String FONT_RELATIVE_PATH = "/custom_font/blade.ttf";
     public static final int WORD_FONT_SIZE = 60;
     private static final String WORDS_RELATIVE_PATH = "/file_input/words.txt";
+    private static final String SCORE_PATH = "/output/score.txt";
     private static final String TILE_TYPE1 = "/images/Tile1.png";
     private static final String TILE_TYPE2 = "/images/Tile2.png";
     private static final String SNAKE_HEAD = "/images/snakeHead.png";
@@ -19,6 +20,9 @@ public class AppConfig {
         return CURRENT_WORKING_DIR + WORDS_RELATIVE_PATH;
     }
 
+    public static String getScorePath(){
+        return CURRENT_WORKING_DIR + SCORE_PATH;
+    }
     public static String getImagesPathType1(){
         return CURRENT_WORKING_DIR + TILE_TYPE1;
     }

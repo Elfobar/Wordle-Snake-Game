@@ -1,8 +1,7 @@
 package com.example.demo.Menu;
 
 
-import com.example.demo.GameActions;
-import com.example.demo.GameConfig;
+import com.example.demo.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -92,6 +91,11 @@ public class MenuManager implements GameActions {
     public void handleGameOver(){
         currentMenu = new GameOverScreen();
         showMenu();
+
+
+
+        // Save the score to a file using ScoreFileManager
+        //ScoreFileManager.saveScore(playerScore, "scores.txt");
         gameActions.stopGame();
     }
 
@@ -123,6 +127,7 @@ public class MenuManager implements GameActions {
     private void navigateToLeaderboardMenu() {
         currentMenu = new LeaderboardMenu();
         showMenu();
+        Util.readScores();
     }
     @Override
     public void startGame(Stage stage){}

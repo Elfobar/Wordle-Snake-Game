@@ -78,5 +78,4 @@ public class WordManager {
     public String getCurrentInput(){
         return targetWord.substring(0, lettersCollected);
     }
-
 }

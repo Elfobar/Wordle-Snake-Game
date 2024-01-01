@@ -102,8 +102,14 @@ public class SnakeGame extends Application implements GameActions {
         gameRenderer.renderGame();
         header.updateHeader();
         if (gameController.getGameOverStatus()) {
+            saveScore();
             menuManager.handleGameOver();
         }
+    }
+
+    public void saveScore(){
+        int score = gameController.getScore();
+        Util.saveScore(score, AppConfig.getScorePath());
     }
 
     public void createMiniGameWindow(Stage stage){
