@@ -1,6 +1,8 @@
 package com.example.demo.Game;
 
 import com.example.demo.GameCore.Letter;
+import com.example.demo.Sound.SoundPlayer;
+import com.example.demo.Sound.Sounds;
 import com.example.demo.UI.ImgCache;
 import com.example.demo.Util.Util;
 import javafx.animation.FadeTransition;
@@ -68,6 +70,7 @@ public class MiniGameRenderer {
     }
 
     public void renderGame() {
+        SoundPlayer.getInstance().playBackgroundMusic(Sounds.MINIGAME_MUSIC);
         addObstacles();
         if (miniGameController.getKeyPressed()) {
             changeFrame(miniGameController.getLastKeyPressed());
@@ -86,8 +89,18 @@ public class MiniGameRenderer {
 
     private void changeFrame(int lastKeyPressed) {
         if (lastKeyPressed == 0) {
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.ROTATE_1,
+                    Sounds.ROTATE_2,
+                    Sounds.ROTATE_3,
+                    Sounds.ROTATE_4);
             this.frame.setImage(animationChache.getImage("FrameLeft"));
         } else if (lastKeyPressed == 1) {
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.ROTATE_1,
+                    Sounds.ROTATE_2,
+                    Sounds.ROTATE_3,
+                    Sounds.ROTATE_4);
             this.frame.setImage(animationChache.getImage("FrameRight"));
         }
     }

@@ -6,6 +6,7 @@ import com.example.demo.GameCore.Letter;
 import com.example.demo.GameCore.Snake;
 import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.Sound.Sounds;
+import com.example.demo.UI.Header;
 import com.example.demo.Util.Util;
 import javafx.scene.input.KeyCode;
 
@@ -139,9 +140,6 @@ public class GameController extends AbstractController {
             snake.grow();
             incrementScore();
         } else{
-            //snake.shrink();? method??
-
-
             SoundPlayer.getInstance().playSFX(
                     Sounds.WRONG_LETTER_1,
                     Sounds.WRONG_LETTER_2,

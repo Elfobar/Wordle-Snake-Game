@@ -2,9 +2,9 @@ package com.example.demo.UI.Menu;
 
 import com.example.demo.GameCore.GameConfig;
 
-import com.example.demo.AppConfig;
-import com.example.demo.GameConfig;
-import com.example.demo.SoundPlayer;
+import com.example.demo.GameCore.AppConfig;
+import com.example.demo.GameCore.GameConfig;
+import com.example.demo.Sound.SoundPlayer;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;

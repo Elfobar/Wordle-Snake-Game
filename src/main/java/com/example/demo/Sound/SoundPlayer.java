@@ -1,5 +1,7 @@
 package com.example.demo.Sound;
 
+import com.example.demo.GameCore.AppConfig;
+import com.example.demo.GameCore.GameConfig;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
