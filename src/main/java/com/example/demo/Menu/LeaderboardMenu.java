@@ -1,11 +1,18 @@
 package com.example.demo.Menu;
 
+import com.example.demo.AppConfig;
 import com.example.demo.GameConfig;
+import com.example.demo.Util;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
+import java.util.ArrayList;
 
 public class LeaderboardMenu extends AbstractMenu {
 
@@ -21,6 +28,7 @@ public class LeaderboardMenu extends AbstractMenu {
 
     public LeaderboardMenu(){
         super();
+        initialize();
     }
 
     public StackPane createContent(){
@@ -45,11 +53,45 @@ public class LeaderboardMenu extends AbstractMenu {
         return stackPane;
     }
 
+    private void initialize() {
+        BorderPane leaderboardBox = createLeaderboardBox();
+        ArrayList<Integer> scores = Util.readScores(); // Use the readScores method from Util
+        populateLeaderboard(leaderboardBox, scores);
+    }
+
+    private void populateLeaderboard(BorderPane leaderboardBox, ArrayList<Integer> scores) {
+        for (int i = 0; i < scores.size(); i++) {
+            Label scoreLabel = new Label((i + 1) + ". " + scores.get(i));
+            leaderboardBox.getChildren().add(scoreLabel);
+        }
+    }
+
     private VBox createLeaderboardBox() {
         VBox leaderboardBox = new VBox();
         leaderboardBox.setAlignment(Pos.TOP_CENTER);
         leaderboardBox.setPrefHeight(LEADERBOARD_BOX_HEIGHT);
         leaderboardBox.setPrefWidth(LEADERBOARD_BOX_WIDTH);
+
+
+        VBox vbox = new VBox();
+        ArrayList<Integer> scores = Util.getHighestScoresFromFile();
+        for(int i = 0; i < scores.size(); i++) {
+            Label label1 = new Label();
+            if(i == 0){
+                label1 = new Label("First: " + scores.get(i).toString());
+            }
+            if(i == 1){
+                label1 = new Label("Second: " + scores.get(i).toString());
+            }
+            if(i == 2){
+                label1 = new Label("Third: " + scores.get(i).toString());
+            }
+            label1.setFont(Font.font(20));
+            vbox.getChildren().add(label1);
+            label1.setTextFill(Color.LIGHTBLUE);
+        }
+        pane.setCenter(vbox);
+
 
         ImageView label = createLeaderboardLabel();
         leaderboardBox.getChildren().add(label);

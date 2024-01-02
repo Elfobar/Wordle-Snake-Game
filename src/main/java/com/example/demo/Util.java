@@ -50,13 +50,29 @@ public class Util {
             String line;
             while ((line = reader.readLine()) != null) {
                 scores.add(Integer.parseInt(line));
-                System.out.println(scores.get(0));
+                //System.out.println(scores.get(0));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return scores;
     }
+
+    public static ArrayList<String> initializeScores(String pathToFile) {
+        ArrayList<String> words = new ArrayList<>();
+        try {
+            BufferedReader buffReader = new BufferedReader(new FileReader(pathToFile));
+            String strCurrentLine;
+            while ((strCurrentLine = buffReader.readLine()) != null) {
+                words.add(strCurrentLine);
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return words;
+    }
+
 //    public static ArrayList<Integer> readScore() {
 //        ArrayList<Integer> scores = new ArrayList<>();
 //
