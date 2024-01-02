@@ -31,7 +31,7 @@ public enum Direction {
         }
     }
 
-    public Direction getDirectionFromKeyCode(KeyCode keyCode, Direction currentDirection, Snake snake) {
+    public Direction getDirectionFromKeyCode(KeyCode keyCode, Direction currentDirection) {
         switch (keyCode) {
             case UP:
                 return UP;
@@ -41,8 +41,6 @@ public enum Direction {
                 return LEFT;
             case RIGHT:
                 return RIGHT;
-            case ENTER:
-                snake.grow();
             default:
                 return currentDirection;
         }
