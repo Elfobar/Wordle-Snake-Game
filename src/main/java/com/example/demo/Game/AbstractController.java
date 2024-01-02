@@ -38,10 +38,6 @@ public abstract class AbstractController {
         this.gameOver = gameOver;
     }
 
-    public boolean hasWordChanged(String currentWord) {
-        return !currentWord.equals(wordManager.getTargetWord());
-    }
-
     public void introduceNewWord() {
         wordManager.introduceNewWord();
     }

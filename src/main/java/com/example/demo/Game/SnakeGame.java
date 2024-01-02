@@ -20,7 +20,6 @@ public class SnakeGame extends Application implements GameActions {
     private GameController gameController;
     private GameRenderer gameRenderer;
     private MenuManager menuManager;
-    private SoundPlayer SoundPlayer;
     private Timeline gameLoop;
     private Header header;
     private Grid grid;
