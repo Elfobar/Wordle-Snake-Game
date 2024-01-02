@@ -5,6 +5,7 @@ import javafx.scene.text.Font;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Util {
 
@@ -96,5 +97,37 @@ public class Util {
 //        System.out.println(scores.get(0));
 //        return scores;
 //    }
+
+    private static ArrayList<Integer> initScore() {
+        ArrayList<Integer> integerList = new ArrayList<>();
+        try (FileInputStream fileInputStream = new FileInputStream(AppConfig.getScorePath());
+             Scanner scanner = new Scanner(fileInputStream)) {
+
+            integerList = readIntegersFromFile(scanner);
+            System.out.println("Integers read from file: " + integerList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return integerList;
+
+    }
+
+    private static ArrayList<Integer> readIntegersFromFile(Scanner scanner) {
+        ArrayList<Integer> integerList = new ArrayList<>();
+
+        while (scanner.hasNextInt()) {
+            int value = scanner.nextInt();
+            integerList.add(value);
+        }
+
+        return integerList;
+    }
+
+    public static ArrayList<Integer> getHighestScoresFromFile() {
+        ArrayList<Integer> scores = initScore();
+        scores.sort((a, b) -> Integer.compare(b, a));
+        return scores;
+    }
 
 }

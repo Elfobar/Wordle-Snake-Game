@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -36,7 +38,7 @@ public class LeaderboardMenu extends AbstractMenu {
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
 
-        VBox leaderboardBox = createLeaderboardBox();
+        BorderPane leaderboardBox = createLeaderboardBox();
 
         ImageView back = getBackButton();
 
@@ -66,8 +68,10 @@ public class LeaderboardMenu extends AbstractMenu {
         }
     }
 
-    private VBox createLeaderboardBox() {
+    private BorderPane createLeaderboardBox() {
+        BorderPane pane = new BorderPane();
         VBox leaderboardBox = new VBox();
+        pane.setTop(leaderboardBox);
         leaderboardBox.setAlignment(Pos.TOP_CENTER);
         leaderboardBox.setPrefHeight(LEADERBOARD_BOX_HEIGHT);
         leaderboardBox.setPrefWidth(LEADERBOARD_BOX_WIDTH);
@@ -96,8 +100,10 @@ public class LeaderboardMenu extends AbstractMenu {
         ImageView label = createLeaderboardLabel();
         leaderboardBox.getChildren().add(label);
 
-        return leaderboardBox;
+        return pane;
     }
+
+
 
     private ImageView createLeaderboardLabel() {
         ImageView label = new ImageView(cache.getImage(LEADERBOARD_LABEL_IMAGE));
