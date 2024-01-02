@@ -19,12 +19,14 @@ public class MenuManager implements GameActions {
     private final GameActions gameActions;
     private final Stage stage;
     private AbstractMenu currentMenu;
+    private String state;
 
 
     public MenuManager(Stage stage, GameActions gameActions){
         this.stage = stage;
         this.currentMenu = new MainMenu();
         this.gameActions = gameActions;
+        this.state = "None";
         showMenu();
     }
 
@@ -48,7 +50,6 @@ public class MenuManager implements GameActions {
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getTarget() instanceof ImageView){
                     ImageView eventSource = (ImageView) mouseEvent.getTarget();
-                    //System.out.println("Clicked on ImageView with ID: " + eventSource.getId());
                     handleMenuEvent(eventSource.getId());
                 }
             }
@@ -77,17 +78,28 @@ public class MenuManager implements GameActions {
                         Sounds.START_2,
                         Sounds.START_3);
                 break;
+            case "minigame":
+                runMiniGame();
+                SoundPlayer.getInstance().playSFX(
+                        Sounds.START_1,
+                        Sounds.START_2,
+                        Sounds.START_3);
+                break;
             case "settings":
                 navigateToSettingsMenu();
                 break;
-            case "leaderboard":
-                navigateToLeaderboardMenu();
+            case "scoreboard":
+                navigateToScoreboardMenu();
                 break;
             case "back":
                 navigateToMainMenu();
                 break;
             case "continue":
-                handleGamePause();
+                if (state.equals("Game")){
+                    handleGamePause();
+                } else {
+                    handleMiniGamePause();
+                }
                 break;
             case "exit":
                 Platform.exit();
@@ -112,10 +124,24 @@ public class MenuManager implements GameActions {
             gameActions.stopGame();
         }
     }
+    public void handleMiniGamePause(){;
+        if(currentMenu instanceof EscMenu){
+            gameActions.resumeMiniGame(stage);
+            currentMenu = new MainMenu();
+        } else{
+            currentMenu = new EscMenu();
+            showMenu();
+            gameActions.stopMiniGame();
+        }
+    }
 
     private void runGame(){
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startGame(stage);
+    }
+    private void runMiniGame(){
+        SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
+        gameActions.startMiniGame(stage);
     }
 
     private void navigateToMainMenu(){
@@ -138,20 +164,30 @@ public class MenuManager implements GameActions {
         showMenu();
     }
 
-    private void navigateToLeaderboardMenu() {
+    private void navigateToScoreboardMenu(){
         SoundPlayer.getInstance().playSFX(
                 Sounds.BUTTON_1,
                 Sounds.BUTTON_2,
                 Sounds.BUTTON_3,
-                Sounds.BUTTON_4);
-        currentMenu = new LeaderboardMenu();
+                Sounds.BUTTON_4
+        );
+        currentMenu = new ScoreboardMenu();
         showMenu();
+    }
+    public void setState(String state){
+        this.state = state;
     }
     @Override
     public void startGame(Stage stage){}
     @Override
+    public void startMiniGame(Stage stage){}
+    @Override
     public void stopGame(){}
     @Override
+    public void stopMiniGame(){}
+    @Override
     public void resumeGame(Stage stage){}
+    @Override
+    public void resumeMiniGame(Stage stage){}
 
 }
