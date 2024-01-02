@@ -7,19 +7,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class LeaderboardMenu extends AbstractMenu {
-
-    private static final double LEADERBOARD_BOX_HEIGHT = 200;
-    private static final double LEADERBOARD_BOX_WIDTH = 100;
-    private static final String LEADERBOARD_LABEL_IMAGE = "LeaderboardLabel";
-    private static final double LEADERBOARD_LABEL_WIDTH = 550;
-    private static final double LEADERBOARD_LABEL_HEIGHT = 150;
+public class ScoreboardMenu extends AbstractMenu {
+    private static final double SCOREBOARD_BOX_HEIGHT = 200;
+    private static final double SCOREBOARD_BOX_WIDTH = 100;
+    private static final String SCOREBOARD_LABEL_IMAGE = "ScoreboardLabel";
+    private static final double SCOREBOARD_LABEL_WIDTH = 550;
+    private static final double SCOREBOARD_LABEL_HEIGHT = 150;
     private static final String BACK_BUTTON_IMAGE = "ArrowsImg";
     private static final double BACK_BUTTON_WIDTH = 150;
     private static final double BACK_BUTTON_HEIGHT = 130;
 
 
-    public LeaderboardMenu(){
+    public ScoreboardMenu(){
         super();
     }
 
@@ -28,12 +27,12 @@ public class LeaderboardMenu extends AbstractMenu {
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
 
-        VBox leaderboardBox = createLeaderboardBox();
+        VBox scoreboardBox = createLeaderboardBox();
 
         ImageView back = getBackButton();
 
         StackPane.setMargin(back, new Insets(0, 0, 50, 50));
-        stackPane.getChildren().addAll(leaderboardBox, back);
+        stackPane.getChildren().addAll(scoreboardBox, back);
 
         return stackPane;
     }
@@ -46,23 +45,23 @@ public class LeaderboardMenu extends AbstractMenu {
     }
 
     private VBox createLeaderboardBox() {
-        VBox leaderboardBox = new VBox();
-        leaderboardBox.setAlignment(Pos.TOP_CENTER);
-        leaderboardBox.setPrefHeight(LEADERBOARD_BOX_HEIGHT);
-        leaderboardBox.setPrefWidth(LEADERBOARD_BOX_WIDTH);
+        VBox scoreboardBox = new VBox();
+        scoreboardBox.setAlignment(Pos.TOP_CENTER);
+        scoreboardBox.setPrefHeight(SCOREBOARD_BOX_HEIGHT);
+        scoreboardBox.setPrefWidth(SCOREBOARD_BOX_WIDTH);
 
-        ImageView label = createLeaderboardLabel();
-        leaderboardBox.getChildren().add(label);
+        ImageView label = createScoreboardLabel();
+        scoreboardBox.getChildren().add(label);
 
-        return leaderboardBox;
+        return scoreboardBox;
     }
 
-    private ImageView createLeaderboardLabel() {
-        ImageView label = new ImageView(cache.getImage(LEADERBOARD_LABEL_IMAGE));
+    private ImageView createScoreboardLabel() {
+        ImageView label = new ImageView(cache.getImage(SCOREBOARD_LABEL_IMAGE));
         label.setPickOnBounds(true);
         label.setPreserveRatio(true);
-        label.setFitWidth(LEADERBOARD_LABEL_WIDTH);
-        label.setFitHeight(LEADERBOARD_LABEL_HEIGHT);
+        label.setFitWidth(SCOREBOARD_LABEL_WIDTH);
+        label.setFitHeight(SCOREBOARD_LABEL_HEIGHT);
         return label;
     }
 

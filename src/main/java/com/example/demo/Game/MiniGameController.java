@@ -2,6 +2,8 @@ package com.example.demo.Game;
 
 import com.example.demo.Game.AbstractController;
 import com.example.demo.GameCore.Letter;
+import com.example.demo.Sound.SoundPlayer;
+import com.example.demo.Sound.Sounds;
 import com.example.demo.Util.Util;
 import javafx.scene.input.KeyCode;
 
@@ -59,12 +61,24 @@ public class MiniGameController extends AbstractController {
             if (letter.getLetterLeftRightIndex() == 0 && frameAdjuster % 5 == 0) {
                 if (super.checkNextLetter(letter.getValue())) {
                     isCorrect = true;
+                    super.incrementScore();
                 }
             }
         }
         if (isCorrect){
             updateNeeded = true;
             updateGame();
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.EAT_1,
+                    Sounds.EAT_2,
+                    Sounds.EAT_3,
+                    Sounds.EAT_4);
+        } else {
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.WRONG_LETTER_1,
+                    Sounds.WRONG_LETTER_2,
+                    Sounds.WRONG_LETTER_3,
+                    Sounds.WRONG_LETTER_4);
         }
     }
 
@@ -74,12 +88,24 @@ public class MiniGameController extends AbstractController {
             if (letter.getLetterLeftRightIndex() == 1 && frameAdjuster % 5 == 0) {
                 if (super.checkNextLetter(letter.getValue())) {
                     isCorrect = true;
+                    super.incrementScore();
                 }
             }
         }
         if (isCorrect) {
             updateNeeded = true;
             updateGame();
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.EAT_1,
+                    Sounds.EAT_2,
+                    Sounds.EAT_3,
+                    Sounds.EAT_4);
+        } else {
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.WRONG_LETTER_1,
+                    Sounds.WRONG_LETTER_2,
+                    Sounds.WRONG_LETTER_3,
+                    Sounds.WRONG_LETTER_4);
         }
     }
 
