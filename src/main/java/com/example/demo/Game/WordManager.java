@@ -13,7 +13,6 @@ import java.util.List;
 
 public class WordManager {
     private String targetWord;
-    private char expectedLetter;
     private int lettersCollected;
     private List<String> words;
 
@@ -38,46 +37,14 @@ public class WordManager {
         return words;
     }
 
-//    public boolean checkNextLetter(char letterValue){
-//        boolean isCorrect = false;
-//        if(!targetWord.isEmpty() && lettersCollected < targetWord.length()){
-//            isCorrect = letterValue == targetWord.charAt(lettersCollected);
-//        }
-//
-//        if(isCorrect){
-//            lettersCollected++;
-//            checkWordIsComplete();
-//        }
-//        return isCorrect;
-//    }
-
-//    public boolean checkNextLetter(char letterValue) {
-//        boolean isCorrect = false;
-//
-//        if (!targetWord.isEmpty()) {
-//            char expectedLetter = targetWord.charAt(0);
-//
-//            if (letterValue == expectedLetter) {
-//                targetWord = targetWord.substring(1);
-//                isCorrect = true;
-//                lettersCollected++;
-//                checkWordIsComplete();
-//            }
-//        }
-//
-//        return isCorrect;
-//    }
-
     public boolean checkNextLetter(char value){
         boolean isCorrect = false;
         if(!targetWord.isEmpty()){
+            char expectedLetter = targetWord.charAt(lettersCollected);
             if(value == expectedLetter){
                 isCorrect = true;
                 lettersCollected++;
                 checkWordIsComplete();
-                if(lettersCollected < targetWord.length()){
-                    expectedLetter = targetWord.charAt(lettersCollected);
-                }
             }
         }
         return isCorrect;
@@ -100,9 +67,7 @@ public class WordManager {
 
     private String getRandomWord() {
         int randomIndex = Util.generateRandomIndex(words.size());
-        System.out.println("Words size: " + words.size());
         targetWord = words.get(randomIndex);
-        expectedLetter = targetWord.charAt(0);
         return targetWord;
     }
 

@@ -68,7 +68,7 @@ public class Snake {
 
     public void changeDirection(KeyCode keyCode) {
         Direction currentDirection = direction;
-        Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction, this);
+        Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction);
         if (newDirection != currentDirection.getOpposite()) {
             this.direction = newDirection;
             SoundPlayer.getInstance().playSFX(
