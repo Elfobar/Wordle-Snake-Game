@@ -1,6 +1,7 @@
 package com.example.demo.Game;
 
 import com.example.demo.GameCore.GameConfig;
+import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.UI.Grid;
 import com.example.demo.UI.Header;
 import com.example.demo.UI.Menu.MenuManager;
@@ -14,12 +15,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SnakeGame extends Application implements GameActions {
-
     private MiniGameController miniGameController;
     private MiniGameRenderer miniGameRenderer;
     private GameController gameController;
     private GameRenderer gameRenderer;
     private MenuManager menuManager;
+    private SoundPlayer SoundPlayer;
     private Timeline gameLoop;
     private Header header;
     private Grid grid;
@@ -42,12 +43,14 @@ public class SnakeGame extends Application implements GameActions {
         if(gameLoop != null){
             gameLoop.stop();
         }
+        SoundPlayer.getInstance().pauseBackgroundMusic();
     }
 
     @Override
     public void resumeGame(Stage stage){
         createGameWindow(stage);
         gameLoop.play();
+        SoundPlayer.getInstance().resumeBackgroundMusic();
     }
 
     public void initializeGame(Stage stage) {

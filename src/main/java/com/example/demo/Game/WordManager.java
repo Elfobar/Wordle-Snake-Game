@@ -1,6 +1,8 @@
 package com.example.demo.Game;
 
 import com.example.demo.GameCore.AppConfig;
+import com.example.demo.Sound.SoundPlayer;
+import com.example.demo.Sound.Sounds;
 import com.example.demo.Util.Util;
 
 import java.io.BufferedReader;
@@ -57,6 +59,10 @@ public class WordManager {
 
     public void checkWordIsComplete(){
         if(lettersCollected == targetWord.length()){
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.COMPLETED_WORD_1,
+                    Sounds.COMPLETED_WORD_2,
+                    Sounds.COMPLETED_WORD_3);
             introduceNewWord();
         }
     }

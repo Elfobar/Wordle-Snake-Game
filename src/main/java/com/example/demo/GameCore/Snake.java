@@ -1,6 +1,8 @@
 package com.example.demo.GameCore;
 
 
+import com.example.demo.Sound.SoundPlayer;
+import com.example.demo.Sound.Sounds;
 import javafx.scene.input.KeyCode;
 import java.util.LinkedList;
 
@@ -69,6 +71,11 @@ public class Snake {
         Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction, this);
         if (newDirection != currentDirection.getOpposite()) {
             this.direction = newDirection;
+            SoundPlayer.getInstance().playSFX(
+                    Sounds.ROTATE_1,
+                    Sounds.ROTATE_2,
+                    Sounds.ROTATE_3,
+                    Sounds.ROTATE_4);
         }
     }
 
@@ -106,6 +113,10 @@ public class Snake {
         Coordinate segment = new Coordinate(tail.getX(), tail.getY());
         body.add(segment);
     }
+
+    /*public void shrink(){
+        body.remove(0);
+    }*/
 
     public boolean containsCoordinate(Coordinate coordinate){
         for(Coordinate cord : body){
