@@ -14,13 +14,11 @@ import java.util.List;
 
 public class GameController extends AbstractController {
     private final Snake snake;
-    private int score;
     private List<Coordinate> validCoordinates;
 
     public GameController(int startLength){
         super();
         this.snake = new Snake(startLength);
-        this.score = 0;
         validCoordinates = initializeValidCoordinates();
         createLetters();
     }
@@ -47,14 +45,6 @@ public class GameController extends AbstractController {
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithObstacles();
         handleSnakeCollisionWithLetters();
-    }
-
-    private void incrementScore() {
-        score = score + GameConfig.POINTS_PER_LETTER;
-    }
-
-    public int getScore(){
-        return score;
     }
 
     public void createThreeLetters(){

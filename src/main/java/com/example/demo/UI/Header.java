@@ -1,6 +1,7 @@
 package com.example.demo.UI;
 
 import com.example.demo.Game.GameController;
+import com.example.demo.Game.MiniGameController;
 import com.example.demo.Util.Util;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.*;
@@ -13,6 +14,7 @@ public class Header {
 
     private final Font font;
     private GameController gameController;
+    private MiniGameController miniGameController;
     private Text targetWord;
     private Text currentInput;
     private Text scoreText;
@@ -21,6 +23,13 @@ public class Header {
         this.font = Util.loadCustomFont(getClass());
         this.gameController = gameController;
         this.targetWord = getTargetWord(gameController.getTargetWord());
+        this.currentInput = getCurrentInput();
+        this.scoreText = getScoreText();
+    }
+    public Header(MiniGameController miniGameController){
+        this.font = Util.loadCustomFont(getClass());
+        this.miniGameController = miniGameController;
+        this.targetWord = getTargetWord(miniGameController.getTargetWord());
         this.currentInput = getCurrentInput();
         this.scoreText = getScoreText();
     }
@@ -63,10 +72,22 @@ public class Header {
     }
 
     private void updateWord(){
-        String currentWord = gameController.getTargetWord();
+        String currentWord = "";
+        if (gameController != null){
+            currentWord = gameController.getTargetWord();
+        } else {
+            currentWord = miniGameController.getTargetWord();
+        }
+        /////
         if(currentInput != null){
-            String currentInputString = gameController.getCurrentInput();
-            currentInput.setText(currentInputString);
+            String currentInputString = "";
+            if (gameController != null){
+                currentInputString = gameController.getCurrentInput();
+                currentInput.setText(currentInputString);
+            } else {
+                currentInputString = miniGameController.getCurrentInput();
+                currentInput.setText(currentInputString);
+            }
         }
         if(!currentWord.equals(targetWord.toString())){
             targetWord.setText(currentWord);
@@ -74,7 +95,12 @@ public class Header {
     }
 
     private void updateScore(){
-        int score = gameController.getScore();
+        int score;
+        if (gameController != null) {
+            score = gameController.getScore();
+        } else {
+            score = miniGameController.getScore();
+        }
         this.scoreText.setText(Integer.toString(score));
     }
 

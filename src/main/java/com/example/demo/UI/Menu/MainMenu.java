@@ -12,17 +12,19 @@ public class MainMenu extends AbstractMenu {
     private static final double LOGO_HEIGHT = 180;
     private static final String START_LABEL_IMAGE = "StartLabel";
     private static final double START_LABEL_WIDTH = 180;
-    private static final double LABEL_HEIGHT = 150;
+    private static final double LABEL_HEIGHT = 130;
+    private static final String MINIGAME_LABEL_IMAGE = "MiniGameLabel";
+    private static final double MINIGAME_LABEL_WIDTH = 230;
     private static final String SETTINGS_LABEL_IMAGE = "SettingsLabel";
     private static final double SETTINGS_LABEL_WIDTH = 230;
-    private static final String LEADERBOARD_LABEL_IMAGE = "LeaderboardLabel";
-    private static final double LEADERBOARD_LABEL_WIDTH = 330;
+    private static final String SCOREBOARD_LABEL_IMAGE = "ScoreboardLabel";
+    private static final double SCOREBOARD_LABEL_WIDTH = 330;
     private static final String EXIT_LABEL_IMAGE = "ExitLabel";
     private static final double EXIT_LABEL_WIDTH = 150;
     private static final double EXIT_LABEL_HEIGHT = 130;
     private static final String BUTTON_FRAME_IMAGE = "ButtonFrame";
     private static final double BUTTON_FRAME_WIDTH = 400;
-    private static final double BUTTON_FRAME_HEIGHT = 150;
+    private static final double BUTTON_FRAME_HEIGHT = 130;
 
     public MainMenu() {
         super();
@@ -47,7 +49,7 @@ public class MainMenu extends AbstractMenu {
     private VBox createMenuBox() {
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.TOP_CENTER);
-        menuBox.setSpacing(15.0);
+        menuBox.setSpacing(5.0);
         menuBox.setPrefSize(GameConfig.WIDTH, GameConfig.HEIGHT);
 
         ImageView logo = new ImageView(cache.getImage(LOGO_IMAGE));
@@ -57,17 +59,19 @@ public class MainMenu extends AbstractMenu {
         logo.setPreserveRatio(true);
 
         ImageView startLabel = createLabel(START_LABEL_IMAGE, "start", START_LABEL_WIDTH, LABEL_HEIGHT);
+        ImageView miniGameLabel = createLabel(MINIGAME_LABEL_IMAGE, "minigame", MINIGAME_LABEL_WIDTH, LABEL_HEIGHT);
         ImageView settingsLabel = createLabel(SETTINGS_LABEL_IMAGE, "settings", SETTINGS_LABEL_WIDTH, LABEL_HEIGHT);
-        ImageView leaderboardLabel = createLabel(LEADERBOARD_LABEL_IMAGE, "leaderboard", LEADERBOARD_LABEL_WIDTH, LABEL_HEIGHT);
+        ImageView scoreboardLabel = createLabel(SCOREBOARD_LABEL_IMAGE, "scoreboard", SCOREBOARD_LABEL_WIDTH, LABEL_HEIGHT);
         ImageView exitLabel = createLabel(EXIT_LABEL_IMAGE, "exit", EXIT_LABEL_WIDTH, EXIT_LABEL_HEIGHT);
 
         StackPane firstBtnPane = createButton(startLabel);
-        StackPane secondBtnPane = createButton(settingsLabel);
-        StackPane thirdBtnPane = createButton(leaderboardLabel);
-        StackPane fourthBtnPane = createButton(exitLabel);
+        StackPane secondBtnPane = createButton(miniGameLabel);
+        StackPane thirdBtnPane = createButton(settingsLabel);
+        StackPane fourthBtnPane = createButton(scoreboardLabel);
+        StackPane fifthBtnPane = createButton(exitLabel);
 
         menuBox.getChildren().add(logo);
-        menuBox.getChildren().addAll(firstBtnPane, secondBtnPane, thirdBtnPane, fourthBtnPane);
+        menuBox.getChildren().addAll(firstBtnPane, secondBtnPane, thirdBtnPane, fourthBtnPane, fifthBtnPane);
 
         return menuBox;
     }
