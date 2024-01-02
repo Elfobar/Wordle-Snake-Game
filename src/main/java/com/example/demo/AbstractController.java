@@ -55,7 +55,9 @@ public abstract class AbstractController {
     public char pickNextLetterFromWord(){
         String currentWord = wordManager.getTargetWord();
         int nextLetterIndex = wordManager.getLettersCollected();
-        return currentWord.charAt(nextLetterIndex);
+        if (nextLetterIndex<wordManager.getTargetWord().length())
+            return currentWord.charAt(nextLetterIndex);
+        else return '\0';
     }
 
     public String getCurrentInput() {

@@ -14,6 +14,7 @@ public class AppConfig {
     private static final String PROJECT_PATH = "/src/main/resources";
     private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
     private static final String OBSTACLE = "/images/obstacle.jpg";
+    private static final String VOLUME_SETTINGS_FILE = "/audio_settings/volume.properties.txt";
 
     public static String getWordsPathFile() {
         return CURRENT_WORKING_DIR + WORDS_RELATIVE_PATH;
@@ -46,5 +47,6 @@ public class AppConfig {
     public static String getObstaclePath(){
         return CURRENT_WORKING_DIR + OBSTACLE;
     }
+    public static String getAudioSettingsPath() {return CURRENT_WORKING_DIR + VOLUME_SETTINGS_FILE;}
 
 }
