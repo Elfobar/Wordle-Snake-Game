@@ -41,6 +41,11 @@ public class MiniGameController extends AbstractController {
         super.add(letter);
     }
     public void handleKeyPress(KeyCode code) {
+        SoundPlayer.getInstance().playSFX(
+                Sounds.EAT_1,
+                Sounds.EAT_2,
+                Sounds.EAT_3,
+                Sounds.EAT_4);
         switch(code){
             case LEFT:
                 keyPressed = true;
