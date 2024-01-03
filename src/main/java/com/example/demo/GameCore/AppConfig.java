@@ -3,6 +3,7 @@ package com.example.demo.GameCore;
 import java.net.URL;
 
 public class AppConfig {
+    private static final String SCORE_PATH = "/output/score.txt";
     private static final String FONT_PATH = "/custom_font/blade.ttf";
     private static final String WORDS_PATH = "/file_input/words.txt";
     private static final String TILE_TYPE1 = "/Tile1.png";
@@ -18,6 +19,12 @@ public class AppConfig {
         return getResourcePath(WORDS_PATH).getPath();
     }
     public static String getAudioSettingsPathFile() {return getResourcePath(VOLUME_SETTINGS_FILE).getPath();}
+    public static String getScorePathFile(){
+        return getResourcePath(SCORE_PATH).getPath();
+    }
+    public static String getCustomFontPathFile()  {
+        return getResourcePath(FONT_PATH).toString();
+    }
     public static String getImagesPathType1()  {
         return  getResourcePath(IMAGES_PATH + TILE_TYPE1).toString();
     }
@@ -35,9 +42,6 @@ public class AppConfig {
     }
     public static String getObstaclePath()  {
         return getResourcePath(IMAGES_PATH+OBSTACLE).toString();
-    }
-    public static String getCustomFontPathFile()  {
-        return getResourcePath(FONT_PATH).toString();
     }
     private static URL getResourcePath(String relativePath) {
         return AppConfig.class.getResource(relativePath);
