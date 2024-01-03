@@ -38,12 +38,6 @@ public class SnakeGame extends Application implements GameActions {
 
     @Override
     public void startGame(Stage stage) {
-        createGameWindow(stage);
-        createGameLoop();
-    }
-
-    @Override
-    public void restartGame(Stage stage) {
         resetGame();
         createGameWindow(stage);
         createGameLoop();
