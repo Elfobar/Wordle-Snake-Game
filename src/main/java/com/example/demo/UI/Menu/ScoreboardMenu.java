@@ -62,20 +62,13 @@ public class ScoreboardMenu extends AbstractMenu {
 
         VBox vbox = new VBox();
         ArrayList<Integer> scores = Util.getHighestScoresFromFile();
-        for(int i = 0; i < scores.size(); i++) {
-            Label label1 = new Label();
-            if(i == 0){
-                label1 = new Label("First: " + scores.get(i).toString());
-            }
-            if(i == 1){
-                label1 = new Label("Second: " + scores.get(i).toString());
-            }
-            if(i == 2){
-                label1 = new Label("Third: " + scores.get(i).toString());
-            }
-            label1.setFont(Font.font(20));
-            vbox.getChildren().add(label1);
-            label1.setTextFill(Color.LIGHTBLUE);
+        String[] places = {"First: ", "Second: ", "Third: ", "Fourth: ", "Fifth: "};
+
+        for (int i = 0; i < Math.min(scores.size(), places.length); i++) {
+            Label label = new Label(places[i] + ": " + scores.get(i));
+            label.setFont(Font.font(20));
+            label.setTextFill(Color.LIGHTBLUE);
+            vbox.getChildren().add(label);
         }
         pane.setCenter(vbox);
 
@@ -105,5 +98,4 @@ public class ScoreboardMenu extends AbstractMenu {
 
         return back;
     }
-
 }
