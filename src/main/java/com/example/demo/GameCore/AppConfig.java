@@ -12,10 +12,12 @@ public class AppConfig {
     private static final String SNAKE_TAIL = "/snakeTail.png";
     private static final String OBSTACLE = "/obstacle.jpg";
     private static final String IMAGES_PATH = "/images";
+    private static final String VOLUME_SETTINGS_FILE = "/audio_settings/volume.properties.txt";
 
-    public static String getWordsPathFile()  {
+    public static String getWordsPathFile() {
         return getResourcePath(WORDS_PATH).getPath();
     }
+    public static String getAudioSettingsPathFile() {return getResourcePath(VOLUME_SETTINGS_FILE).getPath();}
     public static String getImagesPathType1()  {
         return  getResourcePath(IMAGES_PATH + TILE_TYPE1).toString();
     }
@@ -34,7 +36,7 @@ public class AppConfig {
     public static String getObstaclePath()  {
         return getResourcePath(IMAGES_PATH+OBSTACLE).toString();
     }
-    public static String getCustomFontPath()  {
+    public static String getCustomFontPathFile()  {
         return getResourcePath(FONT_PATH).toString();
     }
     private static URL getResourcePath(String relativePath) {

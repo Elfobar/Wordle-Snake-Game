@@ -7,9 +7,9 @@ import java.net.URL;
 public enum Sounds implements SoundInfo{
 
     BACKGROUND_TRACK("/sounds/earworm.mp3"),
-    BACKGROUND_MENU_TRACK("/sounds/ear worm menu.mp3"),
+    MINIGAME_MUSIC("/sounds/earworm miniGame.mp3"),
 
-    //Sounds when error occurs
+    //Sounds when errors occurs
     ERROR_1 ("/sounds/exception handling 1.mp3"),
     ERROR_2 ("/sounds/exception handling 2.mp3"),
 
