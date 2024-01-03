@@ -12,11 +12,12 @@ public enum MenuImage implements ImageInfo {
     SETTINGS_FRAME("SettingsFrame", "/images/SettingsFrame.png"),
     GAMEOVER("GameOver", "/images/GameOver.png"),
     BACKGROUND("Background", "/images/Background.png"),
-    LEADERBOARD_LBL("LeaderboardLabel", "/images/LeaderboardLabel.png"),
+    SCOREBOARD_LBL("ScoreboardLabel", "/images/ScoreboardLabel.png"),
     EXIT_LBL("ExitLabel", "/images/ExitLabel.png"),
     NAME_LBL("NameImg", "/images/NameImg.png"),
     SETTINGS_LBL("SettingsLabel", "/images/SettingsLabel.png"),
     START_LBL("StartLabel", "/images/StartLabel.png"),
+    MINIGAME_LBL("MiniGameLabel", "/images/MiniGameLabel.png"),
     CONTINUE_LBL("ContinueLabel", "/images/ContinueLabel.png"),;
 
     private final String name;

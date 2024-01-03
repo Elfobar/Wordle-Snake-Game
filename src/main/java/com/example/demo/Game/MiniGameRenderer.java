@@ -33,6 +33,7 @@ public class MiniGameRenderer {
     private ArrayList<Text> letters;
     private int animationCounter;
     private boolean obstacleSide;
+    private BorderPane content;
 
     public MiniGameRenderer(MiniGameController miniGameController) {
         this.miniGameController = miniGameController;
@@ -40,15 +41,16 @@ public class MiniGameRenderer {
         this.stackPane = new StackPane();
         this.anchorPane = new AnchorPane();
         this.snake = new ImageView(animationChache.getImage("SnakeUpfront"));
-        snake.setFitWidth(790);
-        snake.setFitHeight(600);
+        snake.setFitWidth(650);
+        snake.setFitHeight(560);
         this.animationCounter = 0;
         this.letters = new ArrayList<>();
         this.obstacleSide = true;
+        this.content = createMiniGameContent();
     }
 
 
-    public BorderPane getMiniGameContent() {
+    public BorderPane createMiniGameContent() {
         ImageView background = new ImageView(animationChache.getImage("Background"));
         background.setFitHeight(800);
         background.setFitWidth(800);
@@ -188,7 +190,7 @@ public class MiniGameRenderer {
         transitions.play();
     }
 
-    public Node getGrid() {
-        return this.stackPane;
+    public BorderPane getContent() {
+        return this.content;
     }
 }

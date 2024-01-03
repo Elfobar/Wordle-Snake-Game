@@ -2,6 +2,7 @@ package com.example.demo.UI; //specifies package location
 
 //imports to make class work
 import com.example.demo.Game.GameController;
+import com.example.demo.Game.MiniGameController;
 import com.example.demo.Util.Util;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.*;
@@ -12,6 +13,7 @@ import javafx.scene.text.Text;
 
 public class Header {
 
+    private MiniGameController miniGameController;
     private final Font font; // assigned once and is used to store the font that will be used for the text
     private GameController gameController; // used to control the game logic
     private Text targetWord; // used to display the target word
@@ -24,6 +26,13 @@ public class Header {
         this.targetWord = getTargetWord(gameController.getTargetWord()); // Calls getTargetWord method with the target word from the game controller and assigns the result to the targetWord variable
         this.currentInput = getCurrentInput(); // Calls getCurrentInput method and assigns the result to the currentInput variable
         this.scoreText = getScoreText(); // calls getScoreText method and assigns the result to the scoreText variable
+    }
+    public Header(MiniGameController miniGameController){
+        this.font = Util.loadCustomFont(getClass());
+        this.miniGameController = miniGameController;
+        this.targetWord = getTargetWord(miniGameController.getTargetWord());
+        this.currentInput = getCurrentInput();
+        this.scoreText = getScoreText();
     }
 
     public HBox createHeader(){ // container for laying out its children in a single horizontal row
@@ -64,10 +73,22 @@ public class Header {
     }
 
     private void updateWord(){
-        String currentWord = gameController.getTargetWord(); // calls getTargetword and assigns result to currentWord
-        if(currentInput != null){ // Checks if not null so below don't get called on nulls
-            String currentInputString = gameController.getCurrentInput(); // calls getCurrentInput and assigns to to the currentInputString
-            currentInput.setText(currentInputString); // Sets the text of the currentInput Text object to the currentInputString.
+        String currentWord = "";
+        if (gameController != null){
+            currentWord = gameController.getTargetWord();
+        } else {
+            currentWord = miniGameController.getTargetWord();
+        }
+        /////
+        if(currentInput != null){
+            String currentInputString = "";
+            if (gameController != null){
+                currentInputString = gameController.getCurrentInput();
+                currentInput.setText(currentInputString);
+            } else {
+                currentInputString = miniGameController.getCurrentInput();
+                currentInput.setText(currentInputString);
+            }
         }
         if(!currentWord.equals(targetWord.toString())){ // conditional for currentWord if it is not equal to the string representation of the targetWord
             targetWord.setText(currentWord); // set text targetWord to the currentWord
@@ -75,8 +96,13 @@ public class Header {
     }
 
     private void updateScore(){
-        int score = gameController.getScore(); // Calls the getScore method of the gameController and assigns the result to the score variable.
-        this.scoreText.setText(Integer.toString(score)); // Sets the text of the scoreText Text object to the string representation of the score.
+        int score;
+        if (gameController != null) {
+            score = gameController.getScore();
+        } else {
+            score = miniGameController.getScore();
+        }
+        this.scoreText.setText(Integer.toString(score));
     }
 
     private Text getScoreText() {

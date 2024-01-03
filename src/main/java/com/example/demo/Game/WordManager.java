@@ -12,16 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WordManager {
-
     private String targetWord;
     private int lettersCollected;
     private List<String> words;
-
-    public WordManager(String targetWord){
-        this.targetWord = targetWord;
-        this.lettersCollected = 0;
-        this.words = initializeWords(AppConfig.getWordsPathFile());
-    }
 
     public WordManager(){
         this.lettersCollected = 0;
@@ -44,15 +37,15 @@ public class WordManager {
         return words;
     }
 
-    public boolean checkNextLetter(char letterValue){
+    public boolean checkNextLetter(char value){
         boolean isCorrect = false;
-        if(!targetWord.isEmpty() && lettersCollected < targetWord.length()){
-            isCorrect = letterValue == targetWord.charAt(lettersCollected);
-        }
-
-        if(isCorrect){
-            lettersCollected++;
-            checkWordIsComplete();
+        if(!targetWord.isEmpty()){
+            char expectedLetter = targetWord.charAt(lettersCollected);
+            if(value == expectedLetter){
+                isCorrect = true;
+                lettersCollected++;
+                checkWordIsComplete();
+            }
         }
         return isCorrect;
     }
@@ -74,7 +67,8 @@ public class WordManager {
 
     private String getRandomWord() {
         int randomIndex = Util.generateRandomIndex(words.size());
-        return words.get(randomIndex);
+        targetWord = words.get(randomIndex);
+        return targetWord;
     }
 
     public String getTargetWord(){

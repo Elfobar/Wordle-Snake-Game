@@ -27,7 +27,8 @@ public class SnakeGame extends Application implements GameActions {
 
     @Override
     public void start(Stage primaryStage) {
-        initializeGame(primaryStage); // initialize game when app starts
+        initializeGame(primaryStage);
+        initializeMiniGame(primaryStage);
     }
 
     @Override
@@ -35,6 +36,12 @@ public class SnakeGame extends Application implements GameActions {
         resetGame(); // reset game state
         createGameWindow(stage); // create game window
         createGameLoop(); // start game loop
+    }
+    @Override
+    public void startMiniGame(Stage stage) {
+        resetMiniGame();
+        createMiniGameWindow(stage);
+        createMiniGameLoop();
     }
 
     @Override
@@ -44,6 +51,13 @@ public class SnakeGame extends Application implements GameActions {
         }
         SoundPlayer.getInstance().pauseBackgroundMusic(); // pause background music
     }
+    @Override
+    public void stopMiniGame(){
+        if(gameLoop != null){
+            gameLoop.stop();
+        }
+        SoundPlayer.getInstance().pauseBackgroundMusic();
+    }
 
     @Override
     public void resumeGame(Stage stage) {
@@ -52,19 +66,40 @@ public class SnakeGame extends Application implements GameActions {
         SoundPlayer.getInstance().resumeBackgroundMusic(); // resume background music
     }
 
-    public void initializeGame(Stage stage) {
-        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH); // initialize game controller
-        this.grid = new Grid(); // initialize grid
-        this.gameRenderer = new GameRenderer(gameController, grid); // initialize game renderer
-        gameRenderer.drawObstacle(); // draw obstacle
-        GameActions gameActions = this; // reference to this object for game actions
-        this.menuManager = new MenuManager(stage, gameActions); // initialize menu manager
+    @Override
+    public void resumeMiniGame(Stage stage){
+        createMiniGameWindow(stage);
+        gameLoop.play();
+        SoundPlayer.getInstance().resumeBackgroundMusic();
     }
 
-    public void resetGame() {
-        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH); // reset game controller
-        grid.clearGrid(gameRenderer.getVisualSnakeBody(), gameRenderer.getVisualLetters()); // clear grid
-        this.gameRenderer = new GameRenderer(gameController, grid); // reset game renderer
+    public void initializeGame(Stage stage) {
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
+        this.grid = new Grid();
+        this.gameRenderer = new GameRenderer(gameController, grid);
+        gameRenderer.drawObstacle();
+        GameActions gameActions = this;
+        this.menuManager = new MenuManager(stage, gameActions);
+        menuManager.setState("Game");
+    }
+
+    public void initializeMiniGame(Stage stage){
+        this.miniGameController = new MiniGameController();
+        this.miniGameRenderer = new MiniGameRenderer(miniGameController);
+        menuManager.setState("MiniGame");
+    }
+
+    public void resetGame(){
+        this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
+        grid.clearGrid(gameRenderer.getVisualSnakeBody(), gameRenderer.getVisualLetters());
+        this.gameRenderer = new GameRenderer(gameController, grid);
+        menuManager.setState("Game");
+    }
+
+    public void resetMiniGame(){
+        this.miniGameController = new MiniGameController();
+        this.miniGameRenderer = new MiniGameRenderer(miniGameController);
+        menuManager.setState("MiniGame");
     }
 
     public void createGameWindow(Stage gameStage) {
@@ -101,6 +136,12 @@ public class SnakeGame extends Application implements GameActions {
         gameLoop.play(); // start game loop
     }
 
+    public void createMiniGameLoop(){
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateMiniGame()));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
+    }
+
     public void updateGame() {
         gameController.updateGame(); // update game state
         gameRenderer.renderGame(); // render game
@@ -110,36 +151,41 @@ public class SnakeGame extends Application implements GameActions {
         }
     }
 
-    public void createMiniGameWindow(Stage stage) {
-        initializeMiniGame(); // initialize mini game
-        BorderPane miniGameContent = miniGameRenderer.getMiniGameContent(); // get mini game content
-        Scene miniGameScene = new Scene(miniGameContent, GameConfig.WIDTH, GameConfig.HEIGHT); // create scene for mini game
-        miniGameScene.setOnKeyPressed(event -> miniGameController.handleKeyPress(event.getCode())); // set key press listener for mini game
-        stage.setScene(miniGameScene); // set scene on stage
-        stage.setTitle("MiniGame"); // set stage title
-        stage.setResizable(false); // make stage not resizable
-        stage.show(); // show the stage
-    }
-
-    public void initializeMiniGame() {
-        miniGameController = new MiniGameController(); // initialize mini game controller
-        miniGameRenderer = new MiniGameRenderer(miniGameController); // initialize mini game renderer
-    }
-
-
-    public void createMiniGameLoop() {
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateMiniGame())); // create game loop for mini game
-        gameLoop.setCycleCount(Timeline.INDEFINITE); // set game loop to loop indefinitely
-        gameLoop.play(); // start the game loop
+    public void createMiniGameWindow(Stage stage){
+        try {
+            BorderPane miniGameContent = miniGameRenderer.getContent();
+        } catch (Exception exception){
+            Scene miniGameContent = miniGameRenderer.getContent().getScene();
+        }
+        this.header = new Header(miniGameController);
+        HBox header = this.header.createHeader();
+        Scene miniGameScene;
+        try {
+            BorderPane miniGameContent = miniGameRenderer.getContent();
+            miniGameContent.setTop(header);
+            miniGameScene = new Scene(miniGameContent, GameConfig.WIDTH, GameConfig.HEIGHT);
+        } catch (Exception exception){
+            miniGameScene = miniGameRenderer.getContent().getScene();
+        }
+        miniGameScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                menuManager.handleMiniGamePause();
+            } else {
+                miniGameController.handleKeyPress(event.getCode());
+            }
+        });
+        stage.setScene(miniGameScene);
+        stage.setTitle("MiniGame");
+        stage.setResizable(false);
+        stage.show();
     }
 
     private void updateMiniGame() {
-        miniGameController.updateGame(); // update mini game
-        miniGameRenderer.renderGame(); // render the mini game
-        // updateWord(); //to update word
-        if (miniGameController.getGameOverStatus()) { // check if game over
-            // showGameOver((Stage) miniGameRenderer.getGrid().getScene().getWindow()); // showgame over screen
-            menuManager.handleGameOver(); // call menu manageer and render the game stoppage and screen
+        miniGameController.updateGame();
+        miniGameRenderer.renderGame();
+        header.updateHeader();
+        if(miniGameController.getGameOverStatus()){;
+            menuManager.handleGameOver();
         }
     }
 

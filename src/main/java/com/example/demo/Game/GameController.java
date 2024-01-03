@@ -15,13 +15,11 @@ import java.util.List;
 
 public class GameController extends AbstractController {
     private final Snake snake;
-    private int score;
     private List<Coordinate> validCoordinates;
 
     public GameController(int startLength){
         super();
         this.snake = new Snake(startLength);
-        this.score = 0;
         validCoordinates = initializeValidCoordinates();
         createLetters();
     }
@@ -47,27 +45,7 @@ public class GameController extends AbstractController {
         snake.moveSnake();
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithObstacles();
-        if(isGameStateChanged()){
-            createThreeLetters();
-        }
-    }
-
-    private boolean isGameStateChanged(){
-        int snakeLength = snake.getBody().size();
-        String targetWord = super.getTargetWord();
         handleSnakeCollisionWithLetters();
-        if(isSnakeLengthIncreased(snakeLength) || super.hasWordChanged(targetWord)){
-            return true;
-        }
-        return false;
-    }
-
-    private void incrementScore() {
-        score = score + GameConfig.POINTS_PER_LETTER;
-    }
-
-    public int getScore(){
-        return score;
     }
 
     public void createThreeLetters(){
@@ -121,31 +99,37 @@ public class GameController extends AbstractController {
     }
 
     public void handleSnakeCollisionWithLetters(){
+        boolean hasEatenLetter = false;
         Coordinate snakeHead = snake.getHead();
         for(Letter letter : super.getLetters()){
             if(snakeHead.equals(letter.getPosition())){
                 char letterValue = letter.getValue();
-                collectLetterFromWord(letterValue);
+                collectLetter(letterValue);
+                hasEatenLetter = true;
             }
+        }
+        if(hasEatenLetter){
+            createThreeLetters();
         }
     }
 
-    public void collectLetterFromWord(char letterValue){
+    public void collectLetter(char letterValue){
         if(super.checkNextLetter(letterValue)){
+            snake.grow();
+            incrementScore();
             SoundPlayer.getInstance().playSFX(
                     Sounds.EAT_1,
                     Sounds.EAT_2,
                     Sounds.EAT_3,
                     Sounds.EAT_4);
-            snake.grow();
-            incrementScore();
         } else{
+
+            super.introduceNewWord();
             SoundPlayer.getInstance().playSFX(
                     Sounds.WRONG_LETTER_1,
                     Sounds.WRONG_LETTER_2,
                     Sounds.WRONG_LETTER_3,
                     Sounds.WRONG_LETTER_4);
-            super.introduceNewWord();
         }
     }
 
