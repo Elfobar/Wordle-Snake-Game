@@ -21,8 +21,10 @@ public class SnakeGame extends Application implements GameActions {
     private GameRenderer gameRenderer;
     private MenuManager menuManager;
     private Timeline gameLoop;
+    private KeyFrame frame;
     private Header header;
     private Grid grid;
+    private int speed;
 
 
     @Override
@@ -115,7 +117,6 @@ public class SnakeGame extends Application implements GameActions {
         root.setTop(headerAndGrid);
         root.setCenter(grid.getGrid());
 
-
         Scene scene = new Scene(root);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -130,7 +131,15 @@ public class SnakeGame extends Application implements GameActions {
         gameStage.setResizable(false);
         gameStage.show();
     }
-
+    
+    public void increaseSpeed(){
+        speed = speed + (-10); //This decreases the refresh rate -> increased snake speed
+        this.gameLoop.getKeyFrames().clear();
+        this.frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
+        this.gameLoop = new Timeline(frame);
+        this.gameLoop.setCycleCount(Timeline.INDEFINITE);
+        this.gameLoop.play();
+    }
     public void createGameLoop(){
         gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame()));
         gameLoop.setCycleCount(Timeline.INDEFINITE);

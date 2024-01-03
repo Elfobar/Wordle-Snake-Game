@@ -15,6 +15,7 @@ import java.util.List;
 public class GameController extends AbstractController {
     private final Snake snake;
     private List<Coordinate> validCoordinates;
+    private boolean directionChosen;
 
     public GameController(int startLength){
         super();
@@ -37,11 +38,15 @@ public class GameController extends AbstractController {
     }
 
     public void handleKeyPress(KeyCode key){
-        snake.changeDirection(key);
+        if(directionChosen == false){
+            snake.changeDirection(key);
+            directionChosen = true;
+        }
     }
 
     public void updateGame(){
         snake.moveSnake();
+        directionChosen = false;
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithObstacles();
         handleSnakeCollisionWithLetters();
