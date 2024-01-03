@@ -175,7 +175,7 @@ public class SnakeGame extends Application implements GameActions {
 
     public void saveScore(){
         int score = gameController.getScore();
-        Util.saveScore(score, AppConfig.getScorePath());
+        Util.saveScore(score, AppConfig.getScorePathFile());
     }
 
 
@@ -216,7 +216,6 @@ public class SnakeGame extends Application implements GameActions {
             menuManager.handleGameOver(); // handle game over
         }
     }
-
 
     public static void main(String[] args) {
         Application.launch(); // launch application
