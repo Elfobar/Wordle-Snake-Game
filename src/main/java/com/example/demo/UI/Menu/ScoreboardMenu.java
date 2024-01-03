@@ -1,11 +1,18 @@
 package com.example.demo.UI.Menu;
 
 import com.example.demo.GameCore.GameConfig;
+import com.example.demo.Util.Util;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
+import java.util.ArrayList;
 
 public class ScoreboardMenu extends AbstractMenu {
     private static final double SCOREBOARD_BOX_HEIGHT = 200;
@@ -27,12 +34,13 @@ public class ScoreboardMenu extends AbstractMenu {
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
 
-        VBox scoreboardBox = createLeaderboardBox();
+        //VBox scoreboardBox = createLeaderboardBox();
+        BorderPane leaderboardBox = createLeaderboardBox();
 
         ImageView back = getBackButton();
 
         StackPane.setMargin(back, new Insets(0, 0, 50, 50));
-        stackPane.getChildren().addAll(scoreboardBox, back);
+        stackPane.getChildren().addAll(leaderboardBox, back);
 
         return stackPane;
     }
@@ -44,16 +52,31 @@ public class ScoreboardMenu extends AbstractMenu {
         return stackPane;
     }
 
-    private VBox createLeaderboardBox() {
+    private BorderPane createLeaderboardBox() {
+        BorderPane pane = new BorderPane();
         VBox scoreboardBox = new VBox();
+        pane.setTop(scoreboardBox);
         scoreboardBox.setAlignment(Pos.TOP_CENTER);
         scoreboardBox.setPrefHeight(SCOREBOARD_BOX_HEIGHT);
         scoreboardBox.setPrefWidth(SCOREBOARD_BOX_WIDTH);
 
+        VBox vbox = new VBox();
+        ArrayList<Integer> scores = Util.getHighestScoresFromFile();
+        String[] places = {"First: ", "Second: ", "Third: ", "Fourth: ", "Fifth: "};
+
+        for (int i = 0; i < Math.min(scores.size(), places.length); i++) {
+            Label label = new Label(places[i] + ": " + scores.get(i));
+            label.setFont(Font.font(20));
+            label.setTextFill(Color.LIGHTBLUE);
+            vbox.getChildren().add(label);
+        }
+        pane.setCenter(vbox);
+
+
         ImageView label = createScoreboardLabel();
         scoreboardBox.getChildren().add(label);
 
-        return scoreboardBox;
+        return pane;
     }
 
     private ImageView createScoreboardLabel() {
@@ -75,5 +98,4 @@ public class ScoreboardMenu extends AbstractMenu {
 
         return back;
     }
-
 }

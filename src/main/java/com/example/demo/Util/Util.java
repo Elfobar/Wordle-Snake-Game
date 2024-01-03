@@ -5,6 +5,7 @@ import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import javafx.scene.text.Font;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Util { // this is our Util class
     private static final Random rand = new Random(); // we'll use this for random stuff

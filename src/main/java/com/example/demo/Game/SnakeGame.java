@@ -1,12 +1,14 @@
 package com.example.demo.Game; //specify package name / location
 
 //imports to make class work
+import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.Sound.Sounds;
 import com.example.demo.UI.Grid;
 import com.example.demo.UI.Header;
 import com.example.demo.UI.Menu.MenuManager;
+import com.example.demo.Util.Util;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -166,9 +168,16 @@ public class SnakeGame extends Application implements GameActions {
         gameRenderer.renderGame(); // render game
         header.updateHeader(); // update header
         if (gameController.getGameOverStatus()) {
+            saveScore();
             menuManager.handleGameOver(); // handle game over
         }
     }
+
+    public void saveScore(){
+        int score = gameController.getScore();
+        Util.saveScore(score, AppConfig.getScorePath());
+    }
+
 
     public void createMiniGameWindow(Stage stage){
         try {
