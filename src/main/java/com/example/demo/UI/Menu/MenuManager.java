@@ -62,7 +62,7 @@ public class MenuManager implements GameActions {
         currentScene.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ENTER) {
-                runGame();
+                restartGame();
             } else if (keyCode == KeyCode.ESCAPE) {
                 navigateToMainMenu();
             }
@@ -134,10 +134,14 @@ public class MenuManager implements GameActions {
             gameActions.stopMiniGame();
         }
     }
-
     private void runGame(){
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startGame(stage);
+    }
+
+    private void restartGame(){
+        SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
+        gameActions.restartGame(stage);
     }
     private void runMiniGame(){
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
@@ -179,6 +183,8 @@ public class MenuManager implements GameActions {
     }
     @Override
     public void startGame(Stage stage){}
+    @Override
+    public void restartGame(Stage stage) {}
     @Override
     public void startMiniGame(Stage stage){}
     @Override

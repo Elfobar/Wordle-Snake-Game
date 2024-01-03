@@ -8,6 +8,7 @@ import com.example.demo.Util.Util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +19,22 @@ public class WordManager {
 
     public WordManager(){
         this.lettersCollected = 0;
-        this.words = initializeWords(AppConfig.getWordsPathFile());
+        this.words = initializeWords();
         this.targetWord = getRandomWord();
     }
 
-    public ArrayList<String> initializeWords(String pathToFile){
+    public ArrayList<String> initializeWords(){
         ArrayList<String> words = new ArrayList<>();
         try{
-            BufferedReader buffReader = new BufferedReader(new FileReader(pathToFile));
+            FileReader reader = new FileReader(AppConfig.getWordsPathFile());
+            BufferedReader buffReader = new BufferedReader(reader);
             String strCurrentLine;
             while((strCurrentLine = buffReader.readLine()) != null){
                 words.add(strCurrentLine);
             }
             buffReader.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error initializing the list of words: \n"+ e.getMessage());
         }
         return words;
     }

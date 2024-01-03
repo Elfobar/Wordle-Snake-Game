@@ -20,14 +20,14 @@ public class Header {
     private Text scoreText;
 
     public Header(GameController gameController){
-        this.font = Util.loadCustomFont(getClass());
+        this.font = Util.loadCustomFont();
         this.gameController = gameController;
         this.targetWord = getTargetWord(gameController.getTargetWord());
         this.currentInput = getCurrentInput();
         this.scoreText = getScoreText();
     }
     public Header(MiniGameController miniGameController){
-        this.font = Util.loadCustomFont(getClass());
+        this.font = Util.loadCustomFont();
         this.miniGameController = miniGameController;
         this.targetWord = getTargetWord(miniGameController.getTargetWord());
         this.currentInput = getCurrentInput();

@@ -26,16 +26,12 @@ public class Util {
         return rand.nextInt(size);
     }
 
-    public static Font loadCustomFont(Class<?> clas) {
+    public static Font loadCustomFont() {
         try {
-            return Font.loadFont(clas.getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.WORD_FONT_SIZE);
+            return Font.loadFont(AppConfig.getCustomFontPath(), GameConfig.TARGET_WORD_FONT_SIZE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return Font.getDefault();
         }
-    }
-
-    public int generateRandomIndex(){
-        return rand.nextInt(2);
     }
 }

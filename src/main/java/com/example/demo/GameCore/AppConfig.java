@@ -1,50 +1,43 @@
 package com.example.demo.GameCore;
 
+import java.net.URL;
+
 public class AppConfig {
+    private static final String FONT_PATH = "/custom_font/blade.ttf";
+    private static final String WORDS_PATH = "/file_input/words.txt";
+    private static final String TILE_TYPE1 = "/Tile1.png";
+    private static final String TILE_TYPE2 = "/Tile2.png";
+    private static final String SNAKE_HEAD = "/snakeHead.png";
+    private static final String SNAKE_SEGMENT = "/snakeSegment.png";
+    private static final String SNAKE_TAIL = "/snakeTail.png";
+    private static final String OBSTACLE = "/obstacle.jpg";
+    private static final String IMAGES_PATH = "/images";
 
-    //FONT NEEDS TO BE PUBLIC
-    public static final String FONT_RELATIVE_PATH = "/custom_font/blade.ttf";
-    public static final int WORD_FONT_SIZE = 60;
-    private static final String WORDS_RELATIVE_PATH = "/file_input/words.txt";
-    private static final String TILE_TYPE1 = "/images/Tile1.png";
-    private static final String TILE_TYPE2 = "/images/Tile2.png";
-    private static final String SNAKE_HEAD = "/images/snakeHead.png";
-    private static final String SNAKE_SEGMENT = "/images/snakeSegment.png";
-    private static final String SNAKE_TAIL = "/images/snakeTail.png";
-    private static final String PROJECT_PATH = "/src/main/resources";
-    private static final String CURRENT_WORKING_DIR = System.getProperty("user.dir") + PROJECT_PATH;
-    private static final String OBSTACLE = "/images/obstacle.jpg";
-
-    public static String getWordsPathFile() {
-        return CURRENT_WORKING_DIR + WORDS_RELATIVE_PATH;
+    public static String getWordsPathFile()  {
+        return getResourcePath(WORDS_PATH).getPath();
     }
-
-    public static String getImagesPathType1(){
-        return CURRENT_WORKING_DIR + TILE_TYPE1;
+    public static String getImagesPathType1()  {
+        return  getResourcePath(IMAGES_PATH + TILE_TYPE1).toString();
     }
-
-    public static String getImagesPathType2(){
-        return CURRENT_WORKING_DIR + TILE_TYPE2;
+    public static String getImagesPathType2()  {
+        return  getResourcePath(IMAGES_PATH + TILE_TYPE2).toString();
     }
-
-    public static String getSnakeHeadPath(){
-        return CURRENT_WORKING_DIR + SNAKE_HEAD;
+    public static String getSnakeHeadPath()  {
+        return getResourcePath(IMAGES_PATH + SNAKE_HEAD).toString();
     }
-
-    public static String getSnakeSegmentPath(){
-        return CURRENT_WORKING_DIR + SNAKE_SEGMENT;
+    public static String getSnakeSegmentPath()  {
+        return getResourcePath(IMAGES_PATH + SNAKE_SEGMENT).toString();
     }
-
-    public static String getSnakeTailPath(){
-        return CURRENT_WORKING_DIR + SNAKE_TAIL;
+    public static String getSnakeTailPath()  {
+        return getResourcePath(IMAGES_PATH + SNAKE_TAIL).toString();
     }
-
-    public static String getCurrentWorkingDir(){
-        return CURRENT_WORKING_DIR;
+    public static String getObstaclePath()  {
+        return getResourcePath(IMAGES_PATH+OBSTACLE).toString();
     }
-
-    public static String getObstaclePath(){
-        return CURRENT_WORKING_DIR + OBSTACLE;
+    public static String getCustomFontPath()  {
+        return getResourcePath(FONT_PATH).toString();
     }
-
+    private static URL getResourcePath(String relativePath) {
+        return AppConfig.class.getResource(relativePath);
+    }
 }
