@@ -5,6 +5,7 @@ import com.example.demo.GameCore.GameConfig;
 import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import com.example.demo.Sound.SoundPlayer;
+import com.example.demo.Util.Util;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -81,7 +82,7 @@ public class SettingsMenu extends AbstractMenu {
     private VBox createVolumeControl(String text) {
         // Create a label with smaller font size
         Label label = new Label(text);
-        label.setFont(Font.loadFont(getClass().getResourceAsStream(AppConfig.FONT_RELATIVE_PATH), AppConfig.WORD_FONT_SIZE / 1.2)); // Adjust the divisor as needed
+        label.setFont(Util.loadCustomFont());
         label.setTextFill(Color.WHITE);
         label.setAlignment(Pos.CENTER);
 

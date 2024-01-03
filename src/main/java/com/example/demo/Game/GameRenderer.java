@@ -24,6 +24,7 @@ public class GameRenderer {
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
         this.obstacle = Obstacle.getMap2(); //  get current level and map
+        drawObstacle();
     }
 
     public LinkedList<Cell> initializeVisualSnake() {
@@ -112,7 +113,7 @@ public class GameRenderer {
     public Text createVisualLetter(Letter letter){
         char letterValue = letter.getValue();
         String visualLetter = letterValue + "";
-        Font customFont = Util.loadCustomFont(getClass());
+        Font customFont = Util.loadCustomFont();
         Text text = new Text(visualLetter);
         text.setFont(customFont);
         text.setFill(Color.LIGHTBLUE);

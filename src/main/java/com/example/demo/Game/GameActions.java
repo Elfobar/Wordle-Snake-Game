@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 
 public interface GameActions {
     void startGame(Stage stage);
+    void restartGame(Stage stage);
     void stopGame();
     void resumeGame(Stage stage);
     void startMiniGame(Stage stage);

@@ -37,11 +37,18 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     @Override
-    public void startGame(Stage stage) { //starts the game, no music cuz game runs from menumanager class
-        resetGame(); // reset game state
-        createGameWindow(stage); // create game window
-        createGameLoop(); // start game loop
+    public void startGame(Stage stage) {
+        createGameWindow(stage);
+        createGameLoop();
     }
+
+    @Override
+    public void restartGame(Stage stage) {
+        resetGame();
+        createGameWindow(stage);
+        createGameLoop();
+    }
+
     @Override
     public void startMiniGame(Stage stage) { // starts the mini game and its music
         resetMiniGame();
@@ -83,7 +90,6 @@ public class SnakeGame extends Application implements GameActions {
         this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         this.grid = new Grid();
         this.gameRenderer = new GameRenderer(gameController, grid);
-        gameRenderer.drawObstacle();
         GameActions gameActions = this;
         this.menuManager = new MenuManager(stage, gameActions);
         menuManager.setState("Game");

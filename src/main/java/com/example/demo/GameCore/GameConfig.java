@@ -3,6 +3,7 @@ package com.example.demo.GameCore;
 public class GameConfig {
     public static final int POINTS_PER_LETTER = 5;
     public static final int INIT_SNAKE_LENGTH = 3;
+    public static final int TARGET_WORD_FONT_SIZE = 60;
     public static final int ROWS = 20;
     public static final int COLUMNS = 20;
     public static final int CELL_SIZE = 40;
