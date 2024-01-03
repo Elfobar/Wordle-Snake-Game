@@ -72,7 +72,7 @@ public class MiniGameRenderer {
     }
 
     public void renderGame() {
-        SoundPlayer.getInstance().playBackgroundMusic(Sounds.MINIGAME_MUSIC);
+
         addObstacles();
         if (miniGameController.getKeyPressed()) {
             changeFrame(miniGameController.getLastKeyPressed());
