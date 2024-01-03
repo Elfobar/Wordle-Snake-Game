@@ -142,6 +142,7 @@ public class SnakeGame extends Application implements GameActions {
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         this.gameLoop.play();
     }
+    
     public void createGameLoop() {
         gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateGame())); // create game loop
         gameLoop.setCycleCount(Timeline.INDEFINITE); // set game loop to loop indefinitely
