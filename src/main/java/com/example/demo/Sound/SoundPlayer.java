@@ -1,14 +1,12 @@
 package com.example.demo.Sound;
 
 import com.example.demo.GameCore.AppConfig;
-import com.example.demo.GameCore.GameConfig;
 import com.example.demo.Util.Util;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.util.Properties;
 import java.io.*;
-import java.util.Random;
 
 public class SoundPlayer {
     private static Properties properties = new Properties();
@@ -52,6 +50,7 @@ public class SoundPlayer {
         Sounds soundEnum = soundEnums[randomIndex]; // Use the random index to select a sound
         Media sound = new Media(soundEnum.getSoundPath());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(sfxVolume);
         mediaPlayer.play();
     }
 
