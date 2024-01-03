@@ -1,6 +1,6 @@
 package com.example.demo.Util; //package name/placement
 
-
+import org.json.JSONArray;
 import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import javafx.scene.text.Font;
@@ -71,5 +71,23 @@ public class Util { // this is our Util class
         return scores;
     }
 
+    public static JSONArray initializeWordsAsJsonArray() {
+        JSONArray wordsArray = new JSONArray();
+        try {
+            FileReader reader = new FileReader(AppConfig.getWordsPathFile());
+            BufferedReader buffReader = new BufferedReader(reader);
+            String strCurrentLine;
+            while ((strCurrentLine = buffReader.readLine()) != null) {
+                wordsArray.put(strCurrentLine);
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            System.out.println("Error initializing the list of words: \n" + e.getMessage());
+        }
+        return wordsArray;
+    }
+
 }
+
+
 

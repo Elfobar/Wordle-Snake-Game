@@ -1,43 +1,24 @@
 package com.example.demo.Game;
 
+import org.json.JSONArray;
 import com.example.demo.GameCore.AppConfig;
 import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.Sound.Sounds;
 import com.example.demo.Util.Util;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WordManager {
     private String targetWord;
     private int lettersCollected;
-    private List<String> words;
+    private JSONArray words;
 
     public WordManager(){
         this.lettersCollected = 0;
-        this.words = initializeWords();
+        this.words = Util.initializeWordsAsJsonArray();
         this.targetWord = getRandomWord();
     }
 
-    public ArrayList<String> initializeWords(){
-        ArrayList<String> words = new ArrayList<>();
-        try{
-            FileReader reader = new FileReader(AppConfig.getWordsPathFile());
-            BufferedReader buffReader = new BufferedReader(reader);
-            String strCurrentLine;
-            while((strCurrentLine = buffReader.readLine()) != null){
-                words.add(strCurrentLine);
-            }
-            buffReader.close();
-        } catch (IOException e) {
-            System.out.println("Error initializing the list of words: \n"+ e.getMessage());
-        }
-        return words;
-    }
 
     public boolean checkNextLetter(char value){
         boolean isCorrect = false;
@@ -68,8 +49,10 @@ public class WordManager {
     }
 
     private String getRandomWord() {
-        int randomIndex = Util.generateRandomIndex(words.size());
-        targetWord = words.get(randomIndex);
+        int randomIndex = Util.generateRandomIndex(words.length());
+        targetWord = words.getString(randomIndex);
+        targetWord = targetWord.substring(2, targetWord.length()-1);
+        System.out.println(targetWord);
         return targetWord;
     }
 
@@ -84,4 +67,5 @@ public class WordManager {
     public String getCurrentInput(){
         return targetWord.substring(0, lettersCollected);
     }
+
 }

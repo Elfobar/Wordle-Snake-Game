@@ -6,6 +6,8 @@ module com.example.demo {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires javafx.media;
+    //requires org.json.;
+    requires org.json;
 
     exports com.example.demo.UI.Menu;
     opens com.example.demo.UI.Menu to javafx.fxml;
