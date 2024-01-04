@@ -28,19 +28,7 @@ public class WordManager {
     }
 
     public ArrayList<String> initializeWords(){
-        ArrayList<String> words = new ArrayList<>();
-        try{
-            FileReader reader = new FileReader(AppConfig.getWordsPathFile());
-            BufferedReader buffReader = new BufferedReader(reader);
-            String strCurrentLine;
-            while((strCurrentLine = buffReader.readLine()) != null){
-                words.add(strCurrentLine);
-            }
-            buffReader.close();
-        } catch (IOException e) {
-            System.out.println("Error initializing the list of words: \n"+ e.getMessage());
-        }
-        return words;
+        return Util.readStringFromFile(AppConfig.getWordsPathFile());
     }
 
     public boolean checkNextLetter(char value){

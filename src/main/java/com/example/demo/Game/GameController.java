@@ -21,7 +21,7 @@ public class GameController extends AbstractController {
         super(); //AbstractController constructor is used, only methods are inherited as attributes are private
         this.snake = new Snake(startLength);
         validCoordinates = initializeValidCoordinates();
-        createLetters(); //1 letter from word and 2 random letters are created and added to ArrayList (belongs to AbstractController)
+        createThreeLetters(); //1 letter from word and 2 random letters are created and added to ArrayList (belongs to AbstractController)
     }
 
     private List<Coordinate> initializeValidCoordinates(){
@@ -54,7 +54,9 @@ public class GameController extends AbstractController {
     }
 
     public void createThreeLetters(){
-        super.getLetters().clear();
+        if(!super.getLetters().isEmpty()){
+            super.getLetters().clear();
+        }
         createLetters();
     }
 

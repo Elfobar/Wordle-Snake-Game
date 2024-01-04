@@ -25,7 +25,6 @@ public class SnakeGame extends Application implements GameActions {
     private GameRenderer gameRenderer; // renderer for main game
     private MenuManager menuManager; // manager for menus
     private Timeline gameLoop; // loop for game updates
-    private KeyFrame frame;
     private Header header; // header for game UI
     private Grid grid; // grid for game UI    private int speed;
     private int speed;
@@ -139,7 +138,7 @@ public class SnakeGame extends Application implements GameActions {
     public void increaseSpeed(){
         speed = speed + (-10); //This decreases the refresh rate -> increased snake speed
         this.gameLoop.getKeyFrames().clear();
-        this.frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
+        KeyFrame frame = new KeyFrame(Duration.millis(speed), event -> updateGame());
         this.gameLoop = new Timeline(frame);
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
         this.gameLoop.play();
@@ -169,7 +168,7 @@ public class SnakeGame extends Application implements GameActions {
 
     public void saveScore(){
         int score = gameController.getScore();
-        Util.saveScore(score, AppConfig.getScorePathFile());
+        Util.saveToJSONFile(score, AppConfig.getScorePathFile());
     }
 
 
