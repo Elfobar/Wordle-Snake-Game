@@ -35,6 +35,7 @@ public class MiniGameRenderer {
     private boolean obstacleSide;
     private BorderPane content;
 
+    // Constructor for mini game.
     public MiniGameRenderer(MiniGameController miniGameController) {
         this.miniGameController = miniGameController;
         this.animationChache = new ImgCache("MiniGame");
@@ -49,7 +50,7 @@ public class MiniGameRenderer {
         this.content = createMiniGameContent();
     }
 
-
+    //Creates the content of the mini-game.
     public BorderPane createMiniGameContent() {
         ImageView background = new ImageView(animationChache.getImage("Background"));
         background.setFitHeight(800);
@@ -91,7 +92,7 @@ public class MiniGameRenderer {
 
     private void changeFrame(int lastKeyPressed) {
         if (lastKeyPressed == 0) {
-            SoundPlayer.getInstance().playSFX(
+            SoundPlayer.getInstance().playSFX(// Four sounds for rotating the snake.
                     Sounds.ROTATE_1,
                     Sounds.ROTATE_2,
                     Sounds.ROTATE_3,
@@ -107,12 +108,12 @@ public class MiniGameRenderer {
         }
     }
 
-    private void clearLetters() {
+    private void clearLetters() { // Removes all letters.
         this.anchorPane.getChildren().removeAll(letters);
         letters.clear();
     }
 
-    public void animateSnake() {
+    public void animateSnake() { // Sets the snake to the corresponding image based on direction.
         if (this.animationCounter == 0) {
             this.snake.setImage(animationChache.getImage("SnakeUpfront"));
             animationCounter++;
@@ -128,7 +129,7 @@ public class MiniGameRenderer {
         }
     }
 
-    public void drawLetters() {
+    public void drawLetters() { // Draw the letters on the screen.
         for (Letter letter : miniGameController.getLetters()) {
             Text textLetter = createVisualLetter(letter);
             if(letter.getLetterLeftRightIndex() == 0){
@@ -143,7 +144,7 @@ public class MiniGameRenderer {
         }
     }
 
-    public void addObstacles () {
+    public void addObstacles () { // Adds letter
         if (miniGameController.getFrameAdjuster() == 2) {
             if (obstacleSide) {
                 this.obstacle.setImage(animationChache.getImage("ObstacleBottom"));
@@ -154,25 +155,25 @@ public class MiniGameRenderer {
         }
     }
 
-    public void removeObstacle() {
+    public void removeObstacle() { // Removes the letter.
         if (miniGameController.getFrameAdjuster() == 3) {
             this.obstacle.setImage(null);
         }
     }
 
-    public Text createVisualLetter(Letter letter){
+    public Text createVisualLetter(Letter letter){ // Makes a text object for the letter.
         char letterValue = letter.getValue();
         String visualLetter = letterValue + "";
         Font customFont = Util.loadCustomFont();
         Text text = new Text(visualLetter);
         text.setFont(customFont);
-        text.setFill(Color.WHITE);
-        text.setStyle("-fx-font-size: 40pt");
+        text.setFill(Color.WHITE); // Sets letter color.
+        text.setStyle("-fx-font-size: 40pt"); // Sets font size.
         return text;
     }
 
     public void animateLetterToCenter(Text letter) {
-        double centerX = stackPane.getWidth() / 2;
+        double centerX = stackPane.getWidth() / 2; // Setts the letters target in the middle of the screen.
         TranslateTransition translation = new TranslateTransition(Duration.millis(2000), letter);
         double translationDistance = 0.0;
         if (AnchorPane.getLeftAnchor(letter) != null) {
@@ -181,8 +182,8 @@ public class MiniGameRenderer {
             translationDistance = centerX - anchorPane.getWidth();
         }
         translation.setToX(translationDistance);
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), letter);
-        fadeTransition.setFromValue(1.0f);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), letter);// 2 seconds to transition.
+        fadeTransition.setFromValue(1.0f);// Transitions from 1 to 0 opacity.
         fadeTransition.setToValue(0.0f);
         ParallelTransition transitions = new ParallelTransition();
         transitions.getChildren().addAll(fadeTransition, translation);

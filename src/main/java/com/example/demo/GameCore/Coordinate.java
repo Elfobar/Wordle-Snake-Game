@@ -4,11 +4,12 @@ public class Coordinate {
     private int x;
     private int y;
 
+    // Constructor for coordinates.
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
+   // Getters and setters to access the coordinates from other classes.
     public void setX(int x) {
         this.x = x;
     }
@@ -26,7 +27,7 @@ public class Coordinate {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) { // An equals method to compare coordinates.
         boolean isEqual = false;
 
         if(other == null){

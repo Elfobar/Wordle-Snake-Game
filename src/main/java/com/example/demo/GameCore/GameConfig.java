@@ -1,5 +1,6 @@
 package com.example.demo.GameCore;
 
+// Other classes use these final
 public class GameConfig {
     public static final int POINTS_FOR_COLLECTED_WORD = 10;
     public static final int INCREASING_POINTS_RATE = 5;
