@@ -4,6 +4,7 @@ package com.example.demo.Util; //package name/placement
 import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import javafx.scene.text.Font;
+import org.json.JSONArray;
 
 import java.io.*;
 import java.util.*;
@@ -29,46 +30,78 @@ public class Util { // this is our Util class
         }
     }
 
-    public static void saveScore(int score, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(Integer.toString(score));
-            writer.newLine();
+    public static void saveToFile(int score, String filePath) {
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+            JSONArray jsonArray = readJSONFromFile(AppConfig.getScorePathFile());
+            System.out.println("initial array:" + jsonArray);
+            jsonArray.put(score);
+            writer.write(jsonArray.toString());
+            writer.close();
         } catch (IOException e) {
-            System.out.println("Error saving score: " + e.getMessage());
+            System.out.println("Error saving to a file: \n " + e.getMessage());
         }
     }
 
+    public static ArrayList<String> readStringFromFile(String filePath){
+        ArrayList<String> words = new ArrayList<>();
+        try{
+            FileReader reader = new FileReader(filePath);
+            BufferedReader buffReader = new BufferedReader(reader);
+            String strCurrentLine;
+            while((strCurrentLine = buffReader.readLine()) != null){
+                words.add(strCurrentLine);
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            System.out.println("Error initializing the list of words: \n"+ e.getMessage());
+        }
+        return words;
+    }
+
+    public static ArrayList<Integer> readIntFromFile(String filePath){
+        ArrayList<Integer> scores = new ArrayList<>();
+        try{
+            FileReader reader = new FileReader(filePath);
+            BufferedReader buffReader = new BufferedReader(reader);
+            String strCurrentLine;
+            while((strCurrentLine = buffReader.readLine()) != null){
+                JSONArray jsonArray = new JSONArray(strCurrentLine);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    int score = jsonArray.getInt(i);
+                    scores.add(score);
+                }
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            System.out.println("Error initializing the list of scores: \n"+ e.getMessage());
+        }
+        return scores;
+    }
+
+    private static JSONArray readJSONFromFile(String filePath){
+        JSONArray jsonArray = new JSONArray();
+        try{
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader buffReader = new BufferedReader(fileReader);
+            String strCurrentLine;
+            while((strCurrentLine = buffReader.readLine()) != null) {
+                System.out.println("IM WORKING");
+                jsonArray = new JSONArray(strCurrentLine);
+            }
+        } catch (IOException e) {
+            System.out.println("Error initializing the list of scores: \n"+ e.getMessage());
+        }
+        return jsonArray;
+    }
+
     public static ArrayList<Integer> getHighestScoresFromFile() {
-        ArrayList<Integer> scores = initScore();
+        ArrayList<Integer> scores = readIntFromFile(AppConfig.getScorePathFile());
         selectionSort(scores);
         LinkedHashSet<Integer> uniqueScores = convertArrayListToSet(scores);
         ArrayList<Integer> uniqueArrayList = convertSetToArrayList(uniqueScores);
         return uniqueArrayList;
-    }
-
-    private static ArrayList<Integer> initScore() {
-        ArrayList<Integer> integerList = new ArrayList<>();
-        try (FileInputStream fileInputStream = new FileInputStream(AppConfig.getScorePathFile());
-             Scanner scanner = new Scanner(fileInputStream)) {
-
-            integerList = readIntegersFromFile(scanner);
-            System.out.println("Integers read from file: " + integerList);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return integerList;
-
-    }
-
-    private static ArrayList<Integer> readIntegersFromFile(Scanner scanner) {
-        ArrayList<Integer> integerList = new ArrayList<>();
-
-        while (scanner.hasNextInt()) {
-            int value = scanner.nextInt();
-            integerList.add(value);
-        }
-        return integerList;
     }
 
     private static void selectionSort(ArrayList<Integer> array) {

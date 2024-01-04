@@ -3,7 +3,7 @@ package com.example.demo.GameCore;
 import java.net.URL;
 
 public class AppConfig {
-    private static final String SCORE_PATH = "/output/score.txt";
+    private static final String SCORE_PATH = "/output/score.json";
     private static final String FONT_PATH = "/custom_font/blade.ttf";
     private static final String WORDS_PATH = "/file_input/words.txt";
     private static final String TILE_TYPE1 = "/Tile1.png";
