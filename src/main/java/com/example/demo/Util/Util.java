@@ -9,99 +9,84 @@ import org.json.JSONArray;
 import java.io.*;
 import java.util.*;
 
-public class Util { // this is our Util class
-    private static final Random rand = new Random(); // we'll use this for random stuff
+public class Util {
+    private static final Random rand = new Random();
 
-    public static char generateRandomLowercaseLetter() { // this gives us a random lowercase letter
-        int randomNumber = rand.nextInt(26) + 'a'; // random number between 0 and 25, then add 'a'
-        return (char) randomNumber; // convert to char and return
+    public static char generateRandomLowercaseLetter() {
+        int randomNumber = rand.nextInt(26) + 'a';
+        return (char) randomNumber;
     }
 
-    public static int generateRandomIndex(int size) { // this gives us a random index
-        return rand.nextInt(size); // random number between 0 and size
+    public static int generateRandomIndex(int size) {
+        return rand.nextInt(size);
     }
 
     public static Font loadCustomFont() {
         try {
             return Font.loadFont(AppConfig.getCustomFontPathFile(), GameConfig.TARGET_WORD_FONT_SIZE);
         } catch (Exception e) {
-            System.out.println(e.getMessage()); // if something goes wrong, print error message
-            return Font.getDefault(); //return the default font
+            System.out.println(e.getMessage());
+            return Font.getDefault();
         }
     }
 
-    public static void saveToFile(int score, String filePath) {
-        try {
-            FileWriter fileWriter = new FileWriter(filePath);
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-            JSONArray jsonArray = readJSONFromFile(AppConfig.getScorePathFile());
-            System.out.println("initial array:" + jsonArray);
-            jsonArray.put(score);
-            writer.write(jsonArray.toString());
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error saving to a file: \n " + e.getMessage());
-        }
+    public static void saveToJSONFile(int score, String filePath){
+        JSONArray jsonArray = readJSONArrayFromFile(filePath);
+        jsonArray.put(score);
+        writeJSONArrayToFile(jsonArray, filePath);
     }
 
-    public static ArrayList<String> readStringFromFile(String filePath){
-        ArrayList<String> words = new ArrayList<>();
-        try{
-            FileReader reader = new FileReader(filePath);
-            BufferedReader buffReader = new BufferedReader(reader);
-            String strCurrentLine;
-            while((strCurrentLine = buffReader.readLine()) != null){
-                words.add(strCurrentLine);
-            }
-            buffReader.close();
-        } catch (IOException e) {
-            System.out.println("Error initializing the list of words: \n"+ e.getMessage());
-        }
-        return words;
-    }
-
-    public static ArrayList<Integer> readIntFromFile(String filePath){
+    public static ArrayList<Integer> readIntFromFile(String filePath) {
         ArrayList<Integer> scores = new ArrayList<>();
-        try{
-            FileReader reader = new FileReader(filePath);
-            BufferedReader buffReader = new BufferedReader(reader);
-            String strCurrentLine;
-            while((strCurrentLine = buffReader.readLine()) != null){
-                JSONArray jsonArray = new JSONArray(strCurrentLine);
-                for(int i = 0; i < jsonArray.length(); i++){
-                    int score = jsonArray.getInt(i);
-                    scores.add(score);
-                }
-            }
-            buffReader.close();
-        } catch (IOException e) {
-            System.out.println("Error initializing the list of scores: \n"+ e.getMessage());
+        JSONArray jsonArray = readJSONArrayFromFile(filePath);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            int score = jsonArray.getInt(i);
+            scores.add(score);
         }
         return scores;
     }
 
-    private static JSONArray readJSONFromFile(String filePath){
-        JSONArray jsonArray = new JSONArray();
-        try{
-            FileReader fileReader = new FileReader(filePath);
-            BufferedReader buffReader = new BufferedReader(fileReader);
-            String strCurrentLine;
-            while((strCurrentLine = buffReader.readLine()) != null) {
-                System.out.println("IM WORKING");
-                jsonArray = new JSONArray(strCurrentLine);
-            }
-        } catch (IOException e) {
-            System.out.println("Error initializing the list of scores: \n"+ e.getMessage());
+    public static ArrayList<String> readStringFromFile(String filePath) {
+        ArrayList<String> words = new ArrayList<>();
+        JSONArray jsonArray = readJSONArrayFromFile(filePath);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String word = jsonArray.getString(i);
+            words.add(word);
         }
-        return jsonArray;
+        return words;
     }
 
     public static ArrayList<Integer> getHighestScoresFromFile() {
         ArrayList<Integer> scores = readIntFromFile(AppConfig.getScorePathFile());
         selectionSort(scores);
-        LinkedHashSet<Integer> uniqueScores = convertArrayListToSet(scores);
-        ArrayList<Integer> uniqueArrayList = convertSetToArrayList(uniqueScores);
-        return uniqueArrayList;
+        return removeDuplicates(scores);
+    }
+
+    private static JSONArray readJSONArrayFromFile(String filePath){
+        JSONArray jsonArray = new JSONArray();
+        try{
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String currentLine = bufferedReader.readLine();
+            if(currentLine != null){
+                jsonArray = new JSONArray(currentLine);
+            }
+            bufferedReader.close();
+        } catch (IOException e){
+            System.out.println("Error reading JSON array from file: " + e.getMessage());
+        }
+        return jsonArray;
+    }
+
+    private static void writeJSONArrayToFile(JSONArray jsonArray, String filePath){
+        try{
+            FileWriter writer = new FileWriter(filePath);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            bufferedWriter.write(jsonArray.toString());
+            bufferedWriter.close();
+        } catch (IOException e){
+            System.out.println("Error writing JSON array to file: " + e.getMessage());
+        }
     }
 
     private static void selectionSort(ArrayList<Integer> array) {
@@ -120,12 +105,8 @@ public class Util { // this is our Util class
         }
     }
 
-    private static LinkedHashSet<Integer> convertArrayListToSet(ArrayList<Integer> array){
-        return new LinkedHashSet<>(array);
-    }
-
-    private static ArrayList<Integer> convertSetToArrayList(LinkedHashSet<Integer> set){
-        return new ArrayList<>(set);
+    private static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+        return new ArrayList<>(new LinkedHashSet<>(list));
     }
 }
 

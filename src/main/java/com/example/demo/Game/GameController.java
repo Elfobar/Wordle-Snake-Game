@@ -22,7 +22,7 @@ public class GameController extends AbstractController {
         super();
         this.snake = new Snake(startLength);
         validCoordinates = initializeValidCoordinates();
-        createLetters();
+        createThreeLetters();
     }
 
     private List<Coordinate> initializeValidCoordinates(){
