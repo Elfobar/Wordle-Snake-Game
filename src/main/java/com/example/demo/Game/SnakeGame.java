@@ -167,8 +167,7 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     public void saveScore(){
-        int score = gameController.getScore();
-        Util.saveToJSONFile(score, AppConfig.getScorePathFile());
+        gameController.saveScore(AppConfig.getScorePathFile());
     }
 
 

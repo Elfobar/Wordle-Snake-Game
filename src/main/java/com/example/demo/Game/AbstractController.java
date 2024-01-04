@@ -10,9 +10,9 @@ import javafx.scene.input.KeyCode;
 
 public abstract class AbstractController {
     private WordManager wordManager;
-    private Score score;
     private ArrayList<Letter> letters;
     private boolean gameOver;
+    protected Score score;
 
     public AbstractController() {
         this.score = new Score();
@@ -25,7 +25,6 @@ public abstract class AbstractController {
 
     abstract void updateGame();
     abstract void createLetters();
-
     public boolean getGameOverStatus() {
         return gameOver;
     }

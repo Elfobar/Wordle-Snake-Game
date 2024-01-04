@@ -5,6 +5,7 @@ import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import javafx.scene.text.Font;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -30,10 +31,10 @@ public class Util {
         }
     }
 
-    public static void saveToJSONFile(int score, String filePath){
+    public static void saveScoreToFile(int score, String filePath){
         JSONArray jsonArray = readJSONArrayFromFile(filePath);
         jsonArray.put(score);
-        writeJSONArrayToFile(jsonArray, filePath);
+        writeToFile(jsonArray, filePath);
     }
 
     public static ArrayList<Integer> readIntFromFile(String filePath) {
@@ -62,6 +63,18 @@ public class Util {
         return removeDuplicates(scores);
     }
 
+    public static void writeToFile(JSONArray jsonArray, String filePath) {
+        writeToJSONFile(jsonArray.toString(), filePath);
+    }
+
+    public static void writeToFile(Object object, String filePath) {
+        writeToJSONFile(object.toString(), filePath);
+    }
+
+    public static JSONObject readObjectFromFile(String filePath){
+        return readJSONObjectFromFile(filePath);
+    }
+
     private static JSONArray readJSONArrayFromFile(String filePath){
         JSONArray jsonArray = new JSONArray();
         try{
@@ -78,11 +91,27 @@ public class Util {
         return jsonArray;
     }
 
-    private static void writeJSONArrayToFile(JSONArray jsonArray, String filePath){
+    private static JSONObject readJSONObjectFromFile(String filePath){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String currentLine = bufferedReader.readLine();
+            if(currentLine != null){
+                jsonObject = new JSONObject(currentLine);
+            }
+            bufferedReader.close();
+        } catch (IOException e){
+            System.out.println("Error reading JSON array from file: " + e.getMessage());
+        }
+        return jsonObject;
+    }
+
+    private static void writeToJSONFile(String data, String filePath){
         try{
             FileWriter writer = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
-            bufferedWriter.write(jsonArray.toString());
+            bufferedWriter.write(data);
             bufferedWriter.close();
         } catch (IOException e){
             System.out.println("Error writing JSON array to file: " + e.getMessage());

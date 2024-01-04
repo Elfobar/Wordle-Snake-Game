@@ -85,6 +85,7 @@ public class SettingsMenu extends AbstractMenu {
 
     private VBox createVolumeControl(String text) {
         // Create a label with smaller font size
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
         Label label = new Label(text);
         label.setFont(Util.loadCustomFont());
         label.setMaxWidth(600);
@@ -94,7 +95,6 @@ public class SettingsMenu extends AbstractMenu {
         Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(100);
-        slider.setValue(50); // Default volume
 
         // Change the color of the slider's thumb and track
         slider.setStyle("-fx-control-inner-background: #FFFFFF; -fx-thumb-fill: #FFFFFF;");
@@ -103,19 +103,18 @@ public class SettingsMenu extends AbstractMenu {
         HBox sliderBox = new HBox(slider);
         sliderBox.setAlignment(Pos.CENTER); // Center the contents of the HBox
 
-        SoundPlayer soundPlayer = SoundPlayer.getInstance();
-        if (text.equals("background music")) {
-            slider.setValue(SoundPlayer.getBackgroundVolume() * 100);
+        if (text.equals("music")) {
+            slider.setValue(soundPlayer.getBackgroundVolume() * 100);
         } else if (text.equals("sound effects")) {
-            slider.setValue(SoundPlayer.getSFXVolume() * 100);
+            slider.setValue(soundPlayer.getSFXVolume() * 100);
         }
 
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Convert to a value between 0.0 and 1.0
             if (text.equals("music")) {
-                SoundPlayer.setBackgroundVolume(slider.getValue() / 100);
+                soundPlayer.setBackgroundVolume(slider.getValue() / 100);
             } else if (text.equals("sound effects")) {
-                SoundPlayer.setSFXVolume(slider.getValue() / 100);
+                soundPlayer.setSFXVolume(slider.getValue() / 100);
             }
         });
 

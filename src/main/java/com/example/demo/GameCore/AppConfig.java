@@ -13,7 +13,7 @@ public class AppConfig {
     private static final String SNAKE_TAIL = "/snakeTail.png";
     private static final String OBSTACLE = "/obstacle.jpg";
     private static final String IMAGES_PATH = "/images";
-    private static final String VOLUME_SETTINGS_FILE = "/audio_settings/volume.properties.txt";
+    private static final String VOLUME_SETTINGS_FILE = "/audio_settings/volume_properties.json";
 
     public static String getWordsPathFile() {
         return getResourcePath(WORDS_PATH).getPath();

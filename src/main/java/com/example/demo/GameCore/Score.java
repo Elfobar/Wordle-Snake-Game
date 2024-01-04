@@ -1,5 +1,7 @@
 package com.example.demo.GameCore;
 
+import com.example.demo.Util.Util;
+
 public class Score {
 
     private int score;
@@ -21,5 +23,9 @@ public class Score {
 
     public int getScore(){
         return this.score;
+    }
+
+    public void saveScore(String filePath) {
+        Util.saveScoreToFile(score, filePath);
     }
 }
