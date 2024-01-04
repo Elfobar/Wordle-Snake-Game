@@ -1,7 +1,9 @@
 package com.example.demo.GameCore;
 
 public class GameConfig {
-    public static final int POINTS_PER_LETTER = 5;
+    public static final int POINTS_FOR_COLLECTED_WORD = 10;
+    public static final int INCREASING_POINTS_RATE = 5;
+    public static final int DECREASING_POINTS_RATE = 5;
     public static final int INIT_SNAKE_LENGTH = 3;
     public static final int TARGET_WORD_FONT_SIZE = 60;
     public static final int ROWS = 20;
