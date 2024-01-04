@@ -6,10 +6,7 @@ import com.example.demo.GameCore.GameConfig;
 import javafx.scene.text.Font;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Util { // this is our Util class
     private static final Random rand = new Random(); // we'll use this for random stuff
@@ -44,7 +41,7 @@ public class Util { // this is our Util class
     public static ArrayList<Integer> getHighestScoresFromFile() {
         ArrayList<Integer> scores = initScore();
         selectionSort(scores);
-        HashSet<Integer> uniqueScores = convertArrayListToSet(scores);
+        LinkedHashSet<Integer> uniqueScores = convertArrayListToSet(scores);
         ArrayList<Integer> uniqueArrayList = convertSetToArrayList(uniqueScores);
         return uniqueArrayList;
     }
@@ -90,21 +87,12 @@ public class Util { // this is our Util class
         }
     }
 
-    private static HashSet<Integer> convertArrayListToSet(ArrayList<Integer> array){
-        HashSet<Integer> set = new HashSet<>();
-        for(Integer integer : array){
-            set.add(integer);
-        }
-        return set;
+    private static LinkedHashSet<Integer> convertArrayListToSet(ArrayList<Integer> array){
+        return new LinkedHashSet<>(array);
     }
 
-    private static ArrayList<Integer> convertSetToArrayList(HashSet<Integer> set){
-        ArrayList<Integer> array = new ArrayList<>();
-        for(Integer integer : set){
-            array.add(integer);
-        }
-        return array;
+    private static ArrayList<Integer> convertSetToArrayList(LinkedHashSet<Integer> set){
+        return new ArrayList<>(set);
     }
-
 }
 
