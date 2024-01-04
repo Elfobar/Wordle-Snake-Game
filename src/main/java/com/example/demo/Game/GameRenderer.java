@@ -23,7 +23,7 @@ public class GameRenderer {
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-        this.obstacle = Obstacle.getMap2(); //  get current level and map
+        this.obstacle = Obstacle.getMap1(); //  get current level and map
         drawObstacle();
     }
 
@@ -123,7 +123,7 @@ public class GameRenderer {
 
     public static List<Coordinate> getObstacleCoordinates() {
         List<Coordinate> obstacleCoordinates = new ArrayList<>();
-        int[][] map = Obstacle.getMap2();
+        int[][] map = Obstacle.getMap1();
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -136,14 +136,10 @@ public class GameRenderer {
     }
 
     public void drawObstacle(){
-        //if level equals 1 getMap1(); if equals 2 getMap2()
         List<Coordinate> obstacleCoordinates = getObstacleCoordinates();
         for(Coordinate coordinate : obstacleCoordinates){
-            //Obstacle obstacle = new Obstacle();
-            //grid.addObstacle(obstacle, coordinate.getX(),coordinate.getY());
             Cell obstacleCell = CellFactory.createObstacle();
             grid.add(obstacleCell, coordinate.getX(),coordinate.getY());
-            //when image is used for obstacles game slows down
         }
     }
 

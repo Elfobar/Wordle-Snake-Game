@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import com.example.demo.Game.WordManager;
 import com.example.demo.GameCore.GameConfig;
 import com.example.demo.GameCore.Letter;
+import com.example.demo.GameCore.Score;
 import javafx.scene.input.KeyCode;
 
 public abstract class AbstractController {
     private WordManager wordManager;
-    private int score;
+    private Score score;
     private ArrayList<Letter> letters;
     private boolean gameOver;
 
     public AbstractController() {
-        this.wordManager = new WordManager();
+        this.score = new Score();
+        this.wordManager = new WordManager(score);
         this.letters = new ArrayList<>();
         this.gameOver = false;
-        this.score = 0;
     }
 
     abstract void handleKeyPress(KeyCode code);
@@ -64,10 +65,12 @@ public abstract class AbstractController {
         return wordManager.getCurrentInput();
     }
     public void incrementScore() {
-        score = score + GameConfig.POINTS_PER_LETTER;
+        score.increaseScore(GameConfig.INCREASING_POINTS_RATE);
     }
-
+    public void decrementScore(){
+        score.decreaseScore(GameConfig.DECREASING_POINTS_RATE);
+    }
     public int getScore(){
-        return score;
+        return score.getScore();
     }
 }

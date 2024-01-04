@@ -128,7 +128,7 @@ public class GameController extends AbstractController {
                     Sounds.EAT_3,
                     Sounds.EAT_4);
         } else{
-
+            decrementScore();
             super.introduceNewWord();
             SoundPlayer.getInstance().playSFX(
                     Sounds.WRONG_LETTER_1,

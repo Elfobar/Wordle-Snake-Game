@@ -1,6 +1,8 @@
 package com.example.demo.Game;
 
 import com.example.demo.GameCore.AppConfig;
+import com.example.demo.GameCore.GameConfig;
+import com.example.demo.GameCore.Score;
 import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.Sound.Sounds;
 import com.example.demo.Util.Util;
@@ -16,11 +18,13 @@ public class WordManager {
     private String targetWord;
     private int lettersCollected;
     private List<String> words;
+    private Score score;
 
-    public WordManager(){
+    public WordManager(Score score){
         this.lettersCollected = 0;
         this.words = initializeWords();
         this.targetWord = getRandomWord();
+        this.score = score;
     }
 
     public ArrayList<String> initializeWords(){
@@ -59,6 +63,7 @@ public class WordManager {
                     Sounds.COMPLETED_WORD_2,
                     Sounds.COMPLETED_WORD_3);
             introduceNewWord();
+            score.increaseScore(GameConfig.POINTS_FOR_COLLECTED_WORD);
         }
     }
 
