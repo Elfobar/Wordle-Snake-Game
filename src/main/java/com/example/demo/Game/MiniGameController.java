@@ -12,12 +12,13 @@ public class MiniGameController extends AbstractController {
     private boolean updateNeeded;
     private boolean keyPressed;
     private int lastKeyPressed;
+
     public MiniGameController() {
         this.frameAdjuster = 0;
         this.updateNeeded = true;
         createLetters();
     }
-    public void createLetters() {
+    public void createLetters() {   //
         int index = Util.generateRandomIndex(2);
         int otherIndex;
         if (index == 0) {
@@ -28,7 +29,6 @@ public class MiniGameController extends AbstractController {
         createLetterFromWord(index);
         createRandomLetter(otherIndex);
     }
-
     public void createRandomLetter(int otherIndex) {
         Letter letter = new Letter(Util.generateRandomLowercaseLetter());
         letter.setLetterLeftRightIndex(otherIndex);

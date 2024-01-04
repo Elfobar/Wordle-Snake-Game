@@ -26,6 +26,10 @@ public class CellFactory {
         return createCell(AppConfig.getSnakeTailPath()); // create cell with snake tail image path
     }
 
+    public static Cell createObstacle(){ // this gives us an obstacle cell
+        return createCell(AppConfig.getObstaclePath()); // create cell with obstacle image path
+    }
+
     private static Cell createCell(String pathToFile){ // this gives us a cell with a specific image
         try{
             Image image = new Image(pathToFile); // try catch block to load the image
@@ -47,10 +51,4 @@ public class CellFactory {
         return defaultCell; // return the cell
     }
 
-    public static Cell createObstacle(){ // this gives us an obstacle cell
-        Cell cell = new Cell(GameConfig.CELL_SIZE); // create a new cell
-        Image image = new Image(AppConfig.getObstaclePath()); // load the obstacle image
-        cell.setFill(new ImagePattern(image)); // fill the cell with the obstacle image
-        return cell; // return the cell
-    }
 }
