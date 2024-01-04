@@ -1,12 +1,14 @@
 package com.example.demo.Game; //specify package name / location
 
 //imports to make class work
+import com.example.demo.GameCore.AppConfig;
 import com.example.demo.GameCore.GameConfig;
 import com.example.demo.Sound.SoundPlayer;
 import com.example.demo.Sound.Sounds;
 import com.example.demo.UI.Grid;
 import com.example.demo.UI.Header;
 import com.example.demo.UI.Menu.MenuManager;
+import com.example.demo.Util.Util;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -35,11 +37,12 @@ public class SnakeGame extends Application implements GameActions {
     }
 
     @Override
-    public void startGame(Stage stage) { //starts the game, no music cuz game runs from menumanager class
-        resetGame(); // reset game state
-        createGameWindow(stage); // create game window
-        createGameLoop(); // start game loop
+    public void startGame(Stage stage) {
+        resetGame();
+        createGameWindow(stage);
+        createGameLoop();
     }
+
     @Override
     public void startMiniGame(Stage stage) { // starts the mini game and its music
         resetMiniGame();
@@ -81,7 +84,6 @@ public class SnakeGame extends Application implements GameActions {
         this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         this.grid = new Grid();
         this.gameRenderer = new GameRenderer(gameController, grid);
-        gameRenderer.drawObstacle();
         GameActions gameActions = this;
         this.menuManager = new MenuManager(stage, gameActions);
         menuManager.setState("Game");
@@ -160,9 +162,16 @@ public class SnakeGame extends Application implements GameActions {
         gameRenderer.renderGame(); // render game
         header.updateHeader(); // update header
         if (gameController.getGameOverStatus()) {
+            saveScore();
             menuManager.handleGameOver(); // handle game over
         }
     }
+
+    public void saveScore(){
+        int score = gameController.getScore();
+        Util.saveScore(score, AppConfig.getScorePathFile());
+    }
+
 
     public void createMiniGameWindow(Stage stage){
         try {
@@ -201,7 +210,6 @@ public class SnakeGame extends Application implements GameActions {
             menuManager.handleGameOver(); // handle game over
         }
     }
-
 
     public static void main(String[] args) {
         Application.launch(); // launch application

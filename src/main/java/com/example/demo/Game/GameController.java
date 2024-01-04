@@ -16,7 +16,7 @@ import java.util.List;
 public class GameController extends AbstractController {
     private final Snake snake;
     private List<Coordinate> validCoordinates;
-    private boolean directionChosen;
+    private boolean hasChosenDirection;
 
     public GameController(int startLength){
         super();
@@ -39,15 +39,15 @@ public class GameController extends AbstractController {
     }
 
     public void handleKeyPress(KeyCode key){
-        if(directionChosen == false){
+        if(!hasChosenDirection){
             snake.changeDirection(key);
-            directionChosen = true;
+            hasChosenDirection = true;
         }
     }
 
     public void updateGame(){
         snake.moveSnake();
-        directionChosen = false;
+        hasChosenDirection = false;
         handleSnakeCollisionWithItself();
         handleSnakeCollisionWithObstacles();
         handleSnakeCollisionWithLetters();
@@ -175,11 +175,6 @@ public class GameController extends AbstractController {
         }
         return false;
     }
-
-    private boolean isSnakeLengthIncreased(int currentLength) {
-        return currentLength < snake.getBody().size();
-    }
-
     public Snake getSnake(){
         return this.snake;
     }

@@ -134,7 +134,6 @@ public class MenuManager implements GameActions {
             gameActions.stopMiniGame();
         }
     }
-
     private void runGame(){
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startGame(stage);

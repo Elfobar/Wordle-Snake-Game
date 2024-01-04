@@ -20,15 +20,15 @@ public class Header {
     private Text currentInput; // used to display the current input.
     private Text scoreText; // used to display the score.
 
-    public Header(GameController gameController){ // takes a GameController object as a parameter
-        this.font = Util.loadCustomFont(getClass()); // calls loadCustomFont method of the Util class to load a custom font, and assigns the result to the font variable
-        this.gameController = gameController; // assigns gameController parameter to the gameController variable
-        this.targetWord = getTargetWord(gameController.getTargetWord()); // Calls getTargetWord method with the target word from the game controller and assigns the result to the targetWord variable
-        this.currentInput = getCurrentInput(); // Calls getCurrentInput method and assigns the result to the currentInput variable
-        this.scoreText = getScoreText(); // calls getScoreText method and assigns the result to the scoreText variable
+    public Header(GameController gameController){
+        this.font = Util.loadCustomFont();
+        this.gameController = gameController;
+        this.targetWord = getTargetWord(gameController.getTargetWord());
+        this.currentInput = getCurrentInput();
+        this.scoreText = getScoreText();
     }
     public Header(MiniGameController miniGameController){
-        this.font = Util.loadCustomFont(getClass());
+        this.font = Util.loadCustomFont();
         this.miniGameController = miniGameController;
         this.targetWord = getTargetWord(miniGameController.getTargetWord());
         this.currentInput = getCurrentInput();

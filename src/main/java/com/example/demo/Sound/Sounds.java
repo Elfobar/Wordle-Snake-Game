@@ -2,6 +2,8 @@ package com.example.demo.Sound;
 
 import com.example.demo.GameCore.AppConfig;
 
+import java.net.URL;
+
 public enum Sounds implements SoundInfo{
 
     BACKGROUND_TRACK("/sounds/earworm.mp3"),
@@ -49,7 +51,7 @@ public enum Sounds implements SoundInfo{
     WRONG_LETTER_1 ("/sounds/wrong letter 1.mp3"),
     WRONG_LETTER_2 ("/sounds/wrong letter 2.mp3"),
     WRONG_LETTER_3 ("/sounds/wrong letter 3.mp3"),
-    WRONG_LETTER_4 ("/sounds/wrong letter 4.mp3"),;;
+    WRONG_LETTER_4 ("/sounds/wrong letter 4.mp3");
 
     private final String name;
     Sounds(String name) {
@@ -61,6 +63,11 @@ public enum Sounds implements SoundInfo{
     }
     @Override
     public String getSoundPath() {
-        return AppConfig.getCurrentWorkingDir() + getSoundName();
+        URL resourceUrl = getClass().getResource(name);
+        if (resourceUrl != null) {
+            return resourceUrl.toString();
+        } else {
+            throw new RuntimeException("Sound file not found: " + name);
+        }
     }
 }
