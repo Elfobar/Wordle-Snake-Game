@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
-public class ScoreboardMenu extends AbstractMenu {
+
+public class ScoreboardMenu extends AbstractMenu {// Final constants to be used in other methods.
     private static final double SCOREBOARD_BOX_HEIGHT = 200;
     private static final double SCOREBOARD_BOX_WIDTH = 100;
     private static final String SCOREBOARD_LABEL_IMAGE = "ScoreboardLabel";
@@ -30,15 +30,14 @@ public class ScoreboardMenu extends AbstractMenu {
 
     public ScoreboardMenu(){
         super();
-        this.font = Util.loadCustomFont();
+        this.font = Util.loadCustomFont();// Initializes custom font.
     }
 
-    public StackPane createContent(){
+    public StackPane createContent(){ // Creates backgro
         StackPane stackPane = createStackPane();
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);
 
-        //VBox scoreboardBox = createLeaderboardBox();
         BorderPane leaderboardBox = createLeaderboardBox();
 
         ImageView back = getBackButton();
@@ -56,7 +55,7 @@ public class ScoreboardMenu extends AbstractMenu {
         return stackPane;
     }
 
-    private BorderPane createLeaderboardBox() {
+    private BorderPane createLeaderboardBox() {// Displays the elements of the scoreboard.
         BorderPane pane = new BorderPane();
         VBox scoreboardBox = new VBox();
         pane.setTop(scoreboardBox);
@@ -69,6 +68,7 @@ public class ScoreboardMenu extends AbstractMenu {
         vbox.setSpacing(10.0);
         vbox.setPadding(new Insets(0, 0, 0, 180.0));
         ArrayList<Integer> scores = Util.getHighestScoresFromFile();
+        // Array representing places in the leaderboard
         String[] places = {"First: ", "Second: ", "Third: ", "Fourth: ", "Fifth: "};
 
         for (int i = 0; i < Math.min(scores.size(), places.length); i++) {
@@ -91,7 +91,7 @@ public class ScoreboardMenu extends AbstractMenu {
         return pane;
     }
 
-    private ImageView createScoreboardLabel() {
+    private ImageView createScoreboardLabel() {// Sets the label and dimensions.
         ImageView label = new ImageView(cache.getImage(SCOREBOARD_LABEL_IMAGE));
         label.setMouseTransparent(true);
         label.setPreserveRatio(true);
@@ -100,7 +100,7 @@ public class ScoreboardMenu extends AbstractMenu {
         return label;
     }
 
-    public ImageView getBackButton(){
+    public ImageView getBackButton(){ // Shows the back button and sets the dimensions.
 
         ImageView back = new ImageView(cache.getImage(BACK_BUTTON_IMAGE));
         back.setId("back");
