@@ -33,7 +33,7 @@ public class ScoreboardMenu extends AbstractMenu {// Final constants to be used 
         this.font = Util.loadCustomFont();// Initializes custom font.
     }
 
-    public StackPane createContent(){ // Creates background and buttons and returns it.git 
+    public StackPane createContent(){ // Creates backgro
         StackPane stackPane = createStackPane();
         ImageView background = getBackground(stackPane);
         stackPane.getChildren().add(background);

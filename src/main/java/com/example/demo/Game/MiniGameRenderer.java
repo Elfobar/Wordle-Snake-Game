@@ -155,7 +155,7 @@ public class MiniGameRenderer {
         }
     }
 
-    public void removeObstacle() { // removes the letter.
+    public void removeObstacle() { // Removes the letter.
         if (miniGameController.getFrameAdjuster() == 3) {
             this.obstacle.setImage(null);
         }
