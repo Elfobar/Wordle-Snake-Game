@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public enum MenuImage implements ImageInfo {
+    // Image names and paths, will be called with enums.
     FRAME("ButtonFrame", "/images/ButtonFrame.png"),
     LOADING("Loading", "/images/LoadingScreen.png"),
     ARROWS("ArrowsImg", "/images/ArrowsImg.png"),
@@ -23,16 +24,16 @@ public enum MenuImage implements ImageInfo {
     private final String name;
     private final String path;
 
-    MenuImage(String name, String path) {
+    MenuImage(String name, String path) {   // Constructor to initialize name and path
         this.name = name;
         this.path = path;
     }
 
     public String getName() {
         return name;
-    }
+    }   // Method to retrieve the name
 
-    public Image getImage() {
+    public Image getImage() {   // Method to get the image
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         return image;
     }

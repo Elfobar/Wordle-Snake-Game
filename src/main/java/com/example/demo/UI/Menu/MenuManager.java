@@ -22,7 +22,7 @@ public class MenuManager implements GameActions {
     private String state;
 
 
-    public MenuManager(Stage stage, GameActions gameActions){
+    public MenuManager(Stage stage, GameActions gameActions){   //
         this.stage = stage;
         this.currentMenu = new MainMenu();
         this.gameActions = gameActions;
