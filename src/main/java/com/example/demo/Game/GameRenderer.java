@@ -23,7 +23,7 @@ public class GameRenderer {
         this.grid = grid;
         this.visualSnakeBody = initializeVisualSnake();
         this.visualLetters = initializeVisualLetters();
-        this.obstacle = Obstacle.getMap2(); //  get current level and map
+        this.obstacle = Obstacle.getMap1(); //  get current level and map
         drawObstacle();
     }
 
