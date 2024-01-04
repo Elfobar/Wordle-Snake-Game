@@ -9,22 +9,12 @@ import java.util.Properties;
 import java.io.*;
 
 public class SoundPlayer {
-    private static Properties properties = new Properties();
     private static SoundPlayer instance;
     private MediaPlayer backgroundPlayer;
-
-    private static double backgroundVolume; // Default volume in middle
-    private static double sfxVolume; // Default volume in middle
+    private SoundSettings soundSettings;
 
     private SoundPlayer() {
-        // Load settings from file
-        try (InputStream input = new FileInputStream(AppConfig.getAudioSettingsPathFile())) {
-            properties.load(input);
-            backgroundVolume = Double.parseDouble(properties.getProperty("backgroundVolume", "0.5"));
-            sfxVolume = Double.parseDouble(properties.getProperty("sfxVolume", "0.5"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        this.soundSettings = new SoundSettings();
     } //only one instance of the class exists due to singleton pattern
 
     public static SoundPlayer getInstance() {
@@ -41,7 +31,7 @@ public class SoundPlayer {
         Media sound = new Media(soundEnum.getSoundPath());
         backgroundPlayer = new MediaPlayer(sound);
         backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        backgroundPlayer.setVolume(backgroundVolume); // Set the volume lvl
+        backgroundPlayer.setVolume(getBackgroundVolume()); // Set the volume lvl
         backgroundPlayer.play();
     }
 
@@ -50,7 +40,7 @@ public class SoundPlayer {
         Sounds soundEnum = soundEnums[randomIndex]; // Use the random index to select a sound
         Media sound = new Media(soundEnum.getSoundPath());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(sfxVolume);
+        mediaPlayer.setVolume(getSFXVolume());
         mediaPlayer.play();
     }
 
@@ -66,32 +56,27 @@ public class SoundPlayer {
         }
     }
 
-    public static double getBackgroundVolume() {
-        return backgroundVolume;
+    public void saveSettings(){
+        Util.writeToFile(soundSettings, AppConfig.getAudioSettingsPathFile());
     }
 
-    public static double getSFXVolume() {
-        return sfxVolume;
+    public double getBackgroundVolume() {
+        return soundSettings.getBackgroundVolume();
     }
 
-    public static void setBackgroundVolume(double volume) {
-        backgroundVolume = volume;
-        properties.setProperty("backgroundVolume", Double.toString(volume));
+    public double getSFXVolume() {
+        return soundSettings.getSfxVolume();
+    }
+
+    public void setBackgroundVolume(double volume) {
+        soundSettings.setBackgroundVolume(volume);
         saveSettings();
     }
 
-    public static void setSFXVolume(double volume) {
-        sfxVolume = volume;
-        properties.setProperty("sfxVolume", Double.toString(volume));
+    public void setSFXVolume(double volume) {
+        soundSettings.setSfxVolume(volume);
         saveSettings();
     }
 
-    private static void saveSettings() {
-        try (OutputStream output = new FileOutputStream(AppConfig.getAudioSettingsPathFile())) {
-            properties.store(output, null);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
 

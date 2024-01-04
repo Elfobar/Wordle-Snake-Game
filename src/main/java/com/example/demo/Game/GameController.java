@@ -21,7 +21,7 @@ public class GameController extends AbstractController {
         super(); //AbstractController constructor is used, only methods are inherited as attributes are private
         this.snake = new Snake(startLength);
         validCoordinates = initializeValidCoordinates();
-        createThreeLetters(); //1 letter from word and 2 random letters are created and added to ArrayList (belongs to AbstractController)
+        clearAndCreateLetters(); //1 letter from word and 2 random letters are created and added to ArrayList (belongs to AbstractController)
     }
 
     private List<Coordinate> initializeValidCoordinates(){
@@ -53,7 +53,7 @@ public class GameController extends AbstractController {
         handleSnakeCollisionWithLetters();
     }
 
-    public void createThreeLetters(){
+    public void clearAndCreateLetters(){
         if(!super.getLetters().isEmpty()){
             super.getLetters().clear();
         }
@@ -116,7 +116,7 @@ public class GameController extends AbstractController {
             }
         }
         if(hasEatenLetter){
-            createThreeLetters(); //When letter is eaten, new letters are spawned
+            clearAndCreateLetters(); //When letter is eaten, new letters are spawned
         }
     }
 
@@ -138,6 +138,10 @@ public class GameController extends AbstractController {
                     Sounds.WRONG_LETTER_3,
                     Sounds.WRONG_LETTER_4);
         }
+    }
+
+    public void saveScore(String filePath){
+        score.saveScore(filePath);
     }
 
     public boolean isValidLetterPosition(Coordinate cord){ //Check to ensure that the letter is not spawned inside snake or near head
