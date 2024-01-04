@@ -38,14 +38,14 @@ public class ImgCache {
         }
     }
 
-    public Image getImage(String name) {
-        if(type.equals("Menu")) {
+    public Image getImage(String name) { 
+        if(type.equals("Menu")) { // Checks if the image is for the menu
             for (int i = 0; i < menuImageInfo.size(); i++) {
                 if (menuImageInfo.get(i).getName().equals(name)) {
                     return images.get(i);
                 }
             }
-        } else if(type.equals("MiniGame")) {
+        } else if(type.equals("MiniGame")) { // Checks if the image is for Minigame
             for (int i = 0; i < miniGameImageInfo.size(); i++) {
                 if (miniGameImageInfo.get(i).getName().equals(name)) {
                     return images.get(i);
