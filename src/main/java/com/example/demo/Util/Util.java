@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -40,6 +41,14 @@ public class Util { // this is our Util class
         }
     }
 
+    public static ArrayList<Integer> getHighestScoresFromFile() {
+        ArrayList<Integer> scores = initScore();
+        selectionSort(scores);
+        HashSet<Integer> uniqueScores = convertArrayListToSet(scores);
+        ArrayList<Integer> uniqueArrayList = convertSetToArrayList(uniqueScores);
+        return uniqueArrayList;
+    }
+
     private static ArrayList<Integer> initScore() {
         ArrayList<Integer> integerList = new ArrayList<>();
         try (FileInputStream fileInputStream = new FileInputStream(AppConfig.getScorePathFile());
@@ -65,10 +74,36 @@ public class Util { // this is our Util class
         return integerList;
     }
 
-    public static ArrayList<Integer> getHighestScoresFromFile() {
-        ArrayList<Integer> scores = initScore();
-        scores.sort((a, b) -> Integer.compare(b, a));
-        return scores;
+    private static void selectionSort(ArrayList<Integer> array) {
+        int size = array.size();
+        int highestIndex;
+        for(int i = 0; i < size - 1; i++){
+            highestIndex = i;
+            for(int j = i + 1; j < size; j++){
+                if(array.get(j) > array.get(highestIndex)){
+                    highestIndex = j;
+                }
+            }
+            int temp = array.get(highestIndex);
+            array.set(highestIndex, array.get(i));
+            array.set(i, temp);
+        }
+    }
+
+    private static HashSet<Integer> convertArrayListToSet(ArrayList<Integer> array){
+        HashSet<Integer> set = new HashSet<>();
+        for(Integer integer : array){
+            set.add(integer);
+        }
+        return set;
+    }
+
+    private static ArrayList<Integer> convertSetToArrayList(HashSet<Integer> set){
+        ArrayList<Integer> array = new ArrayList<>();
+        for(Integer integer : set){
+            array.add(integer);
+        }
+        return array;
     }
 
 }
