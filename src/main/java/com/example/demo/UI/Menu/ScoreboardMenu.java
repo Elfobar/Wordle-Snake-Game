@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ScoreboardMenu extends AbstractMenu {
     private static final double SCOREBOARD_BOX_HEIGHT = 200;
