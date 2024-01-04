@@ -12,12 +12,12 @@ public class MiniGameController extends AbstractController {
     private boolean updateNeeded;
     private boolean keyPressed;
     private int lastKeyPressed;
-    public MiniGameController() {
+    public MiniGameController() { // Constructor
         this.frameAdjuster = 0;
         this.updateNeeded = true;
         createLetters();
     }
-    public void createLetters() {
+    public void createLetters() { // Spawn letters
         int index = Util.generateRandomIndex(2);
         int otherIndex;
         if (index == 0) {
@@ -29,18 +29,18 @@ public class MiniGameController extends AbstractController {
         createRandomLetter(otherIndex);
     }
 
-    public void createRandomLetter(int otherIndex) {
+    public void createRandomLetter(int otherIndex) { // Genereates a random letter
         Letter letter = new Letter(Util.generateRandomLowercaseLetter());
         letter.setLetterLeftRightIndex(otherIndex);
         super.add(letter);
     }
 
-    public void createLetterFromWord(int index) {
+    public void createLetterFromWord(int index) { // Generates a letter from given word 
         Letter letter = new Letter(pickNextLetterFromWord());
         letter.setLetterLeftRightIndex(index);
         super.add(letter);
     }
-    public void handleKeyPress(KeyCode code) {
+    public void handleKeyPress(KeyCode code) { // Registers the control buttons
         SoundPlayer.getInstance().playSFX(
                 Sounds.EAT_1,
                 Sounds.EAT_2,
@@ -60,7 +60,7 @@ public class MiniGameController extends AbstractController {
         }
     }
 
-    public void eatLeft() {
+    public void eatLeft() { // Check letter on left side on press
         boolean isCorrect = false;
         for (Letter letter : super.getLetters()) {
             if (letter.getLetterLeftRightIndex() == 0 && frameAdjuster % 5 == 0) {
@@ -87,7 +87,7 @@ public class MiniGameController extends AbstractController {
         }
     }
 
-    public void eatRight() {
+    public void eatRight() { // Check letter on right sode on press
         boolean isCorrect = false;
         for (Letter letter : getLetters()) {
             if (letter.getLetterLeftRightIndex() == 1 && frameAdjuster % 5 == 0) {
@@ -121,7 +121,7 @@ public class MiniGameController extends AbstractController {
             frameAdjuster = 0;
         }
     }
-    public void updateGame() {
+    public void updateGame() { // Updates game
         if(frameAdjuster % 6 == 0){
             updateNeeded = true;
         }
@@ -129,7 +129,7 @@ public class MiniGameController extends AbstractController {
         frameAdjuster++;
     }
 
-    private void removeLetters() {
+    private void removeLetters() { // Remove letter
         super.getLetters().clear();
     }
 
@@ -140,11 +140,11 @@ public class MiniGameController extends AbstractController {
     public boolean getUpdateNeeded() {
         return this.updateNeeded;
     }
-    public void setUpdateNeeded(boolean updateNeeded) {
+    public void setUpdateNeeded(boolean updateNeeded) { // Declare that an update is needed
         this.updateNeeded = updateNeeded;
     }
 
-    public boolean getKeyPressed() {
+    public boolean getKeyPressed() { 
         return this.keyPressed;
     }
     public void setKeyPressed(boolean keyPressed) {
