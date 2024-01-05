@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+//EscMenu represents the game menu that appears when the is paused
 public class EscMenu extends AbstractMenu {
 
     private static final String CONTINUE_LABEL_IMAGE = "ContinueLabel";
@@ -21,6 +22,7 @@ public class EscMenu extends AbstractMenu {
         super();
     }
 
+    //Method that creates the whole EscMenu that consists of background(StackPane) and buttons(Vbox).
     public StackPane createContent(){
         StackPane stackPane = createStackPane();
         VBox menuBox = createMenuBox();
@@ -29,6 +31,7 @@ public class EscMenu extends AbstractMenu {
         return stackPane;
     }
 
+    //Loads the background which is adjusted by specific Width and Height
     private StackPane createStackPane() {
         StackPane stackPane = new StackPane();
         stackPane.setPrefSize(GameConfig.WIDTH, GameConfig.HEIGHT);
@@ -37,6 +40,8 @@ public class EscMenu extends AbstractMenu {
         return stackPane;
     }
 
+    //Creates 2 buttons that consist of two pictures one on top of the other: label picture and button frame; assembles
+    // the Vbox layout that will store them
     private VBox createMenuBox() {
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
@@ -52,6 +57,7 @@ public class EscMenu extends AbstractMenu {
         return menuBox;
     }
 
+    //Sets the picture of the name of the button, assigns its unique ID which then can be accessed to add behaviour by clicking on it
     private ImageView createLabel(String imageName, double width, double height, String id) {
         ImageView label = new ImageView(cache.getImage(imageName));
         label.setFitWidth(width);
@@ -60,6 +66,8 @@ public class EscMenu extends AbstractMenu {
         return label;
     }
 
+
+    //Sets the background of the button, in other words its frame.
     public StackPane getMenuButton(ImageView label){
         StackPane button = new StackPane();
         button.setAlignment(Pos.CENTER);
