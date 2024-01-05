@@ -2,6 +2,8 @@ package com.example.demo.GameCore;
 
 import com.example.demo.Util.Util;
 
+//Score class that encapsulates the logic of managing the score. Its refactored in another class because of the modularity
+//This way other classes can also manage the in-game score, not only the gameController
 public class Score {
 
     private int score;
@@ -20,7 +22,6 @@ public class Score {
             score = 0;
         }
     }
-
     public int getScore(){
         return this.score;
     }

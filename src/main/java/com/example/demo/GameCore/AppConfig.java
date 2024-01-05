@@ -2,6 +2,7 @@ package com.example.demo.GameCore;
 
 import java.net.URL;
 
+//Utility class that provides methods to retrieve the file paths for different resources in the game.
 public class AppConfig {
     private static final String SCORE_PATH = "/output/score.json";
     private static final String FONT_PATH = "/custom_font/blade.ttf";
@@ -43,6 +44,7 @@ public class AppConfig {
     public static String getObstaclePath()  {
         return getResourcePath(IMAGES_PATH+OBSTACLE).toString();
     }
+    //This method uses its own loader getResource() to get a URL. This way the correct path is generated across different platforms.
     private static URL getResourcePath(String relativePath) {
         return AppConfig.class.getResource(relativePath);
     }

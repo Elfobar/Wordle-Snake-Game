@@ -16,6 +16,7 @@ public enum Direction {
         this.y = y;
     }
 
+    //Method is needed to prevent the snake from going UP when its already going DOWN.
     public Direction getOpposite() {
         switch (this) {
             case UP:
@@ -31,6 +32,7 @@ public enum Direction {
         }
     }
 
+    //Maps the direction from the key that user has pressed
     public Direction getDirectionFromKeyCode(KeyCode keyCode, Direction currentDirection) {
         switch (keyCode) {
             case UP:
