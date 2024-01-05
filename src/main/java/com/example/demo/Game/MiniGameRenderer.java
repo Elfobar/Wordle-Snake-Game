@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-
+//MiniGameRenderer is used to draw everything that happens on the screen when the mini game is started.
 public class MiniGameRenderer {
     private MiniGameController miniGameController;
     private StackPane stackPane;
@@ -72,6 +72,8 @@ public class MiniGameRenderer {
         return borderPane;
     }
 
+    //handles  including handling key presses, updating the frame, animating the snake, clearing letters, drawing new letters,
+    // and removing obstacles.
     public void renderGame() {
 
         addObstacles();
@@ -90,6 +92,7 @@ public class MiniGameRenderer {
         removeObstacle();
     }
 
+    //Changes the frame based on the last key pressed, triggering a rotation animation and playing a sound effect.
     private void changeFrame(int lastKeyPressed) {
         if (lastKeyPressed == 0) {
             SoundPlayer.getInstance().playSFX(// Four sounds for rotating the snake.

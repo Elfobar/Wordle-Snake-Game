@@ -7,6 +7,7 @@ import com.example.demo.Sound.Sounds;
 import com.example.demo.Util.Util;
 import javafx.scene.input.KeyCode;
 
+//MiniGameController is responsible for the recreating the logic of mini game.
 public class MiniGameController extends AbstractController {
     private int frameAdjuster;
     private boolean updateNeeded;

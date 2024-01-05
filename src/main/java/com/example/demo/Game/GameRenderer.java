@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+//The GameRenderer class is responsible for updating the visual state of the game
 public class GameRenderer {
     private GameController gameController;
     private LinkedList<Cell> visualSnakeBody;
@@ -27,6 +27,7 @@ public class GameRenderer {
         drawObstacle();
     }
 
+    //creates LinkedList of images of the snake
     public LinkedList<Cell> initializeVisualSnake() {
         LinkedList<Coordinate> snakeBodyPos = gameController.getSnake().getBody();
         LinkedList<Cell> visualSnakeBody = new LinkedList<>();
@@ -44,6 +45,7 @@ public class GameRenderer {
         return visualSnakeBody;
     }
 
+    //creates ArrayList of text representing letters
     public ArrayList<Text> initializeVisualLetters(){
         ArrayList<Text> visualLetters = new ArrayList<>();
         ArrayList<Letter> letters = gameController.getLetters();
@@ -61,6 +63,7 @@ public class GameRenderer {
         drawLetters();
     }
 
+    //draws the snake accordingly to changes in gameController
     public void drawSnake(){
             LinkedList<Coordinate> snakeBodyPos = gameController.getSnake().getBody();
 
@@ -77,6 +80,7 @@ public class GameRenderer {
             }
     }
 
+    //draws the letters accordingly to changes in gameController
     public void drawLetters(){
         ArrayList<Letter> letters = gameController.getLetters();
 
@@ -110,6 +114,7 @@ public class GameRenderer {
         snakeTail.setRotate(rotationAngle);
     }
 
+    //creates a letter and sets appropriate font
     public Text createVisualLetter(Letter letter){
         char letterValue = letter.getValue();
         String visualLetter = letterValue + "";
@@ -121,6 +126,7 @@ public class GameRenderer {
         return text;
     }
 
+    //fetches the coordinate of each obstacle and creates the List
     public static List<Coordinate> getObstacleCoordinates() {
         List<Coordinate> obstacleCoordinates = new ArrayList<>();
         int[][] map = Obstacle.getMap1();
@@ -135,6 +141,7 @@ public class GameRenderer {
         return obstacleCoordinates;
     }
 
+    //creates cell for each obstancle on the grid
     public void drawObstacle(){
         List<Coordinate> obstacleCoordinates = getObstacleCoordinates();
         for(Coordinate coordinate : obstacleCoordinates){
