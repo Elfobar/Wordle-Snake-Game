@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Manages the state of the word at the top of the game.
 public class WordManager {
     private String targetWord;
     private int lettersCollected;
@@ -31,6 +32,7 @@ public class WordManager {
         return Util.readStringFromFile(AppConfig.getWordsPathFile());
     }
 
+    //Checks if the letter that has been eaten comes from the word
     public boolean checkNextLetter(char value){
         boolean isCorrect = false;
         if(!targetWord.isEmpty()){
@@ -44,6 +46,7 @@ public class WordManager {
         return isCorrect;
     }
 
+    //If the word is completed, plays the random sound from the specified ones
     public void checkWordIsComplete(){
         if(lettersCollected == targetWord.length()){
             SoundPlayer.getInstance().playSFX(
@@ -60,6 +63,7 @@ public class WordManager {
         this.targetWord = getRandomWord();
     }
 
+    //Gets random word from the arrayList
     private String getRandomWord() {
         int randomIndex = Util.generateRandomIndex(words.size());
         targetWord = words.get(randomIndex);

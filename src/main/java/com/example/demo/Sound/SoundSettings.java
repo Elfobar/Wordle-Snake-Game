@@ -4,11 +4,13 @@ import com.example.demo.GameCore.AppConfig;
 import com.example.demo.Util.Util;
 import org.json.JSONObject;
 
+//Sound settings represents the configuration for music settings of SoundPlayer class
 public class SoundSettings {
 
     private double backgroundVolume;
     private double sfxVolume;
 
+    //Loads previous settings when the game is created
     public SoundSettings(){
         loadFromFile(AppConfig.getAudioSettingsPathFile());
     }
@@ -18,6 +20,7 @@ public class SoundSettings {
         this.sfxVolume = sfxVolume;
     }
 
+    //Loads the settings from the file. If the file is empty, settings are set by default.
     private void loadFromFile(String filePath){
         JSONObject jsonObject = Util.readObjectFromFile(filePath);
         if(jsonObject.isEmpty()){
@@ -45,6 +48,7 @@ public class SoundSettings {
         this.sfxVolume = sfxVolume;
     }
 
+    //toString is needed to create a specific string that has json format
     @Override
     public String toString(){
         JSONObject jsonObject = new JSONObject();
