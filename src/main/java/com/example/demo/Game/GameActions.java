@@ -9,4 +9,5 @@ public interface GameActions {
     void startMiniGame(Stage stage);
     void stopMiniGame();
     void resumeMiniGame(Stage stage);
+
 }
