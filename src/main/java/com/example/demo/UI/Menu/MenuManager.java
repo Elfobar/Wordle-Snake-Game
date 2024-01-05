@@ -23,8 +23,9 @@ public class MenuManager implements GameActions {
     private AbstractMenu currentMenu;
     private String state;
 
+
     /*Receives the stage because there only one stage used throughout the game. Only different scenes change.*/
-    public MenuManager(Stage stage, GameActions gameActions){   //
+    public MenuManager(Stage stage, GameActions gameActions){
         this.stage = stage;
         this.currentMenu = new MainMenu();
         this.gameActions = gameActions;
@@ -34,6 +35,7 @@ public class MenuManager implements GameActions {
 
     //Displays the currentMenu on the stage, sets event handlers based on the type of menu
     private void showMenu(){
+        // This method creates the visualisation of menu and makes is interactive
         Scene scene = new Scene(currentMenu.createContent(), GameConfig.WIDTH, GameConfig.HEIGHT);
         stage.setScene(scene);
         stage.setTitle(GameConfig.GAME_NAME);
@@ -67,6 +69,7 @@ public class MenuManager implements GameActions {
 
     //Applies eventHanlder to the gameOver screen
     private void setGameOverKeyInputs(){
+        // When the snake dies, the player has two options: to return back to menu with escape button and to restart with enter button
         Scene currentScene = stage.getScene();
         currentScene.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
@@ -80,6 +83,7 @@ public class MenuManager implements GameActions {
 
     //Determines the behaviour of the click on the imageView with specific ID.
     private void handleMenuEvent(String eventID){
+        // Make the menu interactive
         switch(eventID){
             case "start":
                 runGame();
@@ -119,10 +123,12 @@ public class MenuManager implements GameActions {
 
     //Handles gameOver by changing the scene and stopping the gameLoop
     public void handleGameOver(){
+        // When the game is over create game over screen, menu and stop the game
         currentMenu = new GameOverScreen();
         showMenu();
         gameActions.stopGame();
     }
+
 
     //Handles gamePause by either pausing or resuming the game
     public void handleGamePause(){;
@@ -137,7 +143,8 @@ public class MenuManager implements GameActions {
     }
 
     //Handles gamePause by either pausing or resuming the mini game
-    public void handleMiniGamePause(){;
+    public void handleMiniGamePause(){
+        // Stop the mini-game when ESC is pressed
         if(currentMenu instanceof EscMenu){
             gameActions.resumeMiniGame(stage);
             currentMenu = new MainMenu();
@@ -149,12 +156,14 @@ public class MenuManager implements GameActions {
     }
     //Starts the game by playing the music and invoking the start game inside SnakeGame class
     private void runGame(){
+        // When the game runs, the background music starts
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startGame(stage);
     }
 
     //Starts the mini game by playing the music and invoking the start game inside SnakeGame class
     private void runMiniGame(){
+        // When the mini-game runs, the background music starts
         SoundPlayer.getInstance().playBackgroundMusic(Sounds.BACKGROUND_TRACK);
         gameActions.startMiniGame(stage);
     }

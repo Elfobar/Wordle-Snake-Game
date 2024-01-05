@@ -29,6 +29,7 @@ public enum MiniGameImage implements ImageInfo {
         }
 
         public Image getImage() {
+            // Use the method from the supertype to retrieve the image
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
             return image;
         }
