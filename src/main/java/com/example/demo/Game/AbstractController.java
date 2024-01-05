@@ -8,6 +8,7 @@ import com.example.demo.GameCore.Letter;
 import com.example.demo.GameCore.Score;
 import javafx.scene.input.KeyCode;
 
+//Seves as the base for the both main and mini game.
 public abstract class AbstractController {
     private WordManager wordManager;
     private ArrayList<Letter> letters;
@@ -53,10 +54,10 @@ public abstract class AbstractController {
         letters.add(letter);
     }
 
+    //Determines a letter that should come from the word
     public char pickNextLetterFromWord(){
         String currentWord = wordManager.getTargetWord();
         int nextLetterIndex = wordManager.getLettersCollected();
-        System.out.println(currentWord.charAt(nextLetterIndex));
         return currentWord.charAt(nextLetterIndex);
     }
 

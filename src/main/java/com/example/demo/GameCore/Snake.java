@@ -19,6 +19,7 @@ public class Snake {
         initializeSnake();
     }
 
+    //Positions the snake at the center of the grid
     private void initializeSnake() {
         int middleColumn = GameConfig.COLUMNS / 2;
         int middleRow = GameConfig.ROWS / 2;
@@ -29,6 +30,8 @@ public class Snake {
         }
     }
 
+    //Moves the snake by changing its coordinates starting from the end to previous coordinates of the snake.
+    //E.x.Coordinate of the tail is changed to the coordinate of the previous to the tail element
     public void moveSnake(){
         for (int i = body.size() - 1; i > 0; i--) {
             body.get(i).setX(body.get(i - 1).getX());
@@ -42,6 +45,8 @@ public class Snake {
         wrapAround(head);
     }
 
+    //Does not allow the snake to go beyond the edges by checking the position of the head. If the head's coordinate x or y
+    //greater than amount of rows or columns, respectively, it moves the head to the mirrored corresponding side on the grid.
     public void wrapAround(Coordinate head){
         if (head.getX() >= GameConfig.COLUMNS) {
             head.setX(0);
@@ -55,6 +60,7 @@ public class Snake {
         }
     }
 
+    //Checks if the snake head coordinate is the same as an element of the snake body
     public boolean isCollidedWithItself(){
         boolean isCollidedWithItself = false;
         Coordinate snakeHead = getHead();
@@ -66,6 +72,7 @@ public class Snake {
         return isCollidedWithItself;
     }
 
+    //Plays the music when direction has been changed, does not allow to go in opposite to the current direction
     public void changeDirection(KeyCode keyCode) {
         Direction currentDirection = direction;
         Direction newDirection = direction.getDirectionFromKeyCode(keyCode, direction);
@@ -79,6 +86,7 @@ public class Snake {
         }
     }
 
+    //Since the head of the snake is an image, we need to rotate it when the snake changes direction
     public int determineHeadRotation(){
         return switch (direction) {
             case UP -> 180;
@@ -88,6 +96,7 @@ public class Snake {
         };
     }
 
+    //Since the tail of the snake is an image, we need to rotate it when the snake changes direction
     public int determineTailRotation(){
         Coordinate tail = body.get(body.size() - 1);
         Coordinate lastBody = body.get(body.size() - 2);
@@ -108,16 +117,14 @@ public class Snake {
         return 0;
     }
 
+    //Increases the length by adding new coordinate at the tail
     public void grow(){
         Coordinate tail = getTail();
         Coordinate segment = new Coordinate(tail.getX(), tail.getY());
         body.add(segment);
     }
 
-    /*public void shrink(){
-        body.remove(0);
-    }*/
-
+    //Checks if the coordinate given is not currently on the snake body
     public boolean containsCoordinate(Coordinate coordinate){
         for(Coordinate cord : body){
             if(cord.equals(coordinate)){
