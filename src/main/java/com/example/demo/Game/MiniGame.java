@@ -28,11 +28,13 @@ public class MiniGame implements GameActions{
         this.gameLoop = gameloop;
     }
 
+    //Reset minigame to ensure correct initialization of components
     public void resetMiniGame(){
         this.miniGameController = new MiniGameController();
         this.miniGameRenderer = new MiniGameRenderer(miniGameController);
     }
 
+    //New game loop with fixed frame duration and update when key is pressed
     public void createMiniGameLoop(){
         this.gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateMiniGame()));
         this.gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -43,17 +45,9 @@ public class MiniGame implements GameActions{
         miniGameController.updateGame(); // update mini game state
         miniGameRenderer.renderGame(); // render mini game
         header.updateHeader(); // update header
-        if(miniGameController.getGameOverStatus()){
-            menuManager.handleGameOver(); // handle game over
-        }
     }
 
     public void createMiniGameWindow(Stage stage){
-        try {
-            BorderPane miniGameContent = miniGameRenderer.getContent(); // get mini game content
-        } catch (Exception exception){
-            Scene miniGameContent = miniGameRenderer.getContent().getScene(); // get mini game scene
-        }
         this.header = new Header(miniGameController); // initialize header
         HBox header = this.header.createHeader(); // create header
         Scene miniGameScene;
@@ -78,27 +72,13 @@ public class MiniGame implements GameActions{
     }
 
     @Override
-    public void startGame(Stage stage) {
-        resetMiniGame();
-        createMiniGameWindow(stage);
-        SoundPlayer.getInstance().playBackgroundMusic(Sounds.MINIGAME_MUSIC);
-        createMiniGameLoop();
-    }
+    public void startGame(Stage stage) {}
 
     @Override
-    public void stopGame() {
-        if(gameLoop != null){
-            gameLoop.stop();
-        }
-        SoundPlayer.getInstance().pauseBackgroundMusic();
-    }
+    public void stopGame() {}
 
     @Override
-    public void resumeGame(Stage stage) {
-        createMiniGameWindow(stage);
-        gameLoop.play();
-        SoundPlayer.getInstance().resumeBackgroundMusic();
-    }
+    public void resumeGame(Stage stage) {}
 
     @Override
     public void startMiniGame(Stage stage) {

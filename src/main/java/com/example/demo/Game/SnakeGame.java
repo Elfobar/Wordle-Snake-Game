@@ -43,7 +43,7 @@ public class SnakeGame extends Application implements GameActions {
     @Override
     public void startMiniGame(Stage stage) { // starts the mini game and its music
         menuManager.setState("MiniGame");
-        miniGame.startGame(stage);
+        miniGame.startMiniGame(stage);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SnakeGame extends Application implements GameActions {
     }
     @Override
     public void stopMiniGame(){ //stop mini game and mini game music
-        miniGame.stopGame();
+        miniGame.stopMiniGame();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class SnakeGame extends Application implements GameActions {
 
     @Override
     public void resumeMiniGame(Stage stage){ //resume mini game and music
-        miniGame.resumeGame(stage);
+        miniGame.resumeMiniGame(stage);
     }
 
     public void initializeGame(Stage stage) { //init game
