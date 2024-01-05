@@ -33,7 +33,8 @@ public enum MenuImage implements ImageInfo {
         return name;
     }   // Method to retrieve the name
 
-    public Image getImage() {   // Method to get the image
+    public Image getImage() {
+        // Use the method from the supertype to retrieve the image
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         return image;
     }

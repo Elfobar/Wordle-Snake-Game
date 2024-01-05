@@ -18,7 +18,7 @@ public class MiniGameController extends AbstractController {
         this.updateNeeded = true;
         createLetters();
     }
-    public void createLetters() {   //
+    public void createLetters() {
         int index = Util.generateRandomIndex(2);
         int otherIndex;
         if (index == 0) {
@@ -29,6 +29,7 @@ public class MiniGameController extends AbstractController {
         createLetterFromWord(index);
         createRandomLetter(otherIndex);
     }
+
     public void createRandomLetter(int otherIndex) {
         Letter letter = new Letter(Util.generateRandomLowercaseLetter());
         letter.setLetterLeftRightIndex(otherIndex);
@@ -41,6 +42,7 @@ public class MiniGameController extends AbstractController {
         super.add(letter);
     }
     public void handleKeyPress(KeyCode code) {
+        // Get the user input
         SoundPlayer.getInstance().playSFX(
                 Sounds.EAT_1,
                 Sounds.EAT_2,
@@ -61,6 +63,7 @@ public class MiniGameController extends AbstractController {
     }
 
     public void eatLeft() {
+        // When clicked on left button check if the right letter is eaten
         boolean isCorrect = false;
         for (Letter letter : super.getLetters()) {
             if (letter.getLetterLeftRightIndex() == 0 && frameAdjuster % 5 == 0) {
@@ -88,6 +91,7 @@ public class MiniGameController extends AbstractController {
     }
 
     public void eatRight() {
+        // When clicked on right button check if the right letter is eaten
         boolean isCorrect = false;
         for (Letter letter : getLetters()) {
             if (letter.getLetterLeftRightIndex() == 1 && frameAdjuster % 5 == 0) {
@@ -115,6 +119,7 @@ public class MiniGameController extends AbstractController {
     }
 
     public void checkUpdate() {
+        //  Update the game by removing and recreating letters
         if (getUpdateNeeded()){
             removeLetters();
             createLetters();
@@ -122,6 +127,7 @@ public class MiniGameController extends AbstractController {
         }
     }
     public void updateGame() {
+        //  Control the fps
         if(frameAdjuster % 6 == 0){
             updateNeeded = true;
         }
@@ -131,7 +137,7 @@ public class MiniGameController extends AbstractController {
 
     private void removeLetters() {
         super.getLetters().clear();
-    }
+    }   // Remove letters to avoid lags
 
     public int getFrameAdjuster() {
         return this.frameAdjuster;
