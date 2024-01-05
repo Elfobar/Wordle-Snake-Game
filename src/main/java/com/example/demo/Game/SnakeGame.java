@@ -8,7 +8,6 @@ import com.example.demo.Sound.Sounds;
 import com.example.demo.UI.Grid;
 import com.example.demo.UI.Header;
 import com.example.demo.UI.Menu.MenuManager;
-import com.example.demo.Util.Util;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -19,8 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SnakeGame extends Application implements GameActions {
-    private MiniGameController miniGameController; // controller for mini game
-    private MiniGameRenderer miniGameRenderer; // renderer for mini game
+    private MiniGame miniGame;
     private GameController gameController; // controller for main game
     private GameRenderer gameRenderer; // renderer for main game
     private MenuManager menuManager; // manager for menus
@@ -32,7 +30,7 @@ public class SnakeGame extends Application implements GameActions {
     @Override
     public void start(Stage primaryStage) {
         initializeGame(primaryStage); //init main snake game
-        initializeMiniGame(primaryStage); //init mini game
+        this.miniGame = new MiniGame(gameLoop, menuManager);
     }
 
     @Override
@@ -44,10 +42,8 @@ public class SnakeGame extends Application implements GameActions {
 
     @Override
     public void startMiniGame(Stage stage) { // starts the mini game and its music
-        resetMiniGame();
-        createMiniGameWindow(stage);
-        SoundPlayer.getInstance().playBackgroundMusic(Sounds.MINIGAME_MUSIC);
-        createMiniGameLoop();
+        menuManager.setState("MiniGame");
+        miniGame.startMiniGame(stage);
     }
 
     @Override
@@ -59,10 +55,7 @@ public class SnakeGame extends Application implements GameActions {
     }
     @Override
     public void stopMiniGame(){ //stop mini game and mini game music
-        if(gameLoop != null){
-            gameLoop.stop();
-        }
-        SoundPlayer.getInstance().pauseBackgroundMusic();
+        miniGame.stopMiniGame();
     }
 
     @Override
@@ -74,9 +67,7 @@ public class SnakeGame extends Application implements GameActions {
 
     @Override
     public void resumeMiniGame(Stage stage){ //resume mini game and music
-        createMiniGameWindow(stage);
-        gameLoop.play();
-        SoundPlayer.getInstance().resumeBackgroundMusic();
+        miniGame.resumeMiniGame(stage);
     }
 
     public void initializeGame(Stage stage) { //init game
@@ -88,23 +79,11 @@ public class SnakeGame extends Application implements GameActions {
         menuManager.setState("Game");
     }
 
-    public void initializeMiniGame(Stage stage){ //init mini game
-        this.miniGameController = new MiniGameController();
-        this.miniGameRenderer = new MiniGameRenderer(miniGameController);
-        menuManager.setState("MiniGame");
-    }
-
     public void resetGame(){ //reset game method
         this.gameController = new GameController(GameConfig.INIT_SNAKE_LENGTH);
         grid.clearGrid(gameRenderer.getVisualSnakeBody(), gameRenderer.getVisualLetters());
         this.gameRenderer = new GameRenderer(gameController, grid);
         menuManager.setState("Game");
-    }
-
-    public void resetMiniGame(){ //reset mini game method
-        this.miniGameController = new MiniGameController();
-        this.miniGameRenderer = new MiniGameRenderer(miniGameController);
-        menuManager.setState("MiniGame");
     }
 
     public void createGameWindow(Stage gameStage) {
@@ -150,12 +129,6 @@ public class SnakeGame extends Application implements GameActions {
         gameLoop.play(); // start game loop
     }
 
-    public void createMiniGameLoop(){
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(200), event -> updateMiniGame()));
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-        gameLoop.play();
-    }
-
     public void updateGame() {
         gameController.updateGame(); // update game state
         gameRenderer.renderGame(); // render game
@@ -168,45 +141,6 @@ public class SnakeGame extends Application implements GameActions {
 
     public void saveScore(){
         gameController.saveScore(AppConfig.getScorePathFile());
-    }
-
-
-    public void createMiniGameWindow(Stage stage){
-        try {
-            BorderPane miniGameContent = miniGameRenderer.getContent(); // get mini game content
-        } catch (Exception exception){
-            Scene miniGameContent = miniGameRenderer.getContent().getScene(); // get mini game scene
-        }
-        this.header = new Header(miniGameController); // initialize header
-        HBox header = this.header.createHeader(); // create header
-        Scene miniGameScene;
-        try {
-            BorderPane miniGameContent = miniGameRenderer.getContent(); // get mini game content
-            miniGameContent.setTop(header); // set header to top
-            miniGameScene = new Scene(miniGameContent, GameConfig.WIDTH, GameConfig.HEIGHT); // create mini game scene
-        } catch (Exception exception){
-            miniGameScene = miniGameRenderer.getContent().getScene(); // get mini game scene
-        }
-        miniGameScene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                menuManager.handleMiniGamePause(); // handle mini game pause
-            } else {
-                miniGameController.handleKeyPress(event.getCode()); // handle key press
-            }
-        });
-        stage.setScene(miniGameScene); // set scene
-        stage.setTitle("MiniGame"); // set title
-        stage.setResizable(false); // set resizable to false
-        stage.show(); // show stage
-    }
-
-    private void updateMiniGame() {
-        miniGameController.updateGame(); // update mini game state
-        miniGameRenderer.renderGame(); // render mini game
-        header.updateHeader(); // update header
-        if(miniGameController.getGameOverStatus()){
-            menuManager.handleGameOver(); // handle game over
-        }
     }
 
     public static void main(String[] args) {
