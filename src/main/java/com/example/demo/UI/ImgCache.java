@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
+/* ImgCache is a class designed to manage and cache images for different types, such as Menu or MiniGame.
+It is crucial to ensure that the type parameter provided during instantiation matches the expected types ("Menu" or "MiniGame").*/
 public class ImgCache {
     private ArrayList<MenuImage> menuImageInfo;
     private ArrayList<MiniGameImage> miniGameImageInfo;
@@ -24,6 +26,7 @@ public class ImgCache {
         }
     }
 
+    //Initializes ArrayList by going through each image inside MenuImage enum
     private void initializeMenuImages() {
         for (MenuImage image : MenuImage.values()) {
             images.add(image.getImage());
@@ -31,6 +34,7 @@ public class ImgCache {
         }
     }
 
+    //Initializes ArrayList by going through each image inside MiniGameImage enum
     private void initializeMiniGameImages() {
         for (MiniGameImage image : MiniGameImage.values()) {
             images.add(image.getImage());
